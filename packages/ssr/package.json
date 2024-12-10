@@ -17,7 +17,6 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "@toddledev/core": "workspace:*",
-    "@toddledev/std-lib": "workspace:*",
     "cookie": "1.0.2",
     "xss": "1.0.15"
   }
