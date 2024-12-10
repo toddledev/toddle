@@ -1,5 +1,10 @@
 import type { Component, ComponentData } from '../component/component.types'
-import type { CustomFormulaHandler, FormulaHandler, Toddle } from '../types'
+import type {
+  CustomFormulaHandler,
+  FormulaHandler,
+  FormulaLookup,
+  Toddle,
+} from '../types'
 import { isDefined, toBoolean } from '../utils/util'
 import { isToddleFormula } from './formulaTypes'
 
@@ -98,7 +103,10 @@ export type FormulaContext = {
   data: ComponentData
   root?: Document | ShadowRoot | null
   package: string | undefined
-  toddle?: { getCustomFormula: CustomFormulaHandler }
+  toddle?: {
+    getFormula: FormulaLookup
+    getCustomFormula: CustomFormulaHandler
+  }
   env: ToddleEnv | undefined
 }
 
@@ -182,7 +190,7 @@ export function applyFormula(
           ((globalThis as any).toddle as Toddle<unknown, unknown> | undefined)
         )?.getCustomFormula(formula.name, packageName)
         const legacyFunc: FormulaHandler | undefined = (
-          (globalThis as any).toddle as Toddle<unknown, unknown>
+          ctx.toddle ?? ((globalThis as any).toddle as Toddle<unknown, unknown>)
         ).getFormula(formula.name)
         if (isDefined(newFunc)) {
           const args = formula.arguments.reduce<Record<string, unknown>>(

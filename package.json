@@ -20,7 +20,7 @@
     "typescript": "5.7.2"
   },
   "scripts": {
-    "build": "cd packages/core && bun run build && cd ../ssr && bun run build && cd ../lib && bun run build && cd ../search && bun run build && cd ../runtime && bun run build",
+    "build": "cd packages/core && bun run build && cd ../lib && bun run build && cd ../ssr && bun run build && cd ../search && bun run build && cd ../runtime && bun run build",
     "lint": "eslint --quiet .",
     "prettier": "prettier --check '*.{json,js}' '**/*.{js,ts}'",
     "prettier:write": "prettier --write  '*.{json,js}' './**/*.{js,ts}'",
