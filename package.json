@@ -20,7 +20,7 @@
     "typescript": "5.7.2"
   },
   "scripts": {
-    "build": "cd packages/core && bun run build && cd ../ssr && bun run build && cd ../lib && bun run build && cd ../search && bun run build && cd ../runtime && bun run build",
+    "build": "cd packages/core && bun run build && cd ../lib && bun run build && cd ../ssr && bun run build && cd ../search && bun run build && cd ../runtime && bun run build",
     "clean": "rm -rf node_modules && rm bun.lock && rm -rf packages/core/node_modules && rm -rf packages/lib/node_modules && rm -rf packages/runtime/node_modules && rm -rf packages/ssr/node_modules && rm -rf packages/search/node_modules && bun i",
     "lint": "eslint --quiet .",
     "prettier": "prettier --check '*.{json,js}' '**/*.{js,ts}'",
