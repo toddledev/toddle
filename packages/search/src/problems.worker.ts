@@ -31,6 +31,7 @@ import { unknownContextWorkflowRule } from './rules/unknownContextWorkflowRule'
 import { unknownFormulaRule } from './rules/unknownFormulaRule'
 import { unknownProjectActionRule } from './rules/unknownProjectActionRule'
 import { unknownProjectFormulaRule } from './rules/unknownProjectFormulaRule'
+import { unknownUrlParameterRule } from './rules/unknownUrlParameterRule'
 import { unknownVariableRule } from './rules/unknownVariableRule'
 import { unknownVariableSetterRule } from './rules/unknownVariableSetterRule'
 import { searchProject } from './searchProject'
@@ -120,6 +121,7 @@ const RULES = [
   unknownFormulaRule,
   unknownProjectActionRule,
   unknownProjectFormulaRule,
+  unknownUrlParameterRule,
   unknownVariableRule,
   unknownVariableSetterRule,
 ]

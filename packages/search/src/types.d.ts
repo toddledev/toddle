@@ -54,6 +54,7 @@ type Code =
   | 'unknown formula'
   | 'unknown project action'
   | 'unknown project formula'
+  | 'unknown url parameter'
   | 'unknown variable setter'
   | 'unknown variable'
 
