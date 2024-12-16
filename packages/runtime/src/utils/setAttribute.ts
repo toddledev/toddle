@@ -1,4 +1,4 @@
-import { toBoolean } from '@toddledev/core/dist/utils/util'
+import { isDefined, toBoolean } from '@toddledev/core/dist/utils/util'
 
 /**
  * Some attributes need special handling.
@@ -18,9 +18,16 @@ export function setAttribute(
       }
       break
     case 'value':
-    case 'type':
-      ;(elem as any)[attr] = toBoolean(value) ? String(value) : undefined
+    case 'type': {
+      let val = value
+      if (elem instanceof HTMLProgressElement) {
+        if (!isDefined(value) || !Number.isFinite(Number(value))) {
+          val = 0
+        }
+      }
+      ;(elem as any)[attr] = toBoolean(val) ? String(val) : undefined
       break
+    }
     case 'muted':
     case 'autoplay':
       if (elem instanceof HTMLMediaElement) {
