@@ -1,4 +1,4 @@
-import fastDeepEqual from 'fast-deep-equal'
+import { initIsEqual } from '@toddledev/ssr/dist/rendering/equals'
 import { Hono } from 'hono'
 import { env } from 'hono/adapter'
 import type { HonoEnv } from '../hono'
@@ -9,6 +9,10 @@ import { sitemap } from './routes/sitemap'
 import { staticRouter } from './routes/static'
 import { toddlePage } from './routes/toddlePage'
 import { getProject } from './utils/project'
+
+// Inject isEqual on globalThis
+// this is currently used by some builtin formulas
+initIsEqual()
 
 const app = new Hono<HonoEnv>()
 
@@ -37,11 +41,6 @@ app.get('/favicon.ico', favicon)
 // .toddle/serviceWorker/...
 // .toddle/omvej/...
 
-// Inject isEqual on globalThis
-// this is currently used by some builtin formulas
-;(globalThis as any).toddle = {
-  isEqual: fastDeepEqual,
-}
 // Treat all other requests as page requests
 app.get('/*', toddlePage)
 
