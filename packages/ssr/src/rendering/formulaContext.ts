@@ -8,7 +8,6 @@ import {
   isToddleFormula,
   PluginFormula,
 } from '@toddledev/core/dist/formula/formulaTypes'
-import { FormulaHandler } from '@toddledev/core/dist/types'
 import { mapValues } from '@toddledev/core/dist/utils/collections'
 import { isDefined } from '@toddledev/core/dist/utils/util'
 import * as libFormulas from '@toddledev/std-lib/dist/formulas'
@@ -38,9 +37,11 @@ export const getPageFormulaContext = ({
   const { searchParamsWithDefaults, hash, combinedParams, url } = getParameters(
     { component, req },
   )
-  const coreFormulas = new Map<string, FormulaHandler>()
-  Object.entries(libFormulas).forEach(([name, module]) =>
-    coreFormulas.set('@toddle/' + name, module.default as any),
+  const coreFormulas = Object.fromEntries(
+    Object.entries(libFormulas).map(([name, module]) => [
+      '@toddle/' + name,
+      module.default as any,
+    ]),
   )
   const formulaContext: FormulaContext = {
     data: {
@@ -66,7 +67,7 @@ export const getPageFormulaContext = ({
     package: undefined,
     env,
     toddle: {
-      getFormula: (name: string) => coreFormulas.get(name),
+      getFormula: (name: string) => coreFormulas[name],
       getCustomFormula: (name: string, packageName: string | undefined) => {
         let formula: PluginFormula<string> | undefined
 
