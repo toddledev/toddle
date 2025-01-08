@@ -69,6 +69,8 @@ export type CustomFormulaHandler = (
   packageName: string | undefined,
 ) => PluginFormula<FormulaHandlerV2> | undefined
 
+export type FormulaLookup = (name: string) => FormulaHandler | undefined
+
 export interface Toddle<LocationSignal, ShowSignal> {
   project: string
   branch: string
@@ -84,7 +86,7 @@ export interface Toddle<LocationSignal, ShowSignal> {
     getArgumentInputData?: ArgumentInputDataFunction,
   ) => void
   getAction: (name: string) => ActionHandler | undefined
-  getFormula: (name: string) => FormulaHandler | undefined
+  getFormula: FormulaLookup
   getCustomFormula: CustomFormulaHandler
   getCustomAction: (
     name: string,

@@ -1,6 +1,6 @@
 {
   "name": "@toddledev/core",
-  "version": "0.0.2-alpha.13",
+  "version": "0.0.2-alpha.14",
   "license": "Apache-2.0",
   "homepage": "https://github.com/toddledev/toddle",
   "dependencies": {

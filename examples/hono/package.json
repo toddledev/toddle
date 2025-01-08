@@ -5,9 +5,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "hono": "4.6.12"
-  },
-  "devDependencies": {
-    "@types/bun": "1.1.14"
+    "hono": "4.6.16"
   }
 }
