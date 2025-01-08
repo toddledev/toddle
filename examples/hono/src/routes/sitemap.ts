@@ -12,7 +12,8 @@ const SITEMAP_CONTENT_TYPE = 'application/xml'
 export const sitemap = async (c: Context<HonoEnv>) => {
   try {
     const url = new URL(c.req.url)
-    const sitemapFormula = c.env.project.files.config?.meta?.sitemap?.formula
+    const project = c.var.project
+    const sitemapFormula = project.files.config?.meta?.sitemap?.formula
     if (isDefined(sitemapFormula)) {
       const sitemapUrl = validateUrl(
         // we don't provide a context for applyFormula, as the formula should just be a value formula
@@ -34,7 +35,7 @@ export const sitemap = async (c: Context<HonoEnv>) => {
       const content = `\
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  ${Object.values(c.env.project.files.components)
+  ${Object.values(project.files.components)
     .filter((component, i): component is PageComponent =>
       component &&
       isPageComponent(component) &&

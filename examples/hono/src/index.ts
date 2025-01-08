@@ -26,7 +26,7 @@ app.use(async (c, next) => {
   if (!project) {
     return c.text('Project not found', { status: 404 })
   }
-  c.env.project = project
+  c.set('project', project)
   await next()
 })
 

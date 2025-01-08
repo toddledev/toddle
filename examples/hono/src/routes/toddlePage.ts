@@ -1,14 +1,15 @@
 import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
-import {
-  applyFormula,
-  type ToddleServerEnv,
-} from '@toddledev/core/dist/formula/formula'
+import { type ToddleServerEnv } from '@toddledev/core/dist/formula/formula'
 import { createStylesheet } from '@toddledev/core/dist/styling/style.css'
 import { theme as defaultTheme } from '@toddledev/core/dist/styling/theme.const'
 import { isDefined } from '@toddledev/core/dist/utils/util'
 import { takeIncludedComponents } from '@toddledev/ssr/dist/components/utils'
 import { renderPageBody } from '@toddledev/ssr/dist/rendering/components'
 import { getPageFormulaContext } from '@toddledev/ssr/dist/rendering/formulaContext'
+import {
+  getHeadItems,
+  renderHeadItems,
+} from '@toddledev/ssr/dist/rendering/head'
 import { getHtmlLanguage } from '@toddledev/ssr/dist/rendering/html'
 import {
   get404Page,
@@ -19,13 +20,14 @@ import { html, raw } from 'hono/html'
 import type { HonoEnv } from '../../hono'
 
 export const toddlePage = async (c: Context<HonoEnv>) => {
+  const project = c.var.project
   const url = new URL(c.req.url)
   let page = matchPageForUrl({
     url,
-    components: c.env.project.files.components,
+    components: project.files.components,
   })
   if (!page) {
-    page = get404Page(c.env.project.files.components)
+    page = get404Page(project.files.components)
     if (!page) {
       return c.html('Page not found', { status: 404 })
     }
@@ -45,15 +47,15 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
 
   // Find the theme to use for the page
   const theme =
-    (c.env.project.files.themes
-      ? Object.values(c.env.project.files.themes)[0]
-      : c.env.project.files.config?.theme) ?? defaultTheme
+    (project.files.themes
+      ? Object.values(project.files.themes)[0]
+      : project.files.config?.theme) ?? defaultTheme
 
   // Get all included components on the page
   const includedComponents = takeIncludedComponents({
     root: page,
-    projectComponents: c.env.project.files.components,
-    packages: c.env.project.files.packages,
+    projectComponents: project.files.components,
+    packages: project.files.packages,
     includeRoot: true,
   })
 
@@ -68,8 +70,8 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
     getComponent: (name, packageName) => {
       const nodeLookupKey = [packageName, name].filter(isDefined).join('/')
       const component = packageName
-        ? c.env.project.files.packages?.[packageName]?.components[name]
-        : c.env.project.files.components[name]
+        ? project.files.packages?.[packageName]?.components[name]
+        : project.files.components[name]
       if (!component) {
         console.warn(`Unable to find component ${nodeLookupKey} in files`)
         return undefined
@@ -79,16 +81,26 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
     },
     packageName: undefined,
     globalFormulas: {
-      formulas: c.env.project.files.formulas,
-      packages: c.env.project.files.packages,
+      formulas: project.files.formulas,
+      packages: project.files.packages,
     },
   })
+  const head = renderHeadItems(
+    getHeadItems({
+      req: c.req.raw,
+      page: toddleComponent,
+      files: project.files,
+      project: project.project,
+      context: formulaContext,
+      theme,
+    }),
+  )
   const { html: body } = await renderPageBody({
     component: toddleComponent as any, // TODO: Fix typing
     formulaContext,
     env: formulaContext.env as ToddleServerEnv,
     req: c.req.raw,
-    files: c.env.project.files,
+    files: project.files,
     includedComponents,
     evaluateComponentApis: async (_) => ({
       // TODO: Show an example of how to evaluate APIs - potentially using an adapter
@@ -99,17 +111,7 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
     html`<!doctype html>
       <html lang="${language}">
         <head>
-          <meta charset="UTF-8" />
-          <title>
-            ${applyFormula(page.route.info?.title?.formula, formulaContext) ??
-            page.name}
-          </title>
-          <!-- The rest of the <head> elements are coming soon 🤞 -->
-          <link
-            rel="stylesheet"
-            fetchpriority="high"
-            href="/_static/reset.css"
-          />
+          ${raw(head)}
           <style>
             ${styles}
           </style>
