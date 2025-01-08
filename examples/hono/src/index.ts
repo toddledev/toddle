@@ -3,6 +3,7 @@ import { Hono } from 'hono'
 import { env } from 'hono/adapter'
 import type { HonoEnv } from '../hono'
 import { favicon } from './routes/favicon'
+import { fontRouter } from './routes/font'
 import { manifest } from './routes/manifest'
 import { robots } from './routes/robots'
 import { sitemap } from './routes/sitemap'
@@ -35,9 +36,10 @@ app.get('/robots.txt', robots)
 app.get('/manifest.json', manifest)
 app.get('/favicon.ico', favicon)
 
-// TODO: add missing routes below
+// toddle specific endpoints/services on /.toddle/ subpath
+app.route('.toddle/fonts', fontRouter)
+
 // .toddle/custom-code
-// .toddle/fonts/...
 // .toddle/serviceWorker/...
 // .toddle/omvej/...
 
