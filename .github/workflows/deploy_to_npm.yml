@@ -1,6 +1,12 @@
 name: 'Deploy'
 
-on: workflow_call
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'Version to deploy'
+        required: true
+        type: string
 
 jobs:
   publish_to_npm:
@@ -23,18 +29,23 @@ jobs:
           mkdir publish/search
           mkdir publish/runtime
           cd packages/core
+          echo "$( jq -r '.version |= ${{ inputs.version }}' package.json )" > package.json
           bun pm pack --destination ../../publish/core
           mv ../../publish/core/toddledev-*.tgz ../../publish/core/core.tgz
           cd packages/lib
+          echo "$( jq -r '.version |= ${{ inputs.version }}' package.json )" > package.json
           bun pm pack --destination ../../publish/lib
           mv ../../publish/lib/toddledev-*.tgz ../../publish/lib/lib.tgz
           cd packages/ssr
+          echo "$( jq -r '.version |= ${{ inputs.version }}' package.json )" > package.json
           bun pm pack --destination ../../publish/ssr
           mv ../../publish/ssr/toddledev-*.tgz ../../publish/ssr/ssr.tgz
           cd packages/search
+          echo "$( jq -r '.version |= ${{ inputs.version }}' package.json )" > package.json
           bun pm pack --destination ../../publish/search
           mv ../../publish/search/toddledev-*.tgz ../../publish/search/search.tgz
           cd packages/runtime
+          echo "$( jq -r '.version |= ${{ inputs.version }}' package.json )" > package.json
           bun pm pack --destination ../../publish/runtime
           mv ../../publish/runtime/toddledev-*.tgz ../../publish/runtime/runtime.tgz
       - uses: JS-DevTools/npm-publish@v3

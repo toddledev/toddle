@@ -30,6 +30,9 @@ jobs:
       - name: Version changed
         if: ${{ fromJson(env.PACKAGE_JSON).version != fromJson(env.PACKAGE_JSON_OLD).version }}
         uses: toddledev/toddle/.github/workflows/deploy_to_npm.yml@main
+        with:
+          version: ${{ fromJson(env.PACKAGE_JSON).version }}
+        secrets: inherit
       - name: Version didn't change
         if: ${{ fromJson(env.PACKAGE_JSON).version == fromJson(env.PACKAGE_JSON_OLD).version }}
         run: echo "Version was not changed! No release needed."
