@@ -19,23 +19,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
       - name: Install bun
         uses: oven-sh/setup-bun@v1
       - name: Store package.json
         run: echo "PACKAGE_JSON=$(jq -c . < package.json)" >> $GITHUB_ENV
       - name: Echo version
         run: echo '${{ fromJson(env.PACKAGE_JSON).version }}'
-      - name: Checkout previous
-        uses: actions/checkout@v4
-        with:
-          path: previous
-      - name: Checkout previous commit
+      - name: Store old package.json
         run: |
-          cd previous
-          git checkout HEAD^
-          echo "PACKAGE_JSON_OLD=$(jq -c . < package.json)" >> $GITHUB_ENV
+          git show HEAD^:package.json > package.old.json
+          echo "PACKAGE_JSON_OLD=$(jq -c . < package.old.json)" >> $GITHUB_ENV
       - name: Echo last version
-        run: echo '${{ fromJson(env.PACKAGE_JSON_OLD).version }}'
+        run: |
+          echo '${{ fromJson(env.PACKAGE_JSON_OLD).version }}'
   linting:
     runs-on: ubuntu-latest
     steps:
