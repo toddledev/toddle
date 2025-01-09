@@ -25,10 +25,15 @@ jobs:
         run: echo "PACKAGE_JSON=$(jq -c . < package.json)" >> $GITHUB_ENV
       - name: Echo version
         run: echo '${{ fromJson(env.PACKAGE_JSON).version }}'
-      - name: Store old package.json
+      - name: Checkout previous
+        uses: actions/checkout@v4
+        with:
+          path: previous
+      - name: Checkout previous commit
         run: |
-          git show HEAD^:package.json > package.old.json
-          echo "PACKAGE_JSON_OLD=$(jq -c . < package.old.json)" >> $GITHUB_ENV
+          cd previous
+          git checkout HEAD^
+          echo "PACKAGE_JSON_OLD=$(jq -c . < package.json)" >> $GITHUB_ENV
       - name: Echo last version
         run: echo '${{ fromJson(env.PACKAGE_JSON_OLD).version }}'
   linting:
