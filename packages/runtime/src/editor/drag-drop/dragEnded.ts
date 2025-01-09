@@ -13,7 +13,7 @@ export function dragEnded(dragState: DragState | null) {
     dragState?.element,
     dragState?.initialNextSibling,
   )
-  dragState?.repeatedNodes.toReversed().forEach((node) => {
+  dragState?.repeatedNodes.reverse().forEach((node) => {
     dragState?.element.insertAdjacentElement('afterend', node)
   })
   removeDropHighlight()
