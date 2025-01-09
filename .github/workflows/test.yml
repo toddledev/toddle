@@ -14,32 +14,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  version_check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-      - name: Install bun
-        uses: oven-sh/setup-bun@v1
-      - name: Store package.json
-        run: echo "PACKAGE_JSON=$(jq -c . < package.json)" >> $GITHUB_ENV
-      - name: Echo version
-        run: echo '${{ fromJson(env.PACKAGE_JSON).version }}'
-      - name: Store old package.json
-        run: |
-          git show HEAD^:package.json > package.old.json
-          echo "PACKAGE_JSON_OLD=$(jq -c . < package.old.json)" >> $GITHUB_ENV
-      - name: Echo last version
-        run: |
-          echo '${{ fromJson(env.PACKAGE_JSON_OLD).version }}'
-      - name: Version changed
-        if: ${{ fromJson(env.PACKAGE_JSON).version != fromJson(env.PACKAGE_JSON_OLD).version }}
-        run: echo "Version changed!"
-      - name: Version didn't change
-        if: ${{ fromJson(env.PACKAGE_JSON).version == fromJson(env.PACKAGE_JSON_OLD).version }}
-        run: echo "Version was not changed!"
   linting:
     runs-on: ubuntu-latest
     steps:

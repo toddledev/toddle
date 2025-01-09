@@ -1,0 +1,35 @@
+name: 'Deploy'
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  version_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # fetch-depth: 2 is necessary to allow checking the previous commit
+          fetch-depth: 2
+      - name: Install bun
+        uses: oven-sh/setup-bun@v1
+      - name: Store package.json
+        run: echo "PACKAGE_JSON=$(jq -c . < package.json)" >> $GITHUB_ENV
+      - name: Echo version
+        run: echo '${{ fromJson(env.PACKAGE_JSON).version }}'
+      - name: Store old package.json
+        run: |
+          git show HEAD^:package.json > package.old.json
+          echo "PACKAGE_JSON_OLD=$(jq -c . < package.old.json)" >> $GITHUB_ENV
+      - name: Echo previous version
+        run: |
+          echo '${{ fromJson(env.PACKAGE_JSON_OLD).version }}'
+      - name: Version changed
+        if: ${{ fromJson(env.PACKAGE_JSON).version != fromJson(env.PACKAGE_JSON_OLD).version }}
+        uses: toddledev/toddle/.github/workflows/deploy_to_npm.yml@main
+      - name: Version didn't change
+        if: ${{ fromJson(env.PACKAGE_JSON).version == fromJson(env.PACKAGE_JSON_OLD).version }}
+        run: echo "Version was not changed! No release needed."

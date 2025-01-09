@@ -1,0 +1,64 @@
+name: 'Deploy'
+
+on: workflow_call
+
+jobs:
+  publish_to_npm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install bun
+        uses: oven-sh/setup-bun@v1
+      - name: Install worker dependencies
+        run: bun install --frozen-lockfile
+      - name: Build
+        run: bun run build
+      - name: Pack core
+        run: |
+          mkdir publish
+          mkdir publish/core
+          mkdir publish/lib
+          mkdir publish/ssr
+          mkdir publish/search
+          mkdir publish/runtime
+          cd packages/core
+          bun pm pack --destination ../../publish/core
+          mv ../../publish/core/toddledev-*.tgz ../../publish/core/core.tgz
+          cd packages/lib
+          bun pm pack --destination ../../publish/lib
+          mv ../../publish/lib/toddledev-*.tgz ../../publish/lib/lib.tgz
+          cd packages/ssr
+          bun pm pack --destination ../../publish/ssr
+          mv ../../publish/ssr/toddledev-*.tgz ../../publish/ssr/ssr.tgz
+          cd packages/search
+          bun pm pack --destination ../../publish/search
+          mv ../../publish/search/toddledev-*.tgz ../../publish/search/search.tgz
+          cd packages/runtime
+          bun pm pack --destination ../../publish/runtime
+          mv ../../publish/runtime/toddledev-*.tgz ../../publish/runtime/runtime.tgz
+      - uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          package: publish/core/core.tgz
+          access: public
+      - uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          package: publish/lib/lib.tgz
+          access: public
+      - uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          package: publish/ssr/ssr.tgz
+          access: public
+      - uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          package: publish/search/search.tgz
+          access: public
+      - uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          package: publish/runtime/runtime.tgz
+          access: public
