@@ -27,7 +27,8 @@ jobs:
           echo '${{ fromJson(env.PACKAGE_JSON).version }}'
       - name: Echo last version
         run: |
-          echo "PACKAGE_JSON_OLD=$(jq -c . < git show HEAD^:package.json)" >> $GITHUB_ENV
+          git show HEAD^:package.json > package.old.json
+          echo "PACKAGE_JSON_OLD=$(jq -c . < package.old.json)" >> $GITHUB_ENV
           echo '${{ fromJson(env.PACKAGE_JSON_OLD).version }}'
   linting:
     runs-on: ubuntu-latest
