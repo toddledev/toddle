@@ -80,7 +80,14 @@ export function dragStarted({
 
   // Highlight container
   element.classList.add(DRAG_REORDER_CLASSNAME)
-  dragState.initialContainer.classList.add('__drag-container')
+  window.parent?.postMessage(
+    {
+      type: 'highlight',
+      highlightedNodeId: dragState.initialContainer.getAttribute('data-id'),
+    },
+    '*',
+  )
+
   setDropHighlight(
     dragState.element,
     dragState.initialContainer,

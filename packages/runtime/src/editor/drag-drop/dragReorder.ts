@@ -26,10 +26,13 @@ export function dragReorder(dragState: DragState | null) {
     const nextRect = dragState.element.getBoundingClientRect()
     dragState.offset.x += nextRect.left - prevRect.left
     dragState.offset.y += nextRect.top - prevRect.top
-    document
-      .querySelectorAll('.__drag-container')
-      .forEach((c) => c.classList.remove('__drag-container'))
-    dragState.initialContainer.classList.add('__drag-container')
+    window.parent?.postMessage(
+      {
+        type: 'highlight',
+        highlightedNodeId: dragState.initialContainer.getAttribute('data-id'),
+      },
+      '*',
+    )
     setDropHighlight(
       dragState.element,
       dragState.initialContainer,

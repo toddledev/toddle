@@ -72,10 +72,13 @@ export function dragMove(dragState: DragState | null, exclude: HTMLElement[]) {
   if (insertArea) {
     dragState.selectedInsertAreaIndex =
       dragState.insertAreas?.indexOf(insertArea)
-    document
-      .querySelectorAll('.__drag-container')
-      .forEach((c) => c.classList.remove('__drag-container'))
-    insertArea.parent.classList.add('__drag-container')
+    window.parent?.postMessage(
+      {
+        type: 'highlight',
+        highlightedNodeId: insertArea.parent.getAttribute('data-id'),
+      },
+      '*',
+    )
     setExternalDropHighlight({
       layout: insertArea.layout,
       center: insertArea.center,

@@ -841,6 +841,12 @@ export const createRoot = (
               }
               break
           }
+          if (message.data.canceled) {
+            dragState?.initialContainer.insertBefore(
+              dragState?.element,
+              dragState?.initialNextSibling,
+            )
+          }
           dragEnded(dragState)
           window.parent?.postMessage(
             {
