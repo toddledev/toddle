@@ -21,15 +21,16 @@ jobs:
         uses: actions/checkout@v4
       - name: Install bun
         uses: oven-sh/setup-bun@v1
-      - name: Current version
-        run: |
-          echo "PACKAGE_JSON=$(jq -c . < package.json)" >> $GITHUB_ENV
-          echo '${{ fromJson(env.PACKAGE_JSON).version }}'
-      - name: Echo last version
+      - name: Store package.json
+        run: echo "PACKAGE_JSON=$(jq -c . < package.json)" >> $GITHUB_ENV
+      - name: Echo version
+        run: echo '${{ fromJson(env.PACKAGE_JSON).version }}'
+      - name: Store old package.json
         run: |
           git show HEAD^:package.json > package.old.json
           echo "PACKAGE_JSON_OLD=$(jq -c . < package.old.json)" >> $GITHUB_ENV
-          echo '${{ fromJson(env.PACKAGE_JSON_OLD).version }}'
+      - name: Echo last version
+        run: echo '${{ fromJson(env.PACKAGE_JSON_OLD).version }}'
   linting:
     runs-on: ubuntu-latest
     steps:
