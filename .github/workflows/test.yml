@@ -14,6 +14,17 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  version_check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install bun
+        uses: oven-sh/setup-bun@v1
+      - name: Read package.json
+        run: echo "PACKAGE_JSON=$(jq -c . < package.json)" >> $GITHUB_ENV
+      - name: Echo version
+        run: echo '${{ fromJson(env.PACKAGE_JSON).version }}'
   linting:
     runs-on: ubuntu-latest
     steps:
