@@ -378,7 +378,8 @@ export const sortApiObjects = <Handler>(
     }
     return api
   }
-  return apis.toSorted(([aKey, aObj], [bKey, bObj]) => {
+
+  return [...apis].sort(([aKey, aObj], [bKey, bObj]) => {
     const a = getApi(aObj, aKey)
     const b = getApi(bObj, bKey)
     return compareApiDependencies(a, b)
@@ -387,4 +388,4 @@ export const sortApiObjects = <Handler>(
 
 export const sortApiEntries = <Handler>(
   apis: Array<[string, LegacyToddleApi<Handler> | ToddleApiV2<Handler>]>,
-) => apis.toSorted(([_, a], [__, b]) => compareApiDependencies(a, b))
+) => [...apis].sort(([_, a], [__, b]) => compareApiDependencies(a, b))
