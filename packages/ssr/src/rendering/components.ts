@@ -30,6 +30,7 @@ const renderComponent = async ({
   env,
   evaluateComponentApis,
   files,
+  toddle,
   includedComponents,
   instance,
   packageName,
@@ -44,6 +45,7 @@ const renderComponent = async ({
   env: ToddleServerEnv
   evaluateComponentApis: ApiEvaluator
   files: ProjectFiles
+  toddle: FormulaContext['toddle']
   includedComponents: Component[]
   instance: Record<string, string>
   packageName: string | undefined
@@ -72,6 +74,7 @@ const renderComponent = async ({
       component,
       package: packageName,
       env,
+      toddle,
     }
     if (node.repeat) {
       const items = applyFormula(node.repeat, formulaContext)
@@ -138,6 +141,7 @@ const renderComponent = async ({
           component,
           packageName,
           env,
+          toddle,
         })
         const classHash = getClassName([node.style, node.variants])
         let classList = Object.entries(node.classes)
@@ -277,6 +281,7 @@ const renderComponent = async ({
             package:
               node.package ?? (isLocalComponent ? undefined : packageName),
             env,
+            toddle,
           },
           req,
           apiCache,
@@ -318,6 +323,7 @@ const renderComponent = async ({
                                       component,
                                       package: _packageName,
                                       env,
+                                      toddle,
                                     }),
                                   ]),
                               ),
@@ -334,11 +340,13 @@ const renderComponent = async ({
                                   component,
                                   package: _packageName,
                                   env,
+                                  toddle,
                                 })
                               },
                             ),
                           },
                           env,
+                          toddle,
                         }),
                       ]),
                   ),
@@ -460,19 +468,20 @@ const createComponent = async ({
   }
 
   return renderComponent({
+    apiCache,
+    children,
     component,
     data,
-    children,
-    packageName,
-    instance,
     env,
-    includedComponents,
-    apiCache,
-    updateApiCache,
-    files,
-    projectId,
     evaluateComponentApis,
+    files,
+    includedComponents,
+    instance,
+    packageName,
+    projectId,
     req,
+    toddle: formulaContext.toddle,
+    updateApiCache,
   })
 }
 
@@ -511,18 +520,19 @@ export const renderPageBody = async ({
   formulaContext.data.Apis = apis
 
   const html = await renderComponent({
+    apiCache,
     component,
     data: formulaContext.data,
-    packageName: undefined,
-    instance: {},
     env,
+    evaluateComponentApis,
     files,
     includedComponents,
-    req,
-    apiCache,
-    updateApiCache,
-    evaluateComponentApis,
+    instance: {},
+    packageName: undefined,
     projectId,
+    req,
+    toddle: formulaContext.toddle,
+    updateApiCache,
   })
   return { html, apiCache }
 }

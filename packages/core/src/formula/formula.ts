@@ -103,7 +103,7 @@ export type FormulaContext = {
   data: ComponentData
   root?: Document | ShadowRoot | null
   package: string | undefined
-  toddle?: {
+  toddle: {
     getFormula: FormulaLookup
     getCustomFormula: CustomFormulaHandler
   }

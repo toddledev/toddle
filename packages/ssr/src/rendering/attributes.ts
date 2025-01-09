@@ -3,7 +3,11 @@ import type {
   ComponentData,
   ElementNodeModel,
 } from '@toddledev/core/dist/component/component.types'
-import { applyFormula, ToddleEnv } from '@toddledev/core/dist/formula/formula'
+import {
+  applyFormula,
+  FormulaContext,
+  ToddleEnv,
+} from '@toddledev/core/dist/formula/formula'
 import { isDefined, toBoolean } from '@toddledev/core/dist/utils/util'
 
 const REGEXP_QUOTE = /"/g
@@ -46,12 +50,14 @@ export function getNodeAttrs({
   component,
   packageName,
   env,
+  toddle,
 }: {
   node: Pick<ElementNodeModel, 'attrs' | 'style-variables'>
   data: ComponentData
   component: Component
   packageName: string | undefined
   env: ToddleEnv
+  toddle: FormulaContext['toddle']
 }) {
   const { style, ...restAttrs } = node.attrs
   const nodeAttrs = Object.entries(restAttrs).reduce<string[]>(
@@ -61,6 +67,7 @@ export function getNodeAttrs({
         component,
         package: packageName,
         env,
+        toddle,
       })
       if (toBoolean(value)) {
         appliedAttributes.push(`${name}="${escapeAttrValue(value)}"`)
@@ -78,6 +85,7 @@ export function getNodeAttrs({
             component,
             package: packageName,
             env,
+            toddle,
           }),
         ) + (unit ?? '')
       }`,
@@ -92,6 +100,7 @@ export function getNodeAttrs({
             component,
             package: packageName,
             env,
+            toddle,
           }),
         ]
       : []),
