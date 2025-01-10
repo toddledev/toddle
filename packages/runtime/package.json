@@ -9,7 +9,7 @@
     "path-to-regexp": "6.3.0"
   },
   "devDependencies": {
-    "@happy-dom/global-registrator": "15.7.4"
+    "@happy-dom/global-registrator": "16.5.3"
   },
   "scripts": {
     "build": "tsc",
