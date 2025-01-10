@@ -134,18 +134,6 @@ export interface ApiPerformance {
   responseEnd: number | null
 }
 
-export class RedirectError extends Error {
-  constructor(
-    public readonly redirect: {
-      api: string
-      url: URL
-      statusCode?: RedirectStatusCode
-    },
-  ) {
-    super()
-  }
-}
-
 export interface ToddleRequestInit extends RequestInit {
   headers: Headers
 }

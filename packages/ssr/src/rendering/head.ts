@@ -20,33 +20,35 @@ import { getFontCssUrl } from './fonts'
 import { getCharset } from './html'
 import { defaultSpeculationRules } from './speculation'
 
+type Text = string
+export type HeadItemType = `${HeadTagTypes}:${Text}` | 'title'
+
 /**
  * Renders a page specific head
  */
 export const getHeadItems = ({
-  req,
+  url,
   files,
   project,
   context,
   page,
   theme,
-  commitSha: cacheBuster,
+  cacheBuster,
 }: {
-  req: Request
+  url: URL
   files: ProjectFiles
   project: ToddleProject
   context: FormulaContext
   page: ToddleComponent<string>
   theme: OldTheme | Theme
   // Optional cache buster for reset stylesheet + manifest url. Could be a commit sha for instance
-  commitSha?: string
-}): Map<string, string> => {
-  const url = new URL(req.url)
+  cacheBuster?: string
+}): Map<HeadItemType, string> => {
   const pageInfo = page.route?.info
-  const title = getTitle(page, context, project.name)
-  const description = getDescription(page, context, project.description)
+  const title = getPageTitle(page, context, project.name)
+  const description = getPageDescription(page, context, project.description)
 
-  const preloadFonts: [string, string][] = []
+  const preloadFonts: [HeadItemType, string][] = []
   if ('breakpoints' in theme === false) {
     // We include all fonts even though it's not necessary.
     // While this is not the ideal long-term solution, it does have a few benefits:
@@ -64,7 +66,7 @@ export const getHeadItems = ({
       if (fontStylesheetUrl) {
         preloadFonts.push([
           // Later we'll support multiple font loading strategies aside from swap
-          'fonts:swap',
+          'link:font:swap',
           // See https://fonts.google.com/selection/embed
           `<link href="${escapeAttrValue(fontStylesheetUrl.swap.toString())}" rel="stylesheet" />`,
         ])
@@ -74,9 +76,23 @@ export const getHeadItems = ({
 
   const stylesheetUrl = urlWithCacheBuster('/_static/reset.css', cacheBuster)
   const charset = getCharset({ pageInfo, formulaContext: context })
-  const headItems = new Map([
+  const descriptionItems: [HeadItemType, string][] = []
+  if (typeof description === 'string') {
+    // Only add meta:description and og:description if a description exists
+    descriptionItems.push([
+      'meta:description',
+      `<meta name="description" content="${escapeAttrValue(description)}" />`,
+    ])
+    descriptionItems.push([
+      'meta:og:description',
+      `<meta property="og:description" content="${escapeAttrValue(
+        description,
+      )}" />`,
+    ])
+  }
+  const headItems = new Map<HeadItemType, string>([
     [
-      'css:reset',
+      'link:reset',
       // The reset stylesheet should be loaded asap to avoid any flickering
       `<link rel="stylesheet" fetchpriority="high" href="${escapeAttrValue(stylesheetUrl)}" />`,
     ],
@@ -88,12 +104,8 @@ export const getHeadItems = ({
       'meta:viewport',
       `<meta name="viewport" content="width=device-width, initial-scale=1" />`,
     ],
-    // Default title
+    // Title + og:title + apple-mobile-web-app-title
     ['title', `<title>${title}</title>`],
-    [
-      'meta:description',
-      `<meta name="description" content="${escapeAttrValue(description)}" />`,
-    ],
     [
       'meta:og:title',
       `<meta property="og:title" content="${escapeAttrValue(title)}" />`,
@@ -104,6 +116,8 @@ export const getHeadItems = ({
         title,
       )}">`,
     ],
+    // Description + og:description
+    ...descriptionItems,
     ['meta:og:type', `<meta property="og:type" content="website" />`],
     [
       'meta:og:url',
@@ -120,12 +134,6 @@ export const getHeadItems = ({
       `<script type="speculationrules">${JSON.stringify(
         defaultSpeculationRules,
       )}</script>`,
-    ],
-    [
-      'meta:og:description',
-      `<meta property="og:description" content="${escapeAttrValue(
-        description,
-      )}" />`,
     ],
   ])
   if (project.type === 'package' && project.thumbnail) {
@@ -249,7 +257,7 @@ export const getHeadItems = ({
         const key = Object.entries(metaEntry.attrs ?? {}).find(
           ([key]) => key === 'name' || key === 'property',
         )
-        const headItemKey = `${metaEntry.tag}:${
+        const headItemKey: HeadItemType = `${metaEntry.tag}:${
           isDefined(key) ? applyFormula(key[1], context) : (id ?? nanoid())
         }`
         headItems.set(
@@ -298,7 +306,7 @@ export const renderHeadItems = (
 // It's difficult to find a "best practice" for ordering head tags, and it's unclear if it matters much
 // for crawlers/browsers. We're using a simple ordering that puts (what we believe is) the most relevant
 // tags first.
-export const defaultHeadOrdering = [
+export const defaultHeadOrdering: HeadItemType[] = [
   'meta:charset',
   'meta:viewport',
   'title',
@@ -318,11 +326,11 @@ export const defaultHeadOrdering = [
   'meta:apple-mobile-web-app-title',
   'meta:msapplication-tilecolor',
   'meta:og:locale',
-  'css:reset',
+  'link:reset',
   // Everything else comes after these predefined tags
 ]
 
-const getTitle = (
+const getPageTitle = (
   component: Component,
   context: FormulaContext,
   defaultTitle?: string,
@@ -336,7 +344,7 @@ const getTitle = (
   return typeof title === 'string' ? title : fallbackTitle
 }
 
-const getDescription = (
+const getPageDescription = (
   component: Component,
   context: FormulaContext,
   defaultDescription?: string | null,

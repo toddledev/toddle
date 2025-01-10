@@ -12,10 +12,12 @@ export const getHtmlLanguage = ({
   pageInfo?: PageRoute['info']
   formulaContext: FormulaContext
   defaultLanguage?: string
-}) =>
-  pageInfo?.language
+}) => {
+  const language = pageInfo?.language
     ? applyFormula(pageInfo.language.formula, formulaContext)
     : defaultLanguage
+  return typeof language === 'string' ? language : defaultLanguage
+}
 
 export const getCharset = ({
   pageInfo,
@@ -25,7 +27,9 @@ export const getCharset = ({
   pageInfo?: PageRoute['info']
   formulaContext: FormulaContext
   defaultCharset?: string
-}) =>
-  pageInfo?.charset
-    ? applyFormula(pageInfo.charset.formula, formulaContext)
+}) => {
+  const charset = pageInfo?.charset
+    ? (applyFormula(pageInfo.charset.formula, formulaContext) as string)
     : defaultCharset
+  return typeof charset === 'string' ? charset : defaultCharset
+}

@@ -10,7 +10,7 @@ import {
   getHeadItems,
   renderHeadItems,
 } from '@toddledev/ssr/dist/rendering/head'
-import { getHtmlLanguage } from '@toddledev/ssr/dist/rendering/html'
+import { getCharset, getHtmlLanguage } from '@toddledev/ssr/dist/rendering/html'
 import {
   get404Page,
   matchPageForUrl,
@@ -65,7 +65,7 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
     // Font faces are created from a stylesheet referenced in the head
     createFontFaces: false,
   })
-  const toddleComponent = new ToddleComponent<string>({
+  const component = new ToddleComponent<string>({
     component: page,
     getComponent: (name, packageName) => {
       const nodeLookupKey = [packageName, name].filter(isDefined).join('/')
@@ -87,8 +87,8 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
   })
   const head = renderHeadItems(
     getHeadItems({
-      req: c.req.raw,
-      page: toddleComponent,
+      url,
+      page: component,
       files: project.files,
       project: project.project,
       context: formulaContext,
@@ -96,7 +96,7 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
     }),
   )
   const { html: body } = await renderPageBody({
-    component: toddleComponent as any, // TODO: Fix typing
+    component: component,
     formulaContext,
     env: formulaContext.env as ToddleServerEnv,
     req: c.req.raw,
@@ -106,6 +106,10 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
       // TODO: Show an example of how to evaluate APIs - potentially using an adapter
     }),
     projectId: 'my_project',
+  })
+  const charset = getCharset({
+    pageInfo: component.route?.info,
+    formulaContext,
   })
   return c.html(
     html`<!doctype html>
@@ -117,8 +121,14 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
           </style>
         </head>
         <body>
-          ${raw(body)}
+          <!-- ${c.req.raw.url} -->
+          <div id="App">${raw(body)}</div>
         </body>
       </html>`,
+    {
+      headers: {
+        'Content-Type': `text/html; charset=${charset}`,
+      },
+    },
   )
 }
