@@ -43,6 +43,9 @@
         "fast-deep-equal": "3.1.3",
         "path-to-regexp": "6.3.0",
       },
+      "devDependencies": {
+        "@happy-dom/global-registrator": "16.5.3",
+      },
     },
     "packages/search": {
       "name": "@toddledev/search",
@@ -148,6 +151,8 @@
 
     "@eslint/plugin-kit": ["@eslint/plugin-kit@0.2.4", "", { "dependencies": { "levn": "^0.4.1" } }, "sha512-zSkKow6H5Kdm0ZUQUB2kV5JIXqoG0+uH5YADhaEHswm664N9Db8dXSi0nMJpacpMf+MyyglF1vnZohpEg5yUtg=="],
 
+    "@happy-dom/global-registrator": ["@happy-dom/global-registrator@16.5.3", "", { "dependencies": { "happy-dom": "^16.5.3" } }, "sha512-o4gRc7+XuXrGK4NYUF3rpfYRcKYgFptOP2qWffdjn8R+dN/FzGQX84nYuNTQVg3IYVITeCihVrUAOUoD3D5Azg=="],
+
     "@humanfs/core": ["@humanfs/core@0.19.1", "", {}, "sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA=="],
 
     "@humanfs/node": ["@humanfs/node@0.16.6", "", { "dependencies": { "@humanfs/core": "^0.19.1", "@humanwhocodes/retry": "^0.3.0" } }, "sha512-YuI2ZHQL78Q5HbhDiBA1X4LmYdXCKCMQIfw0pw7piHJwyREFebJUvrQN4cMssyES6x+vfUbx1CIpaQUKYdQZOw=="],
@@ -212,7 +217,7 @@
 
     "@toddledev/core": ["@toddledev/core@workspace:packages/core", { "devDependencies": { "@types/react": "18.3.10" } }],
 
-    "@toddledev/runtime": ["@toddledev/runtime@workspace:packages/runtime", { "dependencies": { "@toddledev/core": "packages/core", "fast-deep-equal": "3.1.3", "path-to-regexp": "6.3.0" } }],
+    "@toddledev/runtime": ["@toddledev/runtime@workspace:packages/runtime", { "dependencies": { "@toddledev/core": "packages/core", "fast-deep-equal": "3.1.3", "path-to-regexp": "6.3.0" }, "devDependencies": { "@happy-dom/global-registrator": "16.5.3" } }],
 
     "@toddledev/search": ["@toddledev/search@workspace:packages/search", { "dependencies": { "@toddledev/ssr": "packages/ssr" } }],
 
@@ -487,6 +492,8 @@
     "graceful-fs": ["graceful-fs@4.2.11", "", {}, "sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ=="],
 
     "graphemer": ["graphemer@1.4.0", "", {}, "sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag=="],
+
+    "happy-dom": ["happy-dom@16.5.3", "", { "dependencies": { "webidl-conversions": "^7.0.0", "whatwg-mimetype": "^3.0.0" } }, "sha512-7zGnyROZuntn+5X84MQ535qiQ3ccm45uHl+Q7EFAcPP0NhkbrfPitqprz0GgszX91/QqsZKQ7nTYkyObCTDUjg=="],
 
     "has-flag": ["has-flag@4.0.0", "", {}, "sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ=="],
 
