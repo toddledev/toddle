@@ -20,12 +20,35 @@ export function createElement({
   ctx,
   isSvg,
   instance,
+  parentElement,
 }: NodeRenderer<ElementNodeModel>): Element {
   const tag = getElementTagName(node, ctx, id)
-  const elem =
-    isSvg || tag === 'svg'
-      ? document.createElementNS('http://www.w3.org/2000/svg', tag)
-      : document.createElement(tag)
+  let elem: HTMLElement | SVGElement
+
+  // If element already exists, use that instead
+  const existingElements = Array.from(
+    parentElement.childNodes.values().filter((child) => {
+      if (child instanceof HTMLElement) {
+        return (
+          child.getAttribute('data-node-id') === id &&
+          child.getAttribute('data-node-component') === ctx.component.name
+        )
+      }
+      return false
+    }),
+  ) as HTMLElement[]
+  if (
+    existingElements.length === 1 &&
+    !existingElements[0].hasAttribute('data-id')
+  ) {
+    elem = existingElements[0]
+  } else {
+    existingElements.forEach((el) => el.remove())
+    elem =
+      isSvg || tag === 'svg'
+        ? document.createElementNS('http://www.w3.org/2000/svg', tag)
+        : document.createElement(tag)
+  }
 
   elem.setAttribute('data-node-id', id)
   if (path) {
