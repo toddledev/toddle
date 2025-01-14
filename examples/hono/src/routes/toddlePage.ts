@@ -96,7 +96,7 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
     }),
   )
   const { html: body } = await renderPageBody({
-    component: component,
+    component,
     formulaContext,
     env: formulaContext.env as ToddleServerEnv,
     req: c.req.raw,
@@ -121,7 +121,6 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
           </style>
         </head>
         <body>
-          <!-- ${c.req.raw.url} -->
           <div id="App">${raw(body)}</div>
         </body>
       </html>`,
