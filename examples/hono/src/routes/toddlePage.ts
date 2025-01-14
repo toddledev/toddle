@@ -2,6 +2,7 @@ import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
 import { type ToddleServerEnv } from '@toddledev/core/dist/formula/formula'
 import { createStylesheet } from '@toddledev/core/dist/styling/style.css'
 import { theme as defaultTheme } from '@toddledev/core/dist/styling/theme.const'
+import type { ToddleInternals } from '@toddledev/core/dist/types'
 import { isDefined } from '@toddledev/core/dist/utils/util'
 import { takeIncludedComponents } from '@toddledev/ssr/dist/components/utils'
 import { renderPageBody } from '@toddledev/ssr/dist/rendering/components'
@@ -15,6 +16,8 @@ import {
   get404Page,
   matchPageForUrl,
 } from '@toddledev/ssr/dist/routing/routing'
+import { hasCustomCode } from '@toddledev/ssr/src/custom-code/codeRefs'
+import { removeTestData } from '@toddledev/ssr/src/rendering/testData'
 import type { Context } from 'hono'
 import { html, raw } from 'hono/html'
 import type { HonoEnv } from '../../hono'
@@ -65,7 +68,7 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
     // Font faces are created from a stylesheet referenced in the head
     createFontFaces: false,
   })
-  const component = new ToddleComponent<string>({
+  const toddleComponent = new ToddleComponent<string>({
     component: page,
     getComponent: (name, packageName) => {
       const nodeLookupKey = [packageName, name].filter(isDefined).join('/')
@@ -90,7 +93,7 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
       url,
       // This refers to the endpoint we created in fontRouter for our proxied stylesheet
       cssBasePath: '/.toddle/fonts/stylesheet/css2',
-      page: component,
+      page: toddleComponent,
       files: project.files,
       project: project.project,
       context: formulaContext,
@@ -98,7 +101,7 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
     }),
   })
   const { html: body } = await renderPageBody({
-    component,
+    component: toddleComponent,
     formulaContext,
     env: formulaContext.env as ToddleServerEnv,
     req: c.req.raw,
@@ -110,17 +113,69 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
     projectId: 'my_project',
   })
   const charset = getCharset({
-    pageInfo: component.route?.info,
+    pageInfo: toddleComponent.route?.info,
     formulaContext,
   })
+
+  // Prepare the data to be passed to the client for hydration
+  const toddleInternals: ToddleInternals = {
+    project: c.var.project.project.short_id,
+    branch: 'main',
+    commit: 'unknown',
+    pageState: {
+      ...formulaContext.data,
+    },
+    component: page,
+    components: includedComponents.map(removeTestData),
+    isPageLoaded: false,
+    cookies: Object.keys(formulaContext.env.request.cookies),
+  }
+  const usesCustomCode = hasCustomCode(toddleComponent, c.var.project.files)
+  let codeImport = ''
+  if (usesCustomCode) {
+    const customCodeSearchParams = new URLSearchParams([
+      ['entry', toddleComponent.name],
+    ])
+    codeImport = `
+            <script type="module">
+              import { initGlobalObject, createRoot } from '/_static/esm-page.main.js';
+              import { loadCustomCode, formulas, actions } from '/.toddle/custom-code.js?${customCodeSearchParams.toString()}';
+
+              window.__toddle = ${JSON.stringify(toddleInternals).replaceAll(
+                '</script>',
+                '<\\/script>',
+              )};
+              window.__toddle.components = [window.__toddle.component, ...window.__toddle.components];
+              initGlobalObject({formulas, actions});
+              loadCustomCode();
+              createRoot(document.getElementById("App"));
+            </script>
+          `
+  } else {
+    codeImport = `
+        <script type="module">
+          import { initGlobalObject, createRoot } from '/_static/esm-page.main.js';
+
+          window.__toddle = ${JSON.stringify(toddleInternals).replaceAll(
+            '</script>',
+            '<\\/script>',
+          )};
+          window.__toddle.components = [window.__toddle.component, ...window.__toddle.components];
+          initGlobalObject({formulas: {}, actions: {}});
+          createRoot(document.getElementById("App"));
+        </script>
+    `
+  }
+
   return c.html(
     html`<!doctype html>
       <html lang="${language}">
         <head>
           ${raw(head)}
           <style>
-            ${styles}
+            ${raw(styles)}
           </style>
+          ${raw(codeImport)}
         </head>
         <body>
           <div id="App">${raw(body)}</div>

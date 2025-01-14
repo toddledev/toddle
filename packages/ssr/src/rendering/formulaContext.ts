@@ -32,7 +32,7 @@ export const getPageFormulaContext = ({
   req: Request
   logErrors: boolean
   files: ProjectFiles
-}): FormulaContext => {
+}): FormulaContext & { env: ToddleServerEnv } => {
   const env = serverEnv({ req, branchName, logErrors })
   const { searchParamsWithDefaults, hash, combinedParams, url } = getParameters(
     { component, req },
@@ -43,7 +43,7 @@ export const getPageFormulaContext = ({
       module.default as any,
     ]),
   )
-  const formulaContext: FormulaContext = {
+  const formulaContext: FormulaContext & { env: ToddleServerEnv } = {
     data: {
       Location: {
         page: component.page ?? '',
