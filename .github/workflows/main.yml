@@ -8,6 +8,8 @@ on:
 jobs:
   version_check:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version_changed.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,11 +30,17 @@ jobs:
         run: |
           echo '${{ fromJson(env.PACKAGE_JSON_OLD).version }}'
       - name: Version changed
+        id: version_changed
         if: ${{ fromJson(env.PACKAGE_JSON).version != fromJson(env.PACKAGE_JSON_OLD).version }}
-        uses: toddledev/toddle/.github/workflows/deploy_to_npm.yml@main
-        with:
-          version: ${{ fromJson(env.PACKAGE_JSON).version }}
-        secrets: inherit
+        run: echo "version=${{ fromJson(env.PACKAGE_JSON).version }}" >> $GITHUB_ENV
       - name: Version didn't change
         if: ${{ fromJson(env.PACKAGE_JSON).version == fromJson(env.PACKAGE_JSON_OLD).version }}
-        run: echo "Version was not changed! No release needed."
+        run: |
+          echo "Version was not changed! No release needed."
+          exit 0
+  start_publish:
+    needs: version_check
+    uses: toddledev/toddle/.github/workflows/deploy_to_npm.yml@debt/unify-version
+    with:
+      version: ${{needs.job1.outputs.version}}
+    secrets: inherit

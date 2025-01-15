@@ -12,6 +12,8 @@ jobs:
   publish_to_npm:
     runs-on: ubuntu-latest
     steps:
+      - name: Debug
+        run: echo ${{ inputs.version }}
       - name: Checkout
         uses: actions/checkout@v4
       - name: Install bun
