@@ -1,9 +1,9 @@
 name: 'Deploy'
 
 on:
-  push
-  # branches:
-  #   - main
+  push:
+    branches:
+      - main
 
 jobs:
   version_check:
@@ -20,13 +20,13 @@ jobs:
         uses: oven-sh/setup-bun@v1
       - name: Store package.json
         run: echo "PACKAGE_JSON=$(jq -c . < package.json)" >> $GITHUB_ENV
-      - name: Echo version
+      - name: Current version
         run: echo '${{ fromJson(env.PACKAGE_JSON).version }}'
       - name: Store old package.json
         run: |
           git show HEAD^:package.json > package.old.json
           echo "PACKAGE_JSON_OLD=$(jq -c . < package.old.json)" >> $GITHUB_ENV
-      - name: Echo previous version
+      - name: Previous version
         run: |
           echo '${{ fromJson(env.PACKAGE_JSON_OLD).version }}'
       - name: Version changed

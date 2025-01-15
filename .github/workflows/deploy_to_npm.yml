@@ -16,12 +16,6 @@ jobs:
         run: echo ${{ inputs.version }}
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install bun
-        uses: oven-sh/setup-bun@v1
-      - name: Install worker dependencies
-        run: bun install --frozen-lockfile
-      - name: Build
-        run: bun run build
       - name: Prepare publish folder
         run: |
           mkdir publish
@@ -51,8 +45,12 @@ jobs:
           mkdir publish/packages/runtime
           cd packages/runtime
           echo $(jq '. += {"version": "${{ inputs.version }}"}' package.json) > package.json
-      - name: Update bun.lock
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v1
+      - name: Install dependencies
         run: bun install
+      - name: Build
+        run: bun run build
       - name: Build core
         run: |
           cd packages/core
@@ -84,32 +82,27 @@ jobs:
           token: ${{ secrets.NPM_TOKEN }}
           package: publish/core/core.tgz
           access: public
-          dry-run: true
       - name: Publish lib
         uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.NPM_TOKEN }}
           package: publish/lib/lib.tgz
           access: public
-          dry-run: true
       - name: Publish ssr
         uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.NPM_TOKEN }}
           package: publish/ssr/ssr.tgz
           access: public
-          dry-run: true
       - name: Publish search
         uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.NPM_TOKEN }}
           package: publish/search/search.tgz
           access: public
-          dry-run: true
       - name: Publish runtime
         uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.NPM_TOKEN }}
           package: publish/runtime/runtime.tgz
           access: public
-          dry-run: true
