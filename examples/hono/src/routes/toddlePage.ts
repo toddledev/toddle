@@ -37,7 +37,7 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
     branchName: 'main',
     req: c.req.raw,
     logErrors: true,
-    files: c.var.project.files,
+    files: project.files,
   })
   const language = getHtmlLanguage({
     pageInfo: page.route.info,
