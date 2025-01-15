@@ -1,9 +1,9 @@
 name: 'Deploy'
 
 on:
-  push:
-    branches:
-      - main
+  push
+  # branches:
+  #   - main
 
 jobs:
   version_check:
@@ -37,10 +37,9 @@ jobs:
         if: ${{ fromJson(env.PACKAGE_JSON).version == fromJson(env.PACKAGE_JSON_OLD).version }}
         run: |
           echo "Version was not changed! No release needed."
-          exit 1
   start_publish:
     needs: version_check
-    if: needs.version_check.result == 'success'
+    if: ${{needs.version_check.outputs.version}} != ""
     uses: toddledev/toddle/.github/workflows/deploy_to_npm.yml@main
     with:
       version: ${{needs.version_check.outputs.version}}
