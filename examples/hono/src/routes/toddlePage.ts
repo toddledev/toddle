@@ -125,7 +125,7 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
     pageState: {
       ...formulaContext.data,
     },
-    component: page,
+    component: removeTestData(page),
     components: includedComponents.map(removeTestData),
     isPageLoaded: false,
     cookies: Object.keys(formulaContext.env.request.cookies),
