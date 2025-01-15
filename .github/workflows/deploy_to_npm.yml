@@ -1,0 +1,108 @@
+name: 'Deploy'
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'Version to deploy'
+        required: true
+        type: string
+
+jobs:
+  publish_to_npm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug
+        run: echo ${{ inputs.version }}
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Prepare publish folder
+        run: |
+          mkdir publish
+          mkdir publish/packages
+          mkdir publish/packages/core
+      - name: Prepare core
+        run: |
+          cd packages/core
+          echo $(jq '. += {"version": "${{ inputs.version }}"}' package.json) > package.json
+      - name: Prepare lib
+        run: |
+          mkdir publish/packages/lib
+          cd packages/lib
+          echo $(jq '. += {"version": "${{ inputs.version }}"}' package.json) > package.json
+      - name: Prepare ssr
+        run: |
+          mkdir publish/packages/ssr
+          cd packages/ssr
+          echo $(jq '. += {"version": "${{ inputs.version }}"}' package.json) > package.json
+      - name: Prepare search
+        run: |
+          mkdir publish/packages/search
+          cd packages/search
+          echo $(jq '. += {"version": "${{ inputs.version }}"}' package.json) > package.json
+      - name: Prepare runtime
+        run: |
+          mkdir publish/packages/runtime
+          cd packages/runtime
+          echo $(jq '. += {"version": "${{ inputs.version }}"}' package.json) > package.json
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v1
+      - name: Install dependencies
+        run: bun install
+      - name: Build
+        run: bun run build
+      - name: Build core
+        run: |
+          cd packages/core
+          bun pm pack --destination ../../publish/core
+          mv ../../publish/core/toddledev-*.tgz ../../publish/core/core.tgz
+      - name: Build lib
+        run: |
+          cd packages/lib
+          bun pm pack --destination ../../publish/lib
+          mv ../../publish/lib/toddledev-*.tgz ../../publish/lib/lib.tgz
+      - name: Build ssr
+        run: |
+          cd packages/ssr
+          bun pm pack --destination ../../publish/ssr
+          mv ../../publish/ssr/toddledev-*.tgz ../../publish/ssr/ssr.tgz
+      - name: Build search
+        run: |
+          cd packages/search
+          bun pm pack --destination ../../publish/search
+          mv ../../publish/search/toddledev-*.tgz ../../publish/search/search.tgz
+      - name: Build runtime
+        run: |
+          cd packages/runtime
+          bun pm pack --destination ../../publish/runtime
+          mv ../../publish/runtime/toddledev-*.tgz ../../publish/runtime/runtime.tgz
+      - name: Publish core
+        uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          package: publish/core/core.tgz
+          access: public
+      - name: Publish lib
+        uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          package: publish/lib/lib.tgz
+          access: public
+      - name: Publish ssr
+        uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          package: publish/ssr/ssr.tgz
+          access: public
+      - name: Publish search
+        uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          package: publish/search/search.tgz
+          access: public
+      - name: Publish runtime
+        uses: JS-DevTools/npm-publish@v3
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          package: publish/runtime/runtime.tgz
+          access: public
