@@ -22,30 +22,32 @@ jobs:
         run: bun install --frozen-lockfile
       - name: Build
         run: bun run build
-      - name: Prepare core
+      - name: Prepare publish folder
         run: |
           mkdir publish
           mkdir publish/packages
           mkdir publish/packages/core
+      - name: Prepare core
+        run: |
           cd packages/core
           echo $(jq '. += {"version": "${{ inputs.version }}"}' package.json) > package.json
-          - name: Prepare lib
-          run: |
+      - name: Prepare lib
+        run: |
           mkdir publish/packages/lib
           cd packages/lib
           echo $(jq '. += {"version": "${{ inputs.version }}"}' package.json) > package.json
-          - name: Prepare ssr
-          run: |
+      - name: Prepare ssr
+        run: |
           mkdir publish/packages/ssr
           cd packages/ssr
           echo $(jq '. += {"version": "${{ inputs.version }}"}' package.json) > package.json
-          - name: Prepare search
-          run: |
+      - name: Prepare search
+        run: |
           mkdir publish/packages/search
           cd packages/search
           echo $(jq '. += {"version": "${{ inputs.version }}"}' package.json) > package.json
-          - name: Prepare runtime
-          run: |
+      - name: Prepare runtime
+        run: |
           mkdir publish/packages/runtime
           cd packages/runtime
           echo $(jq '. += {"version": "${{ inputs.version }}"}' package.json) > package.json
