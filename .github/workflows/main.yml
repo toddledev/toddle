@@ -1,9 +1,9 @@
 name: 'Deploy'
 
 on:
-  push:
-    branches:
-      - main
+  push
+  # branches:
+  #   - main
 
 jobs:
   version_check:
