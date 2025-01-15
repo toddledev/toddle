@@ -2,7 +2,7 @@
   "name": "@toddledev/core",
   "license": "Apache-2.0",
   "homepage": "https://github.com/toddledev/toddle",
-  "dependencies": {
+  "devDependencies": {
     "@types/react": "18.3.10"
   },
   "scripts": {
