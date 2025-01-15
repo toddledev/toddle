@@ -34,6 +34,7 @@ export const getHeadItems = ({
   page,
   theme,
   cacheBuster,
+  cssBasePath = '/.toddle/fonts/stylesheet/css2',
 }: {
   url: URL
   files: ProjectFiles
@@ -41,6 +42,7 @@ export const getHeadItems = ({
   context: FormulaContext
   page: ToddleComponent<string>
   theme: OldTheme | Theme
+  cssBasePath?: string
   // Optional cache buster for reset stylesheet + manifest url. Could be a commit sha for instance
   cacheBuster?: string
 }): Map<HeadItemType, string> => {
@@ -62,7 +64,10 @@ export const getHeadItems = ({
 
     // Add link to stylesheet that includes the different font-faces
     if (theme.fonts.length > 0) {
-      const fontStylesheetUrl = getFontCssUrl(theme.fonts)
+      const fontStylesheetUrl = getFontCssUrl({
+        fonts: theme.fonts,
+        basePath: cssBasePath,
+      })
       if (fontStylesheetUrl) {
         preloadFonts.push([
           // Later we'll support multiple font loading strategies aside from swap

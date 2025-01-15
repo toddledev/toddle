@@ -26,6 +26,8 @@ fontRouter.get('/stylesheet/:stylesheet{.*}', async (c: Context<HonoEnv>) => {
     if (response.ok) {
       stylesheetContent = stylesheetContent.replaceAll(
         'https://fonts.gstatic.com',
+        // This should match the path in the font route below 👇
+        // This ensures fonts are fetched through the proxied endpoint /.toddle/fonts/font/...
         '/.toddle/fonts/font',
       )
     } else {

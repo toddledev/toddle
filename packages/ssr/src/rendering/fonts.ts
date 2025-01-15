@@ -1,10 +1,15 @@
 import { FontFamily } from '@toddledev/core/dist/styling/theme'
 import { easySort } from '@toddledev/core/dist/utils/collections'
 
-export const getFontCssUrl = (
-  fonts: FontFamily[],
-  baseForAbsoluteUrls?: string,
-): Record<'swap', string> | undefined => {
+export const getFontCssUrl = ({
+  fonts,
+  baseForAbsoluteUrls,
+  basePath = '/.toddle/fonts/stylesheet/css2',
+}: {
+  fonts: FontFamily[]
+  baseForAbsoluteUrls?: string
+  basePath?: string
+}): Record<'swap', string> | undefined => {
   if (fonts.length === 0) {
     return
   }
@@ -60,7 +65,7 @@ export const getFontCssUrl = (
     }
     searchParams.append('family', familyValue)
   }
-  const path = `/.toddle/fonts/stylesheet/css2?${searchParams.toString()}`
+  const path = `${basePath}?${searchParams.toString()}`
   try {
     const url =
       typeof baseForAbsoluteUrls === 'string'
