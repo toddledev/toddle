@@ -32,7 +32,7 @@ jobs:
       - name: Version changed
         id: version_changed
         if: ${{ fromJson(env.PACKAGE_JSON).version != fromJson(env.PACKAGE_JSON_OLD).version }}
-        run: echo "version=${{ fromJson(env.PACKAGE_JSON).version }}" >> $GITHUB_ENV
+        run: echo "version=${{ fromJson(env.PACKAGE_JSON).version }}" >> $GITHUB_OUTPUT
       - name: Version didn't change
         if: ${{ fromJson(env.PACKAGE_JSON).version == fromJson(env.PACKAGE_JSON_OLD).version }}
         run: |
