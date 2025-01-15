@@ -28,27 +28,27 @@ jobs:
           mkdir publish/packages
           mkdir publish/packages/core
           cd packages/core
-          echo "$( jq -r '.version |= ${{ inputs.version }}' package.json )" > package.json
-      - name: Prepare lib
-        run: |
+          echo "$(jq '. += {"version": ${{ inputs.version }}}' package.json)" > package.json
+          - name: Prepare lib
+          run: |
           mkdir publish/packages/lib
           cd packages/lib
-          echo "$( jq -r '.version |= ${{ inputs.version }}' package.json )" > package.json
-      - name: Prepare ssr
-        run: |
+          echo "$(jq '. += {"version": ${{ inputs.version }}}' package.json)" > package.json
+          - name: Prepare ssr
+          run: |
           mkdir publish/packages/ssr
           cd packages/ssr
-          echo "$( jq -r '.version |= ${{ inputs.version }}' package.json )" > package.json
-      - name: Prepare search
-        run: |
+          echo "$(jq '. += {"version": ${{ inputs.version }}}' package.json)" > package.json
+          - name: Prepare search
+          run: |
           mkdir publish/packages/search
           cd packages/search
-          echo "$( jq -r '.version |= ${{ inputs.version }}' package.json )" > package.json
-      - name: Prepare runtime
-        run: |
+          echo "$(jq '. += {"version": ${{ inputs.version }}}' package.json)" > package.json
+          - name: Prepare runtime
+          run: |
           mkdir publish/packages/runtime
           cd packages/runtime
-          echo "$( jq -r '.version |= ${{ inputs.version }}' package.json )" > package.json
+          echo "$(jq '. += {"version": ${{ inputs.version }}}' package.json)" > package.json
       - name: Update bun.lock
         run: bun install
       - name: Build core
