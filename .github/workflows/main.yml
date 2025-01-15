@@ -40,7 +40,7 @@ jobs:
           exit 0
   start_publish:
     needs: version_check
-    uses: toddledev/toddle/.github/workflows/deploy_to_npm.yml@debt/unify-version
+    uses: toddledev/toddle/.github/workflows/deploy_to_npm.yml@main
     with:
       version: ${{needs.version_check.outputs.version}}
     secrets: inherit
