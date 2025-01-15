@@ -38,12 +38,6 @@ jobs:
         run: |
           echo "Version was not changed! No release needed."
           exit 0
-  debug:
-    runs-on: ubuntu-latest
-    needs: version_check
-    steps:
-      - name: Debug
-        run: echo ${{needs.version_check.outputs.version}}
   start_publish:
     needs: version_check
     uses: toddledev/toddle/.github/workflows/deploy_to_npm.yml@debt/unify-version
