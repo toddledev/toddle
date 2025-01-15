@@ -25,27 +25,28 @@ jobs:
       - name: Prepare core
         run: |
           mkdir publish
-          mkdir packages/core
+          mkdir publish/packages
+          mkdir publish/packages/core
           cd packages/core
           echo "$( jq -r '.version |= ${{ inputs.version }}' package.json )" > package.json
       - name: Prepare lib
         run: |
-          mkdir packages/lib
+          mkdir publish/packages/lib
           cd packages/lib
           echo "$( jq -r '.version |= ${{ inputs.version }}' package.json )" > package.json
       - name: Prepare ssr
         run: |
-          mkdir packages/ssr
+          mkdir publish/packages/ssr
           cd packages/ssr
           echo "$( jq -r '.version |= ${{ inputs.version }}' package.json )" > package.json
       - name: Prepare search
         run: |
-          mkdir packages/search
+          mkdir publish/packages/search
           cd packages/search
           echo "$( jq -r '.version |= ${{ inputs.version }}' package.json )" > package.json
       - name: Prepare runtime
         run: |
-          mkdir packages/runtime
+          mkdir publish/packages/runtime
           cd packages/runtime
           echo "$( jq -r '.version |= ${{ inputs.version }}' package.json )" > package.json
       - name: Update bun.lock
