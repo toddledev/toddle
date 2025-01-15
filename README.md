@@ -1,6 +1,6 @@
 # toddle - the open-source visual frontend framework
 
-Create highly performant web apps with SSR, branching, version control, components, and much more! Visit [toddle.dev](https://toddle.dev?utm_medium=web&utm_source=GitHub) to learn more
+Create highly performant web apps with SSR, branching, version control, components, and much more! Visit [toddle.dev](https://toddle.dev?utm_medium=web&utm_source=GitHub) to learn more.
 
 [Discord](https://discord.com/invite/svBKYZf3UR) | [BlueSky](https://bsky.app/profile/toddle.dev) | [YouTube](https://youtube.com/@toddledev) | [LinkedIn](https://www.linkedin.com/company/toddledev) | [X](https://x.com/toddledev/)
 
