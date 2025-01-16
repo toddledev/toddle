@@ -11,50 +11,49 @@ fontRouter.use(cors())
 
 // Proxy endpoint for Google Fonts stylesheet
 // Font references are replaced with ./toddle/fonts/font
-fontRouter.get('/stylesheet/:stylesheet{.*}', async (c: Context<HonoEnv>) => {
-  const { req } = c
-  const requestUrl = new URL(c.req.url)
-
-  try {
-    const response = (await fetch(
-      `https://fonts.googleapis.com/${req.param('stylesheet')}${
-        requestUrl.search
-      }`,
-      standardFontRequestInit(req.raw),
-    )) as any as Response
-    let stylesheetContent = await response.text()
-    if (response.ok) {
-      stylesheetContent = stylesheetContent.replaceAll(
-        'https://fonts.gstatic.com',
-        // This should match the path in the font route below 👇
-        // This ensures fonts are fetched through the proxied endpoint /.toddle/fonts/font/...
-        '/.toddle/fonts/font',
+fontRouter.get(
+  '/stylesheet/:stylesheet{.*}',
+  async ({ req, ...c }: Context<HonoEnv>) => {
+    const requestUrl = new URL(req.url)
+    try {
+      const response = (await fetch(
+        `https://fonts.googleapis.com/${req.param('stylesheet')}${
+          requestUrl.search
+        }`,
+        standardFontRequestInit(req.raw),
+      )) as any as Response
+      let stylesheetContent = await response.text()
+      if (response.ok) {
+        stylesheetContent = stylesheetContent.replaceAll(
+          'https://fonts.gstatic.com',
+          // This should match the path in the font route below 👇
+          // This ensures fonts are fetched through the proxied endpoint /.toddle/fonts/font/...
+          '/.toddle/fonts/font',
+        )
+      } else {
+        return new Response(undefined, {
+          headers: { 'Content-Type': 'text/css; charset=utf-8' },
+          status: 404,
+        })
+      }
+      const headers = filterFontResponseHeaders(response.headers)
+      Array.from(headers.entries()).forEach(([name, value]) =>
+        c.header(name, value),
       )
-    } else {
-      return new Response(undefined, {
-        headers: { 'Content-Type': 'text/css; charset=utf-8' },
-        status: 404,
-      })
-    }
-    const headers = filterFontResponseHeaders(response.headers)
-    Array.from(headers.entries()).forEach(([name, value]) =>
-      c.header(name, value),
-    )
-    return c.body(stylesheetContent)
-  } catch (e) {}
-  return new Response(undefined, {
-    headers: { 'Content-Type': 'text/css; charset=utf-8' },
-    status: 404,
-  })
-})
+      return c.body(stylesheetContent)
+    } catch (e) {}
+    return new Response(undefined, {
+      headers: { 'Content-Type': 'text/css; charset=utf-8' },
+      status: 404,
+    })
+  },
+)
 
 fontRouter.get('/font/:font{.*}', async (c: Context<HonoEnv>) => {
-  const { req } = c
-
   try {
-    const init = standardFontRequestInit(req.raw)
+    const init = standardFontRequestInit(c.req.raw)
     const response = (await fetch(
-      `https://fonts.gstatic.com/${req.param('font')}`,
+      `https://fonts.gstatic.com/${c.req.param('font')}`,
       init,
     )) as any as Response
     const headers = filterFontResponseHeaders(response.headers)
