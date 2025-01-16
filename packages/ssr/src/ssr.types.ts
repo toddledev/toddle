@@ -1,6 +1,6 @@
-import { Component } from '@toddledev/core/dist/component/component.types'
+import type { Component } from '@toddledev/core/dist/component/component.types'
 import type { Formula } from '@toddledev/core/dist/formula/formula'
-import { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
+import type { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
 import type { OldTheme, Theme } from '@toddledev/core/dist/styling/theme'
 
 export interface ToddleProject {
