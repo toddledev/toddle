@@ -122,9 +122,7 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
     project: c.var.project.project.short_id,
     branch: 'main',
     commit: 'unknown',
-    pageState: {
-      ...formulaContext.data,
-    },
+    pageState: formulaContext.data,
     component: removeTestData(page),
     components: includedComponents.map(removeTestData),
     isPageLoaded: false,
