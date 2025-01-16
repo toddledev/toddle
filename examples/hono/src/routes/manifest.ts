@@ -9,7 +9,7 @@ const MANIFEST_CONTENT_TYPE = 'application/manifest+json'
 export const manifest = async (c: Context<HonoEnv>) => {
   try {
     const manifestUrl = applyFormula(
-      c.env.project.files.config?.meta?.manifest?.formula,
+      c.var.project.files.config?.meta?.manifest?.formula,
       undefined as any,
     )
     const validManifestUrl = validateUrl(manifestUrl)

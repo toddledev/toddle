@@ -8,7 +8,7 @@ import type { HonoEnv } from '../../hono'
 export const favicon = async (c: Context<HonoEnv>) => {
   try {
     const iconUrl = applyFormula(
-      c.env.project.files.config?.meta?.icon?.formula,
+      c.var.project.files.config?.meta?.icon?.formula,
       undefined as any,
     )
     const validIconUrl = validateUrl(iconUrl)

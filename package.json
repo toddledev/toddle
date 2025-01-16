@@ -2,7 +2,7 @@
   "name": "toddle",
   "type": "module",
   "license": "Apache-2.0",
-  "version": "0.0.3-alpha.2",
+  "version": "0.0.3-alpha.3",
   "homepage": "https://github.com/toddledev/toddle",
   "private": "false",
   "workspaces": [
@@ -23,6 +23,7 @@
   "scripts": {
     "build": "cd packages/core && bun run build && cd ../lib && bun run build && cd ../ssr && bun run build && cd ../search && bun run build && cd ../runtime && bun run build",
     "clean": "rm -rf node_modules && rm bun.lock && rm -rf packages/core/node_modules && rm -rf packages/lib/node_modules && rm -rf packages/runtime/node_modules && rm -rf packages/ssr/node_modules && rm -rf packages/search/node_modules && bun i",
+    "link": "cd packages/core && bun link && cd ../lib && bun link && cd ../ssr && bun link && cd ../search && bun link && cd ../runtime && bun link",
     "lint": "eslint --quiet .",
     "prettier": "prettier --check '*.{json,js}' '**/*.{js,ts}'",
     "prettier:write": "prettier --write  '*.{json,js}' './**/*.{js,ts}'",

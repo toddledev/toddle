@@ -1,5 +1,10 @@
-import { ProjectFiles } from '@toddledev/ssr/dist/ssr.types'
+import { ProjectFiles, type ToddleProject } from '@toddledev/ssr/dist/ssr.types'
 
 export interface HonoEnv {
-  Bindings: { project: { files: ProjectFiles }; template?: string }
+  Variables: {
+    project: { files: ProjectFiles; project: ToddleProject }
+  }
+  Bindings: {
+    template?: string
+  }
 }

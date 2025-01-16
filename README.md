@@ -49,15 +49,18 @@ Currently, we're not using GitHub releases, but once the repository is more matu
 
 To release a new version to npm:
 
-1. Update the version in the package.json file for the package you're changing
-2. Run `bun clean` in the root of the repository to bump the version in all package.json files
-3. Create a PR
-4. Once the PR is merged, start the `Publish to npm` workflow in the actions tab (requires write access)
-
-**Note:** If you modify the core package, you need to update the version in all other packages as well to make sure types are correct. See the [Dependencies](#dependencies) section for more information.
+1. Update the version in the root `package.json` file
+2. Create a PR
+3. Once the PR is merged, it will automatically release all packages to npm
 
 ## Contributing
 
 If you find a bug or have an idea for a new feature, please open an issue. We also welcome pull requests. We are actively monitoring this repository.
 
 If you have any questions, feel free to ask them in our [Discord](https://discord.com/invite/svBKYZf3UR) or reach out by [e-mail](mailto:hello@toddle.dev)
+
+## Local development
+
+To consume all packages locally, it's useful to run `bun run link` in the root of the repository. This will use `bun link` on all packages in the repository.
+
+Other than that, the best way to test atm is to use the hono example.
