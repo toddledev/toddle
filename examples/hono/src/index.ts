@@ -36,8 +36,8 @@ app.get('/robots.txt', robots)
 app.get('/manifest.json', manifest)
 app.get('/favicon.ico', favicon)
 
-// toddle specific endpoints/services on /.toddle/ subpath
-app.route('.toddle/fonts', fontRouter)
+// toddle specific endpoints/services on /.toddle/ subpath 👇
+app.route('/.toddle/fonts', fontRouter)
 
 // .toddle/custom-code
 // .toddle/serviceWorker/...
