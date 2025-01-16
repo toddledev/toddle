@@ -85,8 +85,8 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
       packages: project.files.packages,
     },
   })
-  const head = renderHeadItems(
-    getHeadItems({
+  const head = renderHeadItems({
+    headItems: getHeadItems({
       url,
       // This refers to the endpoint we created in fontRouter for our proxied stylesheet
       cssBasePath: '/.toddle/fonts/stylesheet/css2',
@@ -96,7 +96,7 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
       context: formulaContext,
       theme,
     }),
-  )
+  })
   const { html: body } = await renderPageBody({
     component,
     formulaContext,

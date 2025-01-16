@@ -24,31 +24,39 @@ type Text = string
 export type HeadItemType = `${HeadTagTypes}:${Text}` | 'title'
 
 /**
- * Renders a page specific head
+ * Returns all head items for a given page
  */
 export const getHeadItems = ({
-  url,
-  files,
-  project,
-  context,
-  page,
-  theme,
   cacheBuster,
+  context,
   cssBasePath = '/.toddle/fonts/stylesheet/css2',
+  files,
+  page,
+  project,
+  theme,
+  url,
 }: {
-  url: URL
-  files: ProjectFiles
-  project: ToddleProject
-  context: FormulaContext
-  page: ToddleComponent<string>
-  theme: OldTheme | Theme
-  cssBasePath?: string
   // Optional cache buster for reset stylesheet + manifest url. Could be a commit sha for instance
   cacheBuster?: string
+  context: FormulaContext
+  cssBasePath?: string
+  files: ProjectFiles
+  page: ToddleComponent<string>
+  project: ToddleProject
+  theme: OldTheme | Theme
+  url: URL
 }): Map<HeadItemType, string> => {
   const pageInfo = page.route?.info
-  const title = getPageTitle(page, context, project.name)
-  const description = getPageDescription(page, context, project.description)
+  const title = getPageTitle({
+    component: page,
+    context,
+    defaultTitle: project.name,
+  })
+  const description = getPageDescription({
+    component: page,
+    context,
+    defaultDescription: project.description,
+  })
 
   const preloadFonts: [HeadItemType, string][] = []
   if ('breakpoints' in theme === false) {
@@ -297,10 +305,13 @@ export const getHeadItems = ({
   return headItems
 }
 
-export const renderHeadItems = (
-  headItems: Map<string, string>,
-  ordering: string[] = defaultHeadOrdering,
-) =>
+export const renderHeadItems = ({
+  headItems,
+  ordering = defaultHeadOrdering,
+}: {
+  headItems: Map<string, string>
+  ordering?: string[]
+}) =>
   easySort([...headItems.entries()], ([key]) => {
     const index = ordering.indexOf(key)
     return index === -1 ? ordering.length : index
@@ -335,11 +346,15 @@ export const defaultHeadOrdering: HeadItemType[] = [
   // Everything else comes after these predefined tags
 ]
 
-const getPageTitle = (
-  component: Component,
-  context: FormulaContext,
-  defaultTitle?: string,
-) => {
+const getPageTitle = ({
+  component,
+  context,
+  defaultTitle,
+}: {
+  component: Component
+  context: FormulaContext
+  defaultTitle?: string
+}) => {
   const pageInfo = component.route?.info
   const fallbackTitle = defaultTitle ?? component.name
   if (!isDefined(pageInfo?.title)) {
@@ -349,11 +364,15 @@ const getPageTitle = (
   return typeof title === 'string' ? title : fallbackTitle
 }
 
-const getPageDescription = (
-  component: Component,
-  context: FormulaContext,
-  defaultDescription?: string | null,
-) => {
+const getPageDescription = ({
+  component,
+  context,
+  defaultDescription,
+}: {
+  component: Component
+  context: FormulaContext
+  defaultDescription?: string | null
+}) => {
   const pageInfo = component.route?.info
   if (!isDefined(pageInfo?.description)) {
     return defaultDescription
