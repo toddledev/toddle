@@ -16,6 +16,7 @@ import { noReferenceComponentFormulaRule } from './rules/noReferenceComponentFor
 import { noReferenceComponentRule } from './rules/noReferenceComponentRule'
 import { noReferenceComponentWorkflowRule } from './rules/noReferenceComponentWorkflowRule'
 import { noReferenceEventRule } from './rules/noReferenceEventRule'
+import { noReferenceNodeRule } from './rules/noReferenceNodeRule'
 import { noReferenceProjectActionRule } from './rules/noReferenceProjectActionRule'
 import { noReferenceProjectFormulaRule } from './rules/noReferenceProjectFormulaRule'
 import { noReferenceVariableRule } from './rules/noReferenceVariableRule'
@@ -112,6 +113,7 @@ const RULES = [
   noReferenceComponentRule,
   noReferenceComponentWorkflowRule,
   noReferenceEventRule,
+  noReferenceNodeRule,
   noReferenceProjectActionRule,
   noReferenceProjectFormulaRule,
   noReferenceVariableRule,
