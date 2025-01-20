@@ -15,16 +15,23 @@ import { getCharset, getHtmlLanguage } from '@toddledev/ssr/dist/rendering/html'
 import {
   get404Page,
   matchPageForUrl,
+  matchRouteForUrl,
 } from '@toddledev/ssr/dist/routing/routing'
 import { hasCustomCode } from '@toddledev/ssr/src/custom-code/codeRefs'
 import { removeTestData } from '@toddledev/ssr/src/rendering/testData'
 import type { Context } from 'hono'
 import { html, raw } from 'hono/html'
 import type { HonoEnv } from '../../hono'
+import { routeHandler } from './routeHandler'
 
 export const toddlePage = async (c: Context<HonoEnv>) => {
   const project = c.var.project
   const url = new URL(c.req.url)
+  // Prefer routes over pages in case of conflicts
+  const route = matchRouteForUrl({ url, routes: project.files.routes })
+  if (route) {
+    return routeHandler(c, route)
+  }
   let page = matchPageForUrl({
     url,
     components: project.files.components,

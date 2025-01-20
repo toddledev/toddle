@@ -1,4 +1,7 @@
-import type { PageComponent } from '@toddledev/core/dist/component/component.types'
+import type {
+  PageComponent,
+  PageRoute,
+} from '@toddledev/core/dist/component/component.types'
 import {
   applyFormula,
   FormulaContext,
@@ -35,7 +38,7 @@ export const getPageFormulaContext = ({
 }): FormulaContext & { env: ToddleServerEnv } => {
   const env = serverEnv({ req, branchName, logErrors })
   const { searchParamsWithDefaults, hash, combinedParams, url } = getParameters(
-    { component, req },
+    { route: component.route, req },
   )
   const coreFormulas = Object.fromEntries(
     Object.entries(libFormulas).map(([name, module]) => [
@@ -56,10 +59,7 @@ export const getPageFormulaContext = ({
       // Path and query parameters are referenced in a flat structure in formulas
       // hence, we need to merge them. We prefer path parameters over query parameters
       // in case of naming collisions
-      'URL parameters': {
-        ...searchParamsWithDefaults,
-        ...combinedParams,
-      } as Record<string, string>,
+      'URL parameters': getDataUrlParameters({ route: component.route, req }),
       Apis: {} as Record<string, any>,
     },
     component,
@@ -93,11 +93,28 @@ export const getPageFormulaContext = ({
   return formulaContext
 }
 
-const getParameters = ({
-  component,
+export const getDataUrlParameters = ({
+  route,
   req,
 }: {
-  component: PageComponent
+  route: Pick<PageRoute, 'path' | 'query'>
+  req: Request
+}) => {
+  const { searchParamsWithDefaults, combinedParams } = getParameters({
+    route,
+    req,
+  })
+  return {
+    ...searchParamsWithDefaults,
+    ...combinedParams,
+  }
+}
+
+const getParameters = ({
+  route,
+  req,
+}: {
+  route?: Pick<PageRoute, 'path' | 'query'>
   req: Request
 }) => {
   const url = new URL(req.url)
@@ -115,7 +132,7 @@ const getParameters = ({
   )
   const params: Record<string, string | null> = { ...searchParams }
   const pathSegments = getPathSegments(url)
-  component.route?.path.forEach((p, i) => {
+  route?.path.forEach((p, i) => {
     if (p.type === 'param') {
       if (isDefined(pathSegments[i]) && typeof pathSegments[i] === 'string') {
         params[p.name] = pathSegments[i]
@@ -129,7 +146,7 @@ const getParameters = ({
 
   // Explicitly set all query params to null by default
   // to avoid undefined values in the runtime
-  const defaultQueryParams = Object.keys(component.route?.query ?? {}).reduce<
+  const defaultQueryParams = Object.keys(route?.query ?? {}).reduce<
     Record<string, null>
   >((params, key) => ({ ...params, [key]: null }), {})
   return {

@@ -1,4 +1,7 @@
-import type { Component } from '@toddledev/core/dist/component/component.types'
+import type {
+  Component,
+  PageRoute,
+} from '@toddledev/core/dist/component/component.types'
 import type { Formula } from '@toddledev/core/dist/formula/formula'
 import type { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
 import type { OldTheme, Theme } from '@toddledev/core/dist/styling/theme'
@@ -19,6 +22,7 @@ export interface ProjectFiles {
   packages?: Record<string, InstalledPackage>
   actions?: Record<string, PluginAction>
   formulas?: Record<string, PluginFormula<string>>
+  routes?: Record<string, Route>
   config?: {
     theme: OldTheme
     meta?: {
@@ -44,7 +48,7 @@ export type InstalledPackage = Pick<
   }
 }
 
-export type PluginAction = {
+export interface PluginAction {
   name: string
   description?: string
   version?: 2 | never
@@ -56,4 +60,11 @@ export type PluginAction = {
   handler: string
   // exported indicates that an action is exported in a package
   exported?: boolean
+}
+
+export interface Route {
+  source: Pick<PageRoute, 'path' | 'query'>
+  destination: {
+    formula: Formula
+  }
 }
