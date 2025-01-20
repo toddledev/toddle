@@ -9,7 +9,6 @@ import { isDefined, toBoolean } from '../utils/util'
 import { isToddleFormula } from './formulaTypes'
 
 // Define the some objects types as union of ServerSide and ClientSide runtime types as applyFormula is used in both
-declare const window: Window | undefined
 declare const document: Document | undefined
 type ShadowRoot = DocumentFragment
 
@@ -106,6 +105,7 @@ export type FormulaContext = {
   toddle: {
     getFormula: FormulaLookup
     getCustomFormula: CustomFormulaHandler
+    errors: Error[]
   }
   env: ToddleEnv | undefined
 }
@@ -224,13 +224,7 @@ export function applyFormula(
                   env: ctx.env,
                 } as any)
           } catch (e) {
-            if (
-              typeof window !== 'undefined' &&
-              (window as any).toddle.errors
-            ) {
-              const myWindow = window as any
-              myWindow.toddle.errors.push(e as Error)
-            }
+            ctx.toddle.errors.push(e as Error)
             if (ctx.env?.logErrors) {
               console.error(e)
             }
@@ -254,13 +248,7 @@ export function applyFormula(
           try {
             return legacyFunc(args, ctx as any)
           } catch (e) {
-            if (
-              typeof window !== 'undefined' &&
-              (window as any).toddle.errors
-            ) {
-              const myWindow = window as any
-              myWindow.toddle.errors.push(e as Error)
-            }
+            ctx.toddle.errors.push(e as Error)
             if (ctx.env?.logErrors) {
               console.error(e)
             }
