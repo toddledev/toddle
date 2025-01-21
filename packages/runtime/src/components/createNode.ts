@@ -143,8 +143,8 @@ export function createNode({
         childDataSignal?.destroy()
       },
     })
-    if (ctx.env.runtime === 'preview' && window.toddle._preview) {
-      window.toddle._preview.showSignal.subscribe(
+    if (ctx.env.runtime === 'preview' && ctx.toddle._preview) {
+      ctx.toddle._preview.showSignal.subscribe(
         ({ displayedNodes, testMode }) => {
           if (displayedNodes.includes(path) && !testMode) {
             // only override the default show if we are in design mode (not test mode)
