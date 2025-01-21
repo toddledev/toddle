@@ -514,7 +514,7 @@ export const renderPageBody = async ({
     component,
     formulaContext,
     req,
-    apiCache: {},
+    apiCache,
     updateApiCache,
   })
   formulaContext.data.Apis = apis
