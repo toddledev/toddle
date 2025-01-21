@@ -2,7 +2,7 @@
   "name": "toddle",
   "type": "module",
   "license": "Apache-2.0",
-  "version": "0.0.3-alpha.6",
+  "version": "0.0.3-alpha.5",
   "homepage": "https://github.com/toddledev/toddle",
   "private": "false",
   "workspaces": [
