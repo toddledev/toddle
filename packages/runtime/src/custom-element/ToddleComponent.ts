@@ -20,6 +20,10 @@ import { ComponentContext, ContextApi, LocationSignal } from '../types'
  * Base class for all toddle components
  */
 export class ToddleComponent extends HTMLElement {
+  /**
+   * Public reference to the toddle instance for debugging purposes. `el.toddle.errors` can be used to check for non-verbose errors.
+   */
+  toddle: Toddle<LocationSignal, never>
   #component: Component
   #ctx: ComponentContext
   #shadowRoot: ShadowRoot
@@ -32,6 +36,7 @@ export class ToddleComponent extends HTMLElement {
     toddle: Toddle<LocationSignal, never>,
   ) {
     super()
+    this.toddle = toddle
     const internals = this.attachInternals()
     if (internals.shadowRoot) {
       // Not used yet, but can be used to hydrate rather than render the shadow dom
@@ -41,7 +46,7 @@ export class ToddleComponent extends HTMLElement {
     }
 
     const env: ToddleEnv = {
-      branchName: window.toddle.branch ?? 'main',
+      branchName: toddle.branch || 'main',
       isServer: false,
       request: undefined,
       runtime: 'custom-element',

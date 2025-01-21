@@ -81,6 +81,7 @@ export const getPageFormulaContext = ({
           return formula
         }
       },
+      errors: [],
     },
   }
   formulaContext.data.Variables = mapValues(
