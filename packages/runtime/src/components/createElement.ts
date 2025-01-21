@@ -96,9 +96,9 @@ export function createElement({
     if (
       attr === 'autofocus' &&
       ctx.env.runtime === 'preview' &&
-      window.toddle._preview
+      ctx.toddle._preview
     ) {
-      window.toddle._preview.showSignal.subscribe(({ testMode }) => {
+      ctx.toddle._preview.showSignal.subscribe(({ testMode }) => {
         if (testMode) {
           setupAttribute()
         } else {

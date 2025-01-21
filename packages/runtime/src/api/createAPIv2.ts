@@ -741,7 +741,7 @@ export function createAPI(
       if ((window?.__toddle?.isPageLoaded ?? false) === false) {
         const { url, requestSettings } = constructRequest(api)
         const cacheKey = requestHash(url, requestSettings)
-        const cacheMatch = window.toddle.pageState.Apis?.[cacheKey] as ApiStatus
+        const cacheMatch = ctx.toddle.pageState.Apis?.[cacheKey] as ApiStatus
         if (cacheMatch) {
           if (cacheMatch.error) {
             apiError(

@@ -79,7 +79,7 @@ export function handleAction(
         break
       }
       case 'SetURLParameter': {
-        window.toddle.locationSignal.update((current) => {
+        ctx.toddle.locationSignal.update((current) => {
           const value = applyFormula(action.data, {
             data,
             component: ctx.component,
@@ -253,7 +253,7 @@ export function handleAction(
           }
           const newAction =
             action.version === 2
-              ? (ctx.toddle.getCustomAction ?? window.toddle.getCustomAction)(
+              ? (ctx.toddle.getCustomAction ?? ctx.toddle.getCustomAction)(
                   action.name,
                   action.package ?? ctx.package,
                 )
@@ -310,7 +310,7 @@ export function handleAction(
 
             return result
           } else {
-            const legacyHandler = window.toddle.getAction(action.name)
+            const legacyHandler = ctx.toddle.getAction(action.name)
             if (!legacyHandler) {
               console.error('Missing custom action', action.name)
               return

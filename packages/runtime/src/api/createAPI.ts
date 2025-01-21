@@ -320,7 +320,7 @@ export function createLegacyAPI(
         // we don't fetch data for component APIs during SSR
         if (firstRun && ctx.isRootComponent) {
           firstRun = false
-          const cached = window.toddle?.pageState?.Apis?.[api.name]
+          const cached = ctx.toddle?.pageState?.Apis?.[api.name]
           if (cached && cached.data) {
             if (typeof cached.data === 'string') {
               // Mimic the behavior from getBody and parse

@@ -53,7 +53,7 @@ export function subscribeToContext(
       else if (
         !provider &&
         ctx.env.runtime === 'preview' &&
-        window.toddle._preview
+        ctx.toddle._preview
       ) {
         const testProvider = ctx.components?.find(
           (comp) =>
