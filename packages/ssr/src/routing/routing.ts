@@ -1,6 +1,15 @@
-import { PageComponent } from '@toddledev/core/dist/component/component.types'
+import {
+  PageComponent,
+  PageRoute,
+} from '@toddledev/core/dist/component/component.types'
+import { applyFormula } from '@toddledev/core/dist/formula/formula'
+import { validateUrl } from '@toddledev/core/dist/utils/url'
 import { isDefined } from '@toddledev/core/dist/utils/util'
-import { ProjectFiles } from '../ssr.types'
+import {
+  getDataUrlParameters,
+  getServerToddleObject,
+} from '../rendering/formulaContext'
+import { ProjectFiles, Route } from '../ssr.types'
 
 export const matchPageForUrl = ({
   url,
@@ -8,30 +17,62 @@ export const matchPageForUrl = ({
 }: {
   url: URL
   components: ProjectFiles['components']
-}): PageComponent | undefined => {
+}) =>
+  matchRoutes({
+    url,
+    entries: getPages(components),
+    getRoute: (route) => route.route,
+  })
+
+export const matchRouteForUrl = ({
+  url,
+  routes,
+}: {
+  url: URL
+  routes: ProjectFiles['routes']
+}) =>
+  matchRoutes({
+    url,
+    entries: Object.values(routes ?? {}),
+    getRoute: (route) => route.source,
+  })
+
+export const matchRoutes = <T>({
+  url,
+  entries,
+  getRoute,
+}: {
+  url: URL
+  entries: T[]
+  getRoute: (entry: T) => Pick<PageRoute, 'path' | 'query'>
+}): T | undefined => {
   const pathSegments = getPathSegments(url)
-  const matches = getPages(components)
-    .filter(
-      (page) =>
-        pathSegments.length <= page.route.path.length &&
-        page.route.path.every(
+  const matches = Object.values(entries)
+    .filter((entry) => {
+      const route = getRoute(entry)
+      return (
+        pathSegments.length <= route.path.length &&
+        route.path.every(
           (segment, index) =>
             segment.type === 'param' ||
             segment.optional === true ||
             segment.name === pathSegments[index],
-        ),
-    )
+        )
+      )
+    })
     .sort((a, b) => {
+      const routeA = getRoute(a)
+      const routeB = getRoute(b)
       // Prefer shorter routes
-      const diff = a.route.path.length - b.route.path.length
+      const diff = routeA.path.length - routeB.path.length
       if (diff !== 0) {
         return diff
       }
       for (let i = 0; i < pathSegments.length; i++) {
         // Prefer static segments over dynamic ones
         // We don't need to check if the name matches, since we did that in the filter above
-        const aScore = a.route.path[i].type === 'static' ? 1 : 0
-        const bScore = b.route.path[i].type === 'static' ? 1 : 0
+        const aScore = routeA.path[i].type === 'static' ? 1 : 0
+        const bScore = routeB.path[i].type === 'static' ? 1 : 0
         if (aScore !== bScore) {
           return bScore - aScore
         }
@@ -40,6 +81,33 @@ export const matchPageForUrl = ({
       return 0
     })
   return matches[0]
+}
+
+export const getRouteDestination = ({
+  files,
+  req,
+  route,
+}: {
+  files: ProjectFiles
+  req: Request
+  route: Route
+}) => {
+  return validateUrl(
+    applyFormula(
+      route.destination.formula,
+      // destination formulas should only have access to URL parameters from
+      // the route's source definition. Not from anything else atm.
+      {
+        data: {
+          'URL parameters': getDataUrlParameters({
+            route: route.source,
+            req,
+          }),
+        },
+        toddle: getServerToddleObject(files),
+      } as any,
+    ),
+  )
 }
 
 export const get404Page = (components: ProjectFiles['components']) =>

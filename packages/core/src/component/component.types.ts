@@ -21,7 +21,7 @@ export interface ComponentData {
   Attributes: Record<string, unknown>
   Variables?: Record<string, unknown>
   Contexts?: Record<string, Record<string, unknown>>
-  'URL parameters'?: Record<string, string>
+  'URL parameters'?: Record<string, string | null>
   Apis?: Record<
     string,
     LegacyApiStatus | (ApiStatus & { inputs?: Record<string, unknown> })
@@ -198,7 +198,12 @@ export interface Component {
 
 export type PageComponent = RequireFields<Component, 'route'>
 
-export interface PageRoute {
+export interface RouteDeclaration {
+  path: Array<StaticPathSegment | DynamicPathSegment>
+  query: Record<string, { name: string; testValue: any }>
+}
+
+export interface PageRoute extends RouteDeclaration {
   // Information for the <head> element
   // only relevant for pages - not for regular
   // components
@@ -237,8 +242,6 @@ export interface PageRoute {
     // - twitter:creator
     meta?: Record<string, MetaEntry>
   }
-  path: Array<StaticPathSegment | DynamicPathSegment>
-  query: Record<string, { name: string; testValue: any }>
 }
 
 export enum HeadTagTypes {
