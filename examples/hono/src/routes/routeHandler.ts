@@ -5,7 +5,11 @@ import type { Context } from 'hono'
 import type { HonoEnv } from '../../hono'
 
 export const routeHandler = async (c: Context<HonoEnv>, route: Route) => {
-  const destination = getRouteDestination({ req: c.req.raw, route })
+  const destination = getRouteDestination({
+    files: c.var.project.files,
+    req: c.req.raw,
+    route,
+  })
   if (!destination) {
     return c.html(`Invalid destination`, {
       status: 500,

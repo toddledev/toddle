@@ -5,7 +5,10 @@ import {
 import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import { validateUrl } from '@toddledev/core/dist/utils/url'
 import { isDefined } from '@toddledev/core/dist/utils/util'
-import { getDataUrlParameters } from '../rendering/formulaContext'
+import {
+  getDataUrlParameters,
+  getServerToddleObject,
+} from '../rendering/formulaContext'
 import { ProjectFiles, Route } from '../ssr.types'
 
 export const matchPageForUrl = ({
@@ -81,13 +84,15 @@ export const matchRoutes = <T>({
 }
 
 export const getRouteDestination = ({
+  files,
   req,
   route,
 }: {
+  files: ProjectFiles
   req: Request
   route: Route
-}) =>
-  validateUrl(
+}) => {
+  return validateUrl(
     applyFormula(
       route.destination.formula,
       // destination formulas should only have access to URL parameters from
@@ -99,9 +104,11 @@ export const getRouteDestination = ({
             req,
           }),
         },
+        toddle: getServerToddleObject(files),
       } as any,
     ),
   )
+}
 
 export const get404Page = (components: ProjectFiles['components']) =>
   getPages(components).find((page) => page.name === '404')

@@ -40,12 +40,6 @@ export const getPageFormulaContext = ({
   const { searchParamsWithDefaults, hash, combinedParams, url } = getParameters(
     { route: component.route, req },
   )
-  const coreFormulas = Object.fromEntries(
-    Object.entries(libFormulas).map(([name, module]) => [
-      '@toddle/' + name,
-      module.default as any,
-    ]),
-  )
   const formulaContext: FormulaContext & { env: ToddleServerEnv } = {
     data: {
       Location: {
@@ -66,23 +60,7 @@ export const getPageFormulaContext = ({
     root: null,
     package: undefined,
     env,
-    toddle: {
-      getFormula: (name: string) => coreFormulas[name],
-      getCustomFormula: (name: string, packageName: string | undefined) => {
-        let formula: PluginFormula<string> | undefined
-
-        if (isDefined(packageName)) {
-          formula = files.packages?.[packageName]?.formulas?.[name]
-        } else {
-          formula = files.formulas?.[name]
-        }
-
-        if (formula && isToddleFormula(formula)) {
-          return formula
-        }
-      },
-      errors: [],
-    },
+    toddle: getServerToddleObject(files),
   }
   formulaContext.data.Variables = mapValues(
     component.variables,
@@ -91,6 +69,34 @@ export const getPageFormulaContext = ({
     },
   )
   return formulaContext
+}
+
+export const getServerToddleObject = (
+  files: ProjectFiles,
+): FormulaContext['toddle'] => {
+  const coreFormulas = Object.fromEntries(
+    Object.entries(libFormulas).map(([name, module]) => [
+      '@toddle/' + name,
+      module.default as any,
+    ]),
+  )
+  return {
+    getFormula: (name: string) => coreFormulas[name],
+    getCustomFormula: (name: string, packageName: string | undefined) => {
+      let formula: PluginFormula<string> | undefined
+
+      if (isDefined(packageName)) {
+        formula = files.packages?.[packageName]?.formulas?.[name]
+      } else {
+        formula = files.formulas?.[name]
+      }
+
+      if (formula && isToddleFormula(formula)) {
+        return formula
+      }
+    },
+    errors: [],
+  }
 }
 
 export const getDataUrlParameters = ({
