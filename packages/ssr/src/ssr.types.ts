@@ -1,6 +1,6 @@
 import type {
   Component,
-  PageRoute,
+  RouteDeclaration,
 } from '@toddledev/core/dist/component/component.types'
 import type { Formula } from '@toddledev/core/dist/formula/formula'
 import type { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
@@ -63,7 +63,7 @@ export interface PluginAction {
 }
 
 export interface Route {
-  source: Pick<PageRoute, 'path' | 'query'>
+  source: RouteDeclaration
   destination: {
     formula: Formula
   }
