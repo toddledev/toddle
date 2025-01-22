@@ -1,4 +1,4 @@
-import { ApiBase } from '@toddledev/core/dist/api/apiTypes'
+import type { ApiBase } from '@toddledev/core/dist/api/apiTypes'
 import type {
   Component,
   RouteDeclaration,
