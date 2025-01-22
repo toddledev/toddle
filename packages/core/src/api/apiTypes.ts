@@ -43,13 +43,21 @@ export enum ApiMethod {
 
 export type RedirectStatusCode = 301 | 302 | 307 | 308
 
-export interface ApiRequest {
+export interface ApiBase {
+  url?: Formula
+  path?: Record<string, { formula: Formula; index: number }>
+  queryParams?: Record<
+    string,
+    // The enabled formula is used to determine if the query parameter should be included in the request or not
+    { formula: Formula; enabled?: Formula | null }
+  >
+}
+
+export interface ApiRequest extends ApiBase {
   version: 2
   name: string
   type: 'http' | 'ws' // The structure for web sockets might look different
   autoFetch?: Formula | null
-  url?: Formula
-  path?: Record<string, { formula: Formula; index: number }>
   headers?: Record<string, { formula: Formula; enabled?: Formula | null }>
   method?: ApiMethod
   body?: Formula
@@ -57,11 +65,6 @@ export interface ApiRequest {
   inputs: Record<string, { formula: Formula }>
   service?: string | null
   servicePath?: string | null
-  queryParams?: Record<
-    string,
-    // The enabled formula is used to determine if the query parameter should be included in the request or not
-    { formula: Formula; enabled?: Formula | null }
-  >
   server?: {
     // We should only accept server side proxy requests if proxy is defined
     proxy?: {

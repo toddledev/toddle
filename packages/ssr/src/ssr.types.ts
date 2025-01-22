@@ -1,3 +1,4 @@
+import { ApiBase } from '@toddledev/core/dist/api/apiTypes'
 import type {
   Component,
   RouteDeclaration,
@@ -64,7 +65,5 @@ export interface PluginAction {
 
 export interface Route {
   source: RouteDeclaration
-  destination: {
-    formula: Formula
-  }
+  destination: ApiBase
 }
