@@ -7,14 +7,23 @@ export const unknownEventRule: Rule<{
   level: 'error',
   category: 'Unknown Reference',
   visit: (report, { path, files, value, nodeType }) => {
-    if (nodeType !== 'action-model' || value.type !== 'TriggerEvent') {
+    if (
+      nodeType !== 'component-node' ||
+      value.type !== 'component' ||
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      Object.entries(value.events ?? {}).length === 0
+    ) {
       return
     }
 
-    const [, componentName] = path
-    const component = files.components[componentName]
-    if (!component?.events?.some((e) => e.name === value.event)) {
-      report(path, { name: value.event })
-    }
+    const component = files.components[value.name]
+    const componentEvents = new Set(
+      (component?.events ?? []).map((e) => e.name),
+    )
+    Object.values(value.events).forEach((event) => {
+      if (!componentEvents.has(event.trigger)) {
+        report(path, { name: event.trigger })
+      }
+    })
   },
 }

@@ -1,9 +1,9 @@
 import { valueFormula } from '@toddledev/core/dist/formula/formulaUtils'
 import { searchProject } from '../searchProject'
-import { unknownEventRule } from './unknownEventRule'
+import { unknownTriggerEventRule } from './unknownTriggerEventRule'
 
-describe('unknownEvent', () => {
-  test('should report unknown events', () => {
+describe('unknownTriggerEventRule', () => {
+  test('should report unknown trigger events', () => {
     const problems = Array.from(
       searchProject({
         files: {
@@ -15,15 +15,6 @@ describe('unknownEvent', () => {
                   type: 'element',
                   attrs: {},
                   classes: {},
-                  events: {},
-                  tag: 'div',
-                  children: [],
-                  style: {},
-                },
-                myNode: {
-                  type: 'component',
-                  name: 'test',
-                  attrs: {},
                   events: {
                     click: {
                       trigger: 'click',
@@ -36,7 +27,9 @@ describe('unknownEvent', () => {
                       ],
                     },
                   },
+                  tag: 'div',
                   children: [],
+                  style: {},
                 },
               },
               formulas: {},
@@ -55,13 +48,13 @@ describe('unknownEvent', () => {
             },
           },
         },
-        rules: [unknownEventRule],
+        rules: [unknownTriggerEventRule],
       }),
     )
 
     expect(problems).toHaveLength(1)
-    expect(problems[0].code).toBe('unknown event')
-    expect(problems[0].details).toEqual({ name: 'click' })
+    expect(problems[0].code).toBe('unknown trigger event')
+    expect(problems[0].details).toEqual({ name: 'unknown-event' })
   })
 
   test('should not report events that exist', () => {
@@ -76,28 +69,21 @@ describe('unknownEvent', () => {
                   type: 'element',
                   attrs: {},
                   classes: {},
-                  events: {},
-                  tag: 'div',
-                  children: [],
-                  style: {},
-                },
-                myNode: {
-                  type: 'component',
-                  name: 'test',
-                  attrs: {},
                   events: {
-                    'known-event': {
-                      trigger: 'known-event',
+                    click: {
+                      trigger: 'click',
                       actions: [
                         {
                           type: 'TriggerEvent',
-                          event: 'unknown-event',
+                          event: 'known-event',
                           data: valueFormula(null),
                         },
                       ],
                     },
                   },
+                  tag: 'div',
                   children: [],
+                  style: {},
                 },
               },
               formulas: {},
@@ -116,7 +102,7 @@ describe('unknownEvent', () => {
             },
           },
         },
-        rules: [unknownEventRule],
+        rules: [unknownTriggerEventRule],
       }),
     )
 
