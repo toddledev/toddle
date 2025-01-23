@@ -58,6 +58,7 @@ type Code =
   | 'unknown formula'
   | 'unknown project action'
   | 'unknown project formula'
+  | 'unknown trigger event'
   | 'unknown url parameter'
   | 'unknown variable setter'
   | 'unknown variable'

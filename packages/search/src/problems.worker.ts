@@ -36,6 +36,7 @@ import { unknownEventRule } from './rules/unknownEventRule'
 import { unknownFormulaRule } from './rules/unknownFormulaRule'
 import { unknownProjectActionRule } from './rules/unknownProjectActionRule'
 import { unknownProjectFormulaRule } from './rules/unknownProjectFormulaRule'
+import { unknownTriggerEventRule } from './rules/unknownTriggerEventRule'
 import { unknownUrlParameterRule } from './rules/unknownUrlParameterRule'
 import { unknownVariableRule } from './rules/unknownVariableRule'
 import { unknownVariableSetterRule } from './rules/unknownVariableSetterRule'
@@ -131,6 +132,7 @@ const RULES = [
   unknownFormulaRule,
   unknownProjectActionRule,
   unknownProjectFormulaRule,
+  unknownTriggerEventRule,
   unknownUrlParameterRule,
   unknownVariableRule,
   unknownVariableSetterRule,
