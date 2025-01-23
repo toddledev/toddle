@@ -1,3 +1,4 @@
+import { isDefined } from '@toddledev/core/dist/utils/util'
 import type { Rule } from '../types'
 
 export const unknownEventRule: Rule<{
@@ -23,7 +24,7 @@ export const unknownEventRule: Rule<{
       (component?.events ?? []).map((e) => e.name),
     )
     Object.entries(value.events).forEach(([eventKey, event]) => {
-      if (!componentEvents.has(event.trigger)) {
+      if (isDefined(event) && !componentEvents.has(event.trigger)) {
         report([...path, 'events', eventKey], { name: event.trigger })
       }
     })
