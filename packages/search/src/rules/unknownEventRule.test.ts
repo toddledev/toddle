@@ -62,6 +62,14 @@ describe('unknownEvent', () => {
     expect(problems).toHaveLength(1)
     expect(problems[0].code).toBe('unknown event')
     expect(problems[0].details).toEqual({ name: 'click' })
+    expect(problems[0].path).toEqual([
+      'components',
+      'test',
+      'nodes',
+      'myNode',
+      'events',
+      'click',
+    ])
   })
 
   test('should not report events that exist', () => {

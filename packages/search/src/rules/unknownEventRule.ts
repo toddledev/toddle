@@ -20,9 +20,9 @@ export const unknownEventRule: Rule<{
     const componentEvents = new Set(
       (component?.events ?? []).map((e) => e.name),
     )
-    Object.values(value.events).forEach((event) => {
+    Object.entries(value.events).forEach(([eventKey, event]) => {
       if (!componentEvents.has(event.trigger)) {
-        report(path, { name: event.trigger })
+        report([...path, 'events', eventKey], { name: event.trigger })
       }
     })
   },
