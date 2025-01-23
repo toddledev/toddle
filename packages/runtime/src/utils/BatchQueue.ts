@@ -1,7 +1,6 @@
 /**
- * A helper class to batch multiple callbacks and process them in a single tick.
- * This is more efficient than processing each callback in a separate tick, as creating a new tick is expensive.
- * It also allows batching DOM updates, which can help to reduce layout thrashing.
+ * A helper class to batch multiple callbacks and process them in a single update step just before the next frame render, but after the current stack.
+ * This is more efficient than processing each callback in a separate requestAnimationFrame due to the overhead.
  */
 export class BatchQueue {
   private batchQueue = new Set<() => void>()
@@ -11,7 +10,7 @@ export class BatchQueue {
     if (this.isProcessing) return
     this.isProcessing = true
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       this.batchQueue.forEach((callback) => callback())
       this.batchQueue.clear()
       this.isProcessing = false
