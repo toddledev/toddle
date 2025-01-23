@@ -1,9 +1,8 @@
+import { getUrl } from '@toddledev/core/dist/api/api'
 import {
   PageComponent,
   PageRoute,
 } from '@toddledev/core/dist/component/component.types'
-import { applyFormula } from '@toddledev/core/dist/formula/formula'
-import { validateUrl } from '@toddledev/core/dist/utils/url'
 import { isDefined } from '@toddledev/core/dist/utils/util'
 import {
   getDataUrlParameters,
@@ -92,9 +91,9 @@ export const getRouteDestination = ({
   req: Request
   route: Route
 }) => {
-  return validateUrl(
-    applyFormula(
-      route.destination.formula,
+  try {
+    return getUrl(
+      route.destination,
       // destination formulas should only have access to URL parameters from
       // the route's source definition. Not from anything else atm.
       {
@@ -106,8 +105,10 @@ export const getRouteDestination = ({
         },
         toddle: getServerToddleObject(files),
       } as any,
-    ),
-  )
+    )
+  } catch {
+    return false
+  }
 }
 
 export const get404Page = (components: ProjectFiles['components']) =>

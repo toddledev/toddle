@@ -3,6 +3,7 @@ import { omitKeys, sortObjectEntries } from '../utils/collections'
 import { hash } from '../utils/hash'
 import { isDefined, isObject, toBoolean } from '../utils/util'
 import {
+  ApiBase,
   ApiMethod,
   ApiPerformance,
   ApiRequest,
@@ -41,8 +42,8 @@ export const createApiRequest = <Handler>({
   return { url, requestSettings }
 }
 
-export const getUrl = <Handler>(
-  api: ApiRequest | ToddleApiV2<Handler>,
+export const getUrl = (
+  api: ApiBase,
   formulaContext: FormulaContext,
   baseUrl?: string,
 ): URL => {

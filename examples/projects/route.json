@@ -84,14 +84,31 @@
     "config": {},
     "packages": {},
     "routes": {
-      "a": {
+      "myRoute": {
         "source": {
           "path": [{ "type": "static", "name": "test" }]
         },
         "destination": {
-          "formula": {
+          "url": {
             "type": "value",
             "value": "https://toddle.dev"
+          },
+          "path": {
+            "xyz": {
+              "formula": {
+                "type": "value",
+                "value": "docs"
+              },
+              "index": 0
+            }
+          },
+          "queryParams": {
+            "utm_source": {
+              "formula": {
+                "type": "value",
+                "value": "toddle"
+              }
+            }
           }
         }
       }
