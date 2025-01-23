@@ -16,7 +16,9 @@ export const unknownEventRule: Rule<{
       return
     }
 
-    const component = files.components[value.name]
+    const component = value.package
+      ? files.packages?.[value.package]?.components[value.name]
+      : files.components[value.name]
     const componentEvents = new Set(
       (component?.events ?? []).map((e) => e.name),
     )

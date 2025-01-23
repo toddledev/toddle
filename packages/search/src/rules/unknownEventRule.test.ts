@@ -38,6 +38,25 @@ describe('unknownEvent', () => {
                   },
                   children: [],
                 },
+                myOtherNode: {
+                  type: 'component',
+                  package: 'my_package',
+                  name: 'package_component',
+                  attrs: {},
+                  events: {
+                    click: {
+                      trigger: 'click',
+                      actions: [
+                        {
+                          type: 'TriggerEvent',
+                          event: 'unknown-event',
+                          data: valueFormula(null),
+                        },
+                      ],
+                    },
+                  },
+                  children: [],
+                },
               },
               formulas: {},
               apis: {},
@@ -54,12 +73,39 @@ describe('unknownEvent', () => {
               ],
             },
           },
+          packages: {
+            my_package: {
+              manifest: {
+                commit: 'commit',
+                name: 'my_package',
+              },
+              components: {
+                package_component: {
+                  name: 'package_component',
+                  nodes: {},
+                  formulas: {},
+                  apis: {},
+                  attributes: {},
+                  variables: {},
+                  events: [
+                    {
+                      name: 'known-event',
+                      // eslint-disable-next-line inclusive-language/use-inclusive-words
+                      dummyEvent: {
+                        name: 'Name',
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
         },
         rules: [unknownEventRule],
       }),
     )
 
-    expect(problems).toHaveLength(1)
+    expect(problems).toHaveLength(2)
     expect(problems[0].code).toBe('unknown event')
     expect(problems[0].details).toEqual({ name: 'click' })
     expect(problems[0].path).toEqual([
@@ -107,6 +153,25 @@ describe('unknownEvent', () => {
                   },
                   children: [],
                 },
+                myOtherNode: {
+                  type: 'component',
+                  package: 'my_package',
+                  name: 'package_component',
+                  attrs: {},
+                  events: {
+                    'known-event': {
+                      trigger: 'known-event',
+                      actions: [
+                        {
+                          type: 'TriggerEvent',
+                          event: 'unknown-event',
+                          data: valueFormula(null),
+                        },
+                      ],
+                    },
+                  },
+                  children: [],
+                },
               },
               formulas: {},
               apis: {},
@@ -121,6 +186,33 @@ describe('unknownEvent', () => {
                   },
                 },
               ],
+            },
+          },
+          packages: {
+            my_package: {
+              manifest: {
+                commit: 'commit',
+                name: 'my_package',
+              },
+              components: {
+                package_component: {
+                  name: 'package_component',
+                  nodes: {},
+                  formulas: {},
+                  apis: {},
+                  attributes: {},
+                  variables: {},
+                  events: [
+                    {
+                      name: 'known-event',
+                      // eslint-disable-next-line inclusive-language/use-inclusive-words
+                      dummyEvent: {
+                        name: 'Name',
+                      },
+                    },
+                  ],
+                },
+              },
             },
           },
         },
