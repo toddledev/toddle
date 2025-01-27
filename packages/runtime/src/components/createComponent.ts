@@ -66,20 +66,6 @@ export function createComponent({
 
   const componentDataSignal = signal<ComponentData>({
     Location: dataSignal.get().Location,
-    Variables: mapObject(component.variables, ([name, variable]) => [
-      name,
-      applyFormula(variable.initialValue, {
-        data: {
-          Attributes: attributesSignal.get(),
-        },
-        component,
-        formulaCache: ctx.formulaCache,
-        root: ctx.root,
-        package: ctx.package,
-        toddle: ctx.toddle,
-        env: ctx.env,
-      }),
-    ]),
     Attributes: attributesSignal.get(),
     Apis: mapObject(component.apis, ([name, api]) => [
       name,
@@ -102,8 +88,25 @@ export function createComponent({
       },
     ]),
   })
-  registerComponentToLogState(component, componentDataSignal)
+  // Subscribe context before calculating variable initial values to ensure they can reference context values
   subscribeToContext(componentDataSignal, component, ctx)
+  componentDataSignal.update((data) => ({
+    ...data,
+    Variables: mapObject(component.variables, ([name, variable]) => [
+      name,
+      applyFormula(variable.initialValue, {
+        // Initial value
+        data: componentDataSignal.get(),
+        component,
+        formulaCache: ctx.formulaCache,
+        root: ctx.root,
+        package: ctx.package,
+        toddle: ctx.toddle,
+        env: ctx.env,
+      }),
+    ]),
+  }))
+  registerComponentToLogState(component, componentDataSignal)
 
   // Call the abort signal if the component's datasignal is destroyed (component unmounted) to cancel any pending requests
   const abortController = new AbortController()
