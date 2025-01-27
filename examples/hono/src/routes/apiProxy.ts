@@ -43,24 +43,20 @@ export const proxyRequestHandler = async (
     )
   }
   try {
-    // headers.delete('accept-encoding')
-    // headers.delete('referer')
-    headers.delete('host')
     const request = new Request(outgoingRequestUrl.href, {
       // We copy over the method
       method: c.req.method,
       headers,
+      // We forward the body
       body: req.body,
+      // Let's add a 5s timeout
+      signal: AbortSignal.timeout(5000),
     })
-    console.log('Proxying request to', outgoingRequestUrl.href)
-    console.log('Method', c.req.method)
-    console.log('Body', req.body)
-    console.log('Headers', JSON.stringify(Object.fromEntries(headers)))
     let response: Response
     try {
       response = await fetch(request)
     } catch (e: any) {
-      console.log('API request threw error', e.message)
+      console.log('API request error', e.message)
       const status = e instanceof Error && e.name === 'TimeoutError' ? 504 : 500
       response = Response.json(e.message, { status })
     }
