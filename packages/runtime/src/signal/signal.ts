@@ -1,11 +1,8 @@
 import deepEqual from 'fast-deep-equal'
 
-const signals: Set<Signal<any>> = ((window as any).currentSignals =
-  (window as any).currentSignals ?? new Set<Signal<any>>())
-
 export class Signal<T> {
   value: T
-  subscribers: Array<{
+  subscribers: Set<{
     notify: (value: T) => void
     destroy?: () => void
   }>
@@ -13,14 +10,19 @@ export class Signal<T> {
 
   constructor(value: T) {
     this.value = value
-    this.subscribers = []
+    this.subscribers = new Set()
     this.subscriptions = []
-    signals?.add(this)
   }
   get() {
     return this.value
   }
   set(value: T) {
+    // Short circuit and skip expensive `deepEqual` if there are not currently any subscribers
+    if (this.subscribers.size === 0) {
+      this.value = value
+      return
+    }
+
     if (deepEqual(value, this.value) === false) {
       this.value = value
       this.subscribers.forEach(({ notify }) => notify(this.value))
@@ -31,25 +33,25 @@ export class Signal<T> {
     this.set(f(this.value))
   }
   subscribe(notify: (value: T) => void, config?: { destroy?: () => void }) {
-    this.subscribers.push({ notify, destroy: config?.destroy })
+    const subscriber = { notify, destroy: config?.destroy }
+    this.subscribers.add(subscriber)
     notify(this.value)
     return () => {
-      this.subscribers = this.subscribers.filter((sub) => notify != sub.notify)
+      this.subscribers.delete(subscriber)
     }
   }
   destroy() {
-    signals.delete(this)
     this.subscribers.forEach(({ destroy }) => {
       destroy?.()
     })
-    this.subscribers = []
+    this.subscribers.clear()
     this.subscriptions?.forEach((f) => f())
   }
   cleanSubscribers() {
     this.subscribers.forEach(({ destroy }) => {
       destroy?.()
     })
-    this.subscribers = []
+    this.subscribers.clear()
   }
   map<T2>(f: (value: T) => T2): Signal<T2> {
     const signal2 = signal(f(this.value))
@@ -58,7 +60,6 @@ export class Signal<T> {
         destroy: () => signal2.destroy(),
       }),
     )
-    signals.add(signal2)
     return signal2
   }
 }
