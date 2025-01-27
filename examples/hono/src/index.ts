@@ -2,6 +2,7 @@ import { initIsEqual } from '@toddledev/ssr/dist/rendering/equals'
 import { Hono } from 'hono'
 import { env } from 'hono/adapter'
 import type { HonoEnv } from '../hono'
+import { proxyRequestHandler } from './routes/apiProxy'
 import { customCode } from './routes/customCode'
 import { favicon } from './routes/favicon'
 import { fontRouter } from './routes/font'
@@ -36,12 +37,15 @@ app.get('/sitemap.xml', sitemap)
 app.get('/robots.txt', robots)
 app.get('/manifest.json', manifest)
 app.get('/favicon.ico', favicon)
-app.get('/.toddle/custom-code.js', customCode)
 
 // toddle specific endpoints/services on /.toddle/ subpath 👇
 app.route('/.toddle/fonts', fontRouter)
+app.get('/.toddle/custom-code.js', customCode)
+app.all(
+  '/.toddle/omvej/components/:componentName/apis/:apiName',
+  proxyRequestHandler,
+)
 
-// .toddle/custom-code
 // .toddle/serviceWorker/...
 // .toddle/omvej/...
 
