@@ -25,6 +25,16 @@ import type { HonoEnv } from '../../hono'
 import { routeHandler } from './routeHandler'
 
 export const toddlePage = async (c: Context<HonoEnv>) => {
+  try {
+    const response = await fetch(
+      'https://owen-wilson-wow-api.onrender.com/wows/random',
+    )
+    const data = await response.json()
+    console.log(data)
+  } catch (error) {
+    console.error(error)
+    console.error('Fetch is broken...')
+  }
   const project = c.var.project
   const url = new URL(c.req.url)
   // Prefer routes over pages in case of conflicts
