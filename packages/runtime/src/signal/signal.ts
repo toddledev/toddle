@@ -17,14 +17,13 @@ export class Signal<T> {
     return this.value
   }
   set(value: T) {
+    this.value = value
     // Short circuit and skip expensive `deepEqual` if there are not currently any subscribers
     if (this.subscribers.size === 0) {
-      this.value = value
       return
     }
 
     if (deepEqual(value, this.value) === false) {
-      this.value = value
       this.subscribers.forEach(({ notify }) => notify(this.value))
     }
   }
