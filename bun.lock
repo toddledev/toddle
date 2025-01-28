@@ -1,5 +1,5 @@
 {
-  "lockfileVersion": 0,
+  "lockfileVersion": 1,
   "workspaces": {
     "": {
       "devDependencies": {
@@ -12,7 +12,7 @@
         "jest": "29.7.0",
         "prettier": "3.3.3",
         "prettier-plugin-organize-imports": "4.1.0",
-        "typescript": "5.7.2",
+        "typescript": "5.7.3",
       },
     },
     "packages/core": {
@@ -24,7 +24,7 @@
     "packages/lib": {
       "name": "@toddledev/std-lib",
       "dependencies": {
-        "@toddledev/core": "packages/core",
+        "@toddledev/core": "workspace:*",
         "fast-deep-equal": "3.1.3",
       },
       "devDependencies": {
@@ -36,7 +36,7 @@
     "packages/runtime": {
       "name": "@toddledev/runtime",
       "dependencies": {
-        "@toddledev/core": "packages/core",
+        "@toddledev/core": "workspace:*",
         "fast-deep-equal": "3.1.3",
         "path-to-regexp": "6.3.0",
       },
@@ -48,13 +48,13 @@
     "packages/search": {
       "name": "@toddledev/search",
       "dependencies": {
-        "@toddledev/ssr": "packages/ssr",
+        "@toddledev/ssr": "workspace:*",
       },
     },
     "packages/ssr": {
       "name": "@toddledev/ssr",
       "dependencies": {
-        "@toddledev/core": "packages/core",
+        "@toddledev/core": "workspace:*",
         "cookie": "1.0.2",
         "xss": "1.0.15",
       },
@@ -261,15 +261,15 @@
 
     "@sinonjs/fake-timers": ["@sinonjs/fake-timers@10.3.0", "", { "dependencies": { "@sinonjs/commons": "^3.0.0" } }, "sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA=="],
 
-    "@toddledev/core": ["@toddledev/core@workspace:packages/core", { "devDependencies": { "@types/react": "18.3.10" } }],
+    "@toddledev/core": ["@toddledev/core@workspace:packages/core"],
 
-    "@toddledev/runtime": ["@toddledev/runtime@workspace:packages/runtime", { "dependencies": { "@toddledev/core": "packages/core", "fast-deep-equal": "3.1.3", "path-to-regexp": "6.3.0" }, "devDependencies": { "@happy-dom/global-registrator": "16.5.3", "esbuild": "0.24.2" } }],
+    "@toddledev/runtime": ["@toddledev/runtime@workspace:packages/runtime"],
 
-    "@toddledev/search": ["@toddledev/search@workspace:packages/search", { "dependencies": { "@toddledev/ssr": "packages/ssr" } }],
+    "@toddledev/search": ["@toddledev/search@workspace:packages/search"],
 
-    "@toddledev/ssr": ["@toddledev/ssr@workspace:packages/ssr", { "dependencies": { "@toddledev/core": "packages/core", "cookie": "1.0.2", "xss": "1.0.15" } }],
+    "@toddledev/ssr": ["@toddledev/ssr@workspace:packages/ssr"],
 
-    "@toddledev/std-lib": ["@toddledev/std-lib@workspace:packages/lib", { "dependencies": { "@toddledev/core": "packages/core", "fast-deep-equal": "3.1.3" }, "devDependencies": { "@types/node": "22.7.4", "jest-environment-jsdom": "29.7.0", "ts-jest": "29.2.5" } }],
+    "@toddledev/std-lib": ["@toddledev/std-lib@workspace:packages/lib"],
 
     "@tootallnate/once": ["@tootallnate/once@2.0.0", "", {}, "sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A=="],
 
@@ -867,7 +867,7 @@
 
     "type-fest": ["type-fest@0.21.3", "", {}, "sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w=="],
 
-    "typescript": ["typescript@5.7.2", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg=="],
+    "typescript": ["typescript@5.7.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw=="],
 
     "undici-types": ["undici-types@6.19.8", "", {}, "sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw=="],
 
