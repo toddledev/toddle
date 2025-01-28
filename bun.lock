@@ -1,5 +1,5 @@
 {
-  "lockfileVersion": 0,
+  "lockfileVersion": 1,
   "workspaces": {
     "": {
       "devDependencies": {
@@ -18,13 +18,13 @@
     "packages/core": {
       "name": "@toddledev/core",
       "devDependencies": {
-        "@types/react": "18.3.10",
+        "@types/react": "19.0.8",
       },
     },
     "packages/lib": {
       "name": "@toddledev/std-lib",
       "dependencies": {
-        "@toddledev/core": "packages/core",
+        "@toddledev/core": "workspace:*",
         "fast-deep-equal": "3.1.3",
       },
       "devDependencies": {
@@ -36,7 +36,7 @@
     "packages/runtime": {
       "name": "@toddledev/runtime",
       "dependencies": {
-        "@toddledev/core": "packages/core",
+        "@toddledev/core": "workspace:*",
         "fast-deep-equal": "3.1.3",
         "path-to-regexp": "6.3.0",
       },
@@ -48,13 +48,13 @@
     "packages/search": {
       "name": "@toddledev/search",
       "dependencies": {
-        "@toddledev/ssr": "packages/ssr",
+        "@toddledev/ssr": "workspace:*",
       },
     },
     "packages/ssr": {
       "name": "@toddledev/ssr",
       "dependencies": {
-        "@toddledev/core": "packages/core",
+        "@toddledev/core": "workspace:*",
         "cookie": "1.0.2",
         "xss": "1.0.15",
       },
@@ -261,15 +261,15 @@
 
     "@sinonjs/fake-timers": ["@sinonjs/fake-timers@10.3.0", "", { "dependencies": { "@sinonjs/commons": "^3.0.0" } }, "sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA=="],
 
-    "@toddledev/core": ["@toddledev/core@workspace:packages/core", { "devDependencies": { "@types/react": "18.3.10" } }],
+    "@toddledev/core": ["@toddledev/core@workspace:packages/core"],
 
-    "@toddledev/runtime": ["@toddledev/runtime@workspace:packages/runtime", { "dependencies": { "@toddledev/core": "packages/core", "fast-deep-equal": "3.1.3", "path-to-regexp": "6.3.0" }, "devDependencies": { "@happy-dom/global-registrator": "16.5.3", "esbuild": "0.24.2" } }],
+    "@toddledev/runtime": ["@toddledev/runtime@workspace:packages/runtime"],
 
-    "@toddledev/search": ["@toddledev/search@workspace:packages/search", { "dependencies": { "@toddledev/ssr": "packages/ssr" } }],
+    "@toddledev/search": ["@toddledev/search@workspace:packages/search"],
 
-    "@toddledev/ssr": ["@toddledev/ssr@workspace:packages/ssr", { "dependencies": { "@toddledev/core": "packages/core", "cookie": "1.0.2", "xss": "1.0.15" } }],
+    "@toddledev/ssr": ["@toddledev/ssr@workspace:packages/ssr"],
 
-    "@toddledev/std-lib": ["@toddledev/std-lib@workspace:packages/lib", { "dependencies": { "@toddledev/core": "packages/core", "fast-deep-equal": "3.1.3" }, "devDependencies": { "@types/node": "22.7.4", "jest-environment-jsdom": "29.7.0", "ts-jest": "29.2.5" } }],
+    "@toddledev/std-lib": ["@toddledev/std-lib@workspace:packages/lib"],
 
     "@tootallnate/once": ["@tootallnate/once@2.0.0", "", {}, "sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A=="],
 
@@ -299,9 +299,7 @@
 
     "@types/node": ["@types/node@22.7.4", "", { "dependencies": { "undici-types": "~6.19.2" } }, "sha512-y+NPi1rFzDs1NdQHHToqeiX2TIS79SWEAw9GYhkkx8bD0ChpfqC+n2j5OXOCpzfojBEBt6DnEnnG9MY0zk1XLg=="],
 
-    "@types/prop-types": ["@types/prop-types@15.7.14", "", {}, "sha512-gNMvNH49DJ7OJYv+KAKn0Xp45p8PLl6zo2YnvDIbTd4J6MER2BmWN49TG7n9LvkyihINxeKW8+3bfS2yDC9dzQ=="],
-
-    "@types/react": ["@types/react@18.3.10", "", { "dependencies": { "@types/prop-types": "*", "csstype": "^3.0.2" } }, "sha512-02sAAlBnP39JgXwkAq3PeU9DVaaGpZyF3MGcC0MKgQVkZor5IiiDAipVaxQHtDJAmO4GIy/rVBy/LzVj76Cyqg=="],
+    "@types/react": ["@types/react@19.0.8", "", { "dependencies": { "csstype": "^3.0.2" } }, "sha512-9P/o1IGdfmQxrujGbIMDyYaaCykhLKc0NGCtYcECNUr9UAaDe4gwvV9bR6tvd5Br1SG0j+PBpbKr2UYY8CwqSw=="],
 
     "@types/stack-utils": ["@types/stack-utils@2.0.3", "", {}, "sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw=="],
 
