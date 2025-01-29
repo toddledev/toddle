@@ -105,6 +105,7 @@ export const getRouteDestination = ({
         },
         toddle: getServerToddleObject(files),
       } as any,
+      new URL(req.url).origin,
     )
   } catch {
     return false
