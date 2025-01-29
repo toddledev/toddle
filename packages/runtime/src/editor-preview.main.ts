@@ -1053,6 +1053,88 @@ export const createRoot = (
         env,
       })
     }
+    if (fastDeepEqual(_component.contexts, ctx?.component.contexts) === false) {
+      Contexts = (function createStaticContextFromComponent(
+        component: Component,
+      ) {
+        return mapObject(
+          component.contexts ?? {},
+          ([providerName, context]) => {
+            const providerComponent = getAllComponents().find(
+              (c) => c.name === providerName,
+            )
+            if (!providerComponent) {
+              console.warn(
+                `Could not find a provider-component named "${providerName}" in files`,
+              )
+              return [providerName, {}]
+            }
+
+            // TODO: Should we also run APIs for the provider?
+            const formulaContext: FormulaContext = {
+              data: {
+                Attributes: mapObject(
+                  providerComponent.attributes,
+                  ([name, attr]) => [name, attr.testValue],
+                ),
+                // Recursively resolve contexts providers before their children to build up the fake context tree in preview mode
+                Contexts: createStaticContextFromComponent(providerComponent),
+              },
+              component: providerComponent,
+              root: ctx?.root,
+              formulaCache: {},
+              package: ctx?.package,
+              toddle: window.toddle,
+              env,
+            }
+
+            // Pages can also be context-providers!
+            // Exposed formulas can derive their preview output from URL data,
+            // so we must populate Url parameters with their test data
+            if (providerComponent.route) {
+              formulaContext.data['URL parameters'] = {
+                ...Object.fromEntries(
+                  providerComponent.route.path
+                    .filter((p) => p.type === 'param')
+                    .map((p) => [p.name, p.testValue]),
+                ),
+                ...mapObject(
+                  providerComponent.route.query,
+                  ([name, { testValue }]) => [name, testValue],
+                ),
+              }
+            }
+            formulaContext.data.Variables = mapObject(
+              providerComponent.variables,
+              ([name, variable]) => [
+                name,
+                applyFormula(variable.initialValue, formulaContext),
+              ],
+            )
+
+            return [
+              providerName,
+              Object.fromEntries(
+                context.formulas.map((formulaName) => {
+                  const formula = providerComponent.formulas?.[formulaName]
+                  if (!formula) {
+                    console.warn(
+                      `Could not find formula "${formulaName}" in component "${providerName}"`,
+                    )
+                    return [formulaName, null]
+                  }
+
+                  return [
+                    formulaName,
+                    applyFormula(formula.formula, formulaContext),
+                  ]
+                }),
+              ),
+            ]
+          },
+        )
+      })(_component)
+    }
     if (
       fastDeepEqual(_component.variables, ctx?.component.variables) === false
     ) {
@@ -1061,7 +1143,7 @@ export const createRoot = (
         ([name, { initialValue }]) => [
           name,
           applyFormula(initialValue, {
-            data: { Attributes },
+            data: { Attributes, Contexts },
             component: _component!,
             root: document,
             package: ctx?.package,
@@ -1069,84 +1151,6 @@ export const createRoot = (
             env,
           }),
         ],
-      )
-    }
-    if (fastDeepEqual(_component.contexts, ctx?.component.contexts) === false) {
-      // Emulate context providers with their test-data
-      const allComponents = getAllComponents()
-      Contexts = mapObject(
-        _component.contexts ?? {},
-        ([providerName, context]) => {
-          const providerComponent = allComponents?.find(
-            (c) => c.name === providerName,
-          )
-          if (!providerComponent) {
-            console.warn(
-              `Could not find a provider-component named "${providerName}" in files`,
-            )
-            return [providerName, {}]
-          }
-
-          // TODO: Should we also run APIs for the provider?
-          const formulaContext: FormulaContext = {
-            data: {
-              Attributes: mapObject(
-                providerComponent.attributes,
-                ([name, attr]) => [name, attr.testValue],
-              ),
-            },
-            component: providerComponent,
-            root: ctx?.root,
-            formulaCache: {},
-            package: ctx?.package,
-            toddle: window.toddle,
-            env,
-          }
-
-          // Pages can also be context-providers!
-          // Exposed formulas can derive their preview output from URL data,
-          // so we must populate Url parameters with their test data
-          if (providerComponent.route) {
-            formulaContext.data['URL parameters'] = {
-              ...Object.fromEntries(
-                providerComponent.route.path
-                  .filter((p) => p.type === 'param')
-                  .map((p) => [p.name, p.testValue]),
-              ),
-              ...mapObject(
-                providerComponent.route.query,
-                ([name, { testValue }]) => [name, testValue],
-              ),
-            }
-          }
-          formulaContext.data.Variables = mapObject(
-            providerComponent.variables,
-            ([name, variable]) => [
-              name,
-              applyFormula(variable.initialValue, formulaContext),
-            ],
-          )
-
-          return [
-            providerName,
-            Object.fromEntries(
-              context.formulas.map((formulaName) => {
-                const formula = providerComponent.formulas?.[formulaName]
-                if (!formula) {
-                  console.warn(
-                    `Could not find formula "${formulaName}" in component "${providerName}"`,
-                  )
-                  return [formulaName, null]
-                }
-
-                return [
-                  formulaName,
-                  applyFormula(formula.formula, formulaContext),
-                ]
-              }),
-            ),
-          ]
-        },
       )
     }
 
