@@ -25,3 +25,5 @@ export const validateUrl = (url?: string | null, base?: string) => {
 }
 
 export const PROXY_URL_HEADER = 'x-toddle-url'
+
+export const REWRITE_HEADER = 'x-toddle-rewrite'
