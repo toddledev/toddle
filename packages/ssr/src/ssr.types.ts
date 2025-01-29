@@ -1,4 +1,7 @@
-import type { ApiBase } from '@toddledev/core/dist/api/apiTypes'
+import type {
+  ApiBase,
+  RedirectStatusCode,
+} from '@toddledev/core/dist/api/apiTypes'
 import type {
   Component,
   RouteDeclaration,
@@ -63,7 +66,18 @@ export interface PluginAction {
   exported?: boolean
 }
 
-export interface Route {
+interface BaseRoute {
   source: RouteDeclaration
   destination: ApiBase
 }
+
+export interface RewriteRoute extends BaseRoute {
+  type: 'rewrite'
+}
+
+export interface RedirectRoute extends BaseRoute {
+  type: 'redirect'
+  status: RedirectStatusCode
+}
+
+export type Route = RewriteRoute | RedirectRoute

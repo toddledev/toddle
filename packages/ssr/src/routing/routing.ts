@@ -92,10 +92,11 @@ export const getRouteDestination = ({
   route: Route
 }) => {
   try {
-    return getUrl(
+    const requestUrl = new URL(req.url)
+    const url = getUrl(
       route.destination,
       // destination formulas should only have access to URL parameters from
-      // the route's source definition. Not from anything else atm.
+      // the route's source definition + global formulas.
       {
         data: {
           'URL parameters': getDataUrlParameters({
@@ -105,11 +106,17 @@ export const getRouteDestination = ({
         },
         toddle: getServerToddleObject(files),
       } as any,
-      new URL(req.url).origin,
+      // Redirects can redirect to relative URLs - rewrites can't
+      route.type === 'redirect' ? requestUrl.origin : undefined,
     )
-  } catch {
-    return false
-  }
+    // Rewrites are not allowed from the same origin as the source
+    // This prevents potential recursive fetch calls from the server to itself
+    if (route.type === 'rewrite' && requestUrl.origin === url.origin) {
+      return
+    }
+    return url
+    // eslint-disable-next-line no-empty
+  } catch {}
 }
 
 export const get404Page = (components: ProjectFiles['components']) =>
