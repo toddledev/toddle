@@ -19,30 +19,24 @@ jobs:
       - name: Prepare publish folder
         run: |
           mkdir publish
-          mkdir publish/packages
-          mkdir publish/packages/core
       - name: Prepare core
         run: |
           cd packages/core
           echo $(jq '. += {"version": "${{ inputs.version }}"}' package.json) > package.json
       - name: Prepare lib
         run: |
-          mkdir publish/packages/lib
           cd packages/lib
           echo $(jq '. += {"version": "${{ inputs.version }}"}' package.json) > package.json
       - name: Prepare ssr
         run: |
-          mkdir publish/packages/ssr
           cd packages/ssr
           echo $(jq '. += {"version": "${{ inputs.version }}"}' package.json) > package.json
       - name: Prepare search
         run: |
-          mkdir publish/packages/search
           cd packages/search
           echo $(jq '. += {"version": "${{ inputs.version }}"}' package.json) > package.json
       - name: Prepare runtime
         run: |
-          mkdir publish/packages/runtime
           cd packages/runtime
           echo $(jq '. += {"version": "${{ inputs.version }}"}' package.json) > package.json
       - name: Setup bun
@@ -50,7 +44,9 @@ jobs:
         with:
           bun-version: 1.2.0
       - name: Install dependencies
-        run: bun install
+        run: |
+          rm bun.lock
+          bun install
       - name: Build
         run: bun run build
       - name: Build core
