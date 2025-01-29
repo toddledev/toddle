@@ -6,11 +6,6 @@ import type { Context } from 'hono'
 import type { HonoEnv } from '../../hono'
 
 export const routeHandler = async (c: Context<HonoEnv>, route: Route) => {
-  if (c.req.raw.headers.get(REWRITE_HEADER) !== null) {
-    return c.html(`toddle rewrites are not allowed to be recursive`, {
-      status: 500,
-    })
-  }
   const destination = getRouteDestination({
     files: c.var.project.files,
     req: c.req.raw,
@@ -18,6 +13,17 @@ export const routeHandler = async (c: Context<HonoEnv>, route: Route) => {
   })
   if (!destination) {
     return c.html(`Invalid destination`, {
+      status: 500,
+    })
+  }
+  if (route.type === 'redirect') {
+    // Return a redirect to the destination with the provided status code
+    return c.redirect(destination.href, route.status ?? 302)
+  }
+
+  // Rewrite handling: fetch the destination and return the response
+  if (c.req.raw.headers.get(REWRITE_HEADER) !== null) {
+    return c.html(`toddle rewrites are not allowed to be recursive`, {
       status: 500,
     })
   }
