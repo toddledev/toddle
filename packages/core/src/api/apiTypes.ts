@@ -41,7 +41,7 @@ export enum ApiMethod {
   OPTIONS = 'OPTIONS',
 }
 
-export type RedirectStatusCode = 301 | 302 | 307 | 308
+export type RedirectStatusCode = 300 | 301 | 302 | 303 | 304 | 307 | 308
 
 export interface ApiBase {
   url?: Formula
