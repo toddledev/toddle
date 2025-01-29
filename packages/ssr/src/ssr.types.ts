@@ -77,7 +77,7 @@ export interface RewriteRoute extends BaseRoute {
 
 export interface RedirectRoute extends BaseRoute {
   type: 'redirect'
-  status: RedirectStatusCode
+  status?: RedirectStatusCode
 }
 
 export type Route = RewriteRoute | RedirectRoute
