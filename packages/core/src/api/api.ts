@@ -48,16 +48,38 @@ export const getUrl = (
   baseUrl?: string,
 ): URL => {
   const url = applyFormula(api.url, formulaContext)
-  const path = getRequestPath(api.path, formulaContext)
-  const queryParams = getRequestQueryParams(api.queryParams, formulaContext)
+  let urlPathname = ''
+  let urlQueryParams = new URLSearchParams()
+  let parsedUrl: URL | undefined
+  if (typeof url === 'string') {
+    try {
+      // Try to parse the URL to extract potential path and query parameters
+      parsedUrl = new URL(url)
+      urlPathname = parsedUrl.pathname
+      urlQueryParams = parsedUrl.searchParams
+    } catch {
+      // If the URL is not valid, we will assume it's a path
+      urlPathname = url
+    }
+  }
+  const pathParams = getRequestPath(api.path, formulaContext)
+  // Combine potential path parameters from the url declaration with the actual path parameters
+  const path = `${urlPathname}${pathParams.length > 0 && !urlPathname.endsWith('/') ? '/' : ''}${pathParams}`
+  // Combine potential query parameters from the url declaration with the actual query parameters
+  const queryParams = new URLSearchParams([
+    ...urlQueryParams,
+    ...getRequestQueryParams(api.queryParams, formulaContext),
+  ])
   const queryString =
     [...queryParams.entries()].length > 0 ? `?${queryParams.toString()}` : ''
-  return new URL(
-    `${url}${
-      typeof url === 'string' && !url.endsWith('/') && path ? '/' : ''
-    }${path}${queryString}`,
-    baseUrl,
-  )
+  if (parsedUrl) {
+    const combinedUrl = new URL(url.origin, baseUrl)
+    combinedUrl.pathname = path
+    combinedUrl.search = queryString
+    return combinedUrl
+  } else {
+    return new URL(`${path}${queryString}`, baseUrl)
+  }
 }
 
 const HttpMethodsWithAllowedBody: ApiMethod[] = [

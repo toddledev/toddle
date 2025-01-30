@@ -5,6 +5,7 @@ import {
   getRequestHeaders,
   getRequestPath,
   getRequestQueryParams,
+  getUrl,
 } from './api'
 import { ApiMethod, ApiRequest } from './apiTypes'
 
@@ -75,6 +76,60 @@ describe('getQueryParams()', () => {
     expect(params.get('q[b][c]')).toEqual('world')
     expect(params.get('q[b][d]')).toEqual('')
     expect(params.size).toBe(3)
+  })
+})
+describe('getUrl()', () => {
+  test('it returns a valid url for null url', () => {
+    const url = getUrl(
+      {
+        url: valueFormula(null),
+        path: {
+          a: { formula: valueFormula('hello'), index: 0 },
+          b: { formula: valueFormula('world'), index: 1 },
+        },
+        queryParams: {
+          q: {
+            formula: valueFormula('test'),
+          },
+        },
+      },
+      undefined as any,
+      'https://example.com',
+    )
+    expect(url.href).toBe('https://example.com/hello/world?q=test')
+  })
+  test('it returns a valid url for url with included path params', () => {
+    const url = getUrl(
+      {
+        url: valueFormula('https://example.com/test/path'),
+        path: {
+          a: { formula: valueFormula('hello'), index: 0 },
+          b: { formula: valueFormula('world'), index: 1 },
+        },
+        queryParams: {
+          q: {
+            formula: valueFormula('test'),
+          },
+        },
+      },
+      undefined as any,
+      'https://example.com',
+    )
+    expect(url.href).toBe('https://example.com/test/path/hello/world?q=test')
+  })
+  test('it ignores trailing slashes in urls', () => {
+    const url = getUrl(
+      {
+        url: valueFormula('https://example.com/test/path/'),
+        path: {
+          a: { formula: valueFormula('hello'), index: 0 },
+          b: { formula: valueFormula('world'), index: 1 },
+        },
+      },
+      undefined as any,
+      'https://example.com',
+    )
+    expect(url.href).toBe('https://example.com/test/path/hello/world')
   })
 })
 describe('getApiHeaders()', () => {
