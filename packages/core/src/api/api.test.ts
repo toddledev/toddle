@@ -168,12 +168,17 @@ test('supports query parameters in url declaration', () => {
         a: { formula: valueFormula('hello'), index: 0 },
         b: { formula: valueFormula('world'), index: 1 },
       },
+      queryParams: {
+        search: {
+          formula: valueFormula('test'),
+        },
+      },
     },
     undefined as any,
     'https://mysite.com',
   )
   expect(url.href).toBe(
-    'https://mysite.com/test/path/hello/world?q=test&hello=world',
+    'https://mysite.com/test/path/hello/world?q=test&hello=world&search=test',
   )
 })
 describe('getApiHeaders()', () => {
