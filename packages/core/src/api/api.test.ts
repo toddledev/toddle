@@ -131,6 +131,50 @@ describe('getUrl()', () => {
     )
     expect(url.href).toBe('https://example.com/test/path/hello/world')
   })
+  test('numbers are accepted as path parameters in url definition', () => {
+    const url = getUrl(
+      {
+        url: valueFormula(88),
+        path: {
+          a: { formula: valueFormula('hello'), index: 0 },
+          b: { formula: valueFormula('world'), index: 1 },
+        },
+      },
+      undefined as any,
+      'https://example.com',
+    )
+    expect(url.href).toBe('https://example.com/88/hello/world')
+  })
+  test('supports relative urls', () => {
+    const url = getUrl(
+      {
+        url: valueFormula('/test/path/'),
+        path: {
+          a: { formula: valueFormula('hello'), index: 0 },
+          b: { formula: valueFormula('world'), index: 1 },
+        },
+      },
+      undefined as any,
+      'https://mysite.com',
+    )
+    expect(url.href).toBe('https://mysite.com/test/path/hello/world')
+  })
+})
+test('supports query parameters in url declaration', () => {
+  const url = getUrl(
+    {
+      url: valueFormula('/test/path/?q=test&hello=world'),
+      path: {
+        a: { formula: valueFormula('hello'), index: 0 },
+        b: { formula: valueFormula('world'), index: 1 },
+      },
+    },
+    undefined as any,
+    'https://mysite.com',
+  )
+  expect(url.href).toBe(
+    'https://mysite.com/test/path/hello/world?q=test&hello=world',
+  )
 })
 describe('getApiHeaders()', () => {
   test('it returns valid headers', () => {

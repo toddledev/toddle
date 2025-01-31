@@ -47,20 +47,19 @@ export const getUrl = (
   formulaContext: FormulaContext,
   baseUrl?: string,
 ): URL => {
-  const url = applyFormula(api.url, formulaContext)
   let urlPathname = ''
   let urlQueryParams = new URLSearchParams()
   let parsedUrl: URL | undefined
-  if (typeof url === 'string') {
+  const url = applyFormula(api.url, formulaContext)
+  if (['string', 'number'].includes(typeof url)) {
+    const urlInput = typeof url === 'number' ? String(url) : url
     try {
       // Try to parse the URL to extract potential path and query parameters
-      parsedUrl = new URL(url)
+      parsedUrl = new URL(urlInput, baseUrl)
       urlPathname = parsedUrl.pathname
       urlQueryParams = parsedUrl.searchParams
-    } catch {
-      // If the URL is not valid, we will assume it's a path
-      urlPathname = url
-    }
+      // eslint-disable-next-line no-empty
+    } catch {}
   }
   const pathParams = getRequestPath(api.path, formulaContext)
   // Combine potential path parameters from the url declaration with the actual path parameters
@@ -73,9 +72,9 @@ export const getUrl = (
   const queryString =
     [...queryParams.entries()].length > 0 ? `?${queryParams.toString()}` : ''
   if (parsedUrl) {
-    const combinedUrl = new URL(url.origin, baseUrl)
+    const combinedUrl = new URL(parsedUrl.origin, baseUrl)
     combinedUrl.pathname = path
-    combinedUrl.search = queryString
+    combinedUrl.search = queryParams.toString()
     return combinedUrl
   } else {
     return new URL(`${path}${queryString}`, baseUrl)
