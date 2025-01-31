@@ -4,10 +4,7 @@ import {
   PageRoute,
 } from '@toddledev/core/dist/component/component.types'
 import { isDefined } from '@toddledev/core/dist/utils/util'
-import {
-  getDataUrlParameters,
-  getServerToddleObject,
-} from '../rendering/formulaContext'
+import { getServerToddleObject } from '../rendering/formulaContext'
 import { ProjectFiles, Route } from '../ssr.types'
 
 export const matchPageForUrl = ({
@@ -99,10 +96,16 @@ export const getRouteDestination = ({
       // the route's source definition + global formulas.
       {
         data: {
-          'URL parameters': getDataUrlParameters({
-            route: route.source,
-            req,
-          }),
+          'Route parameters': {
+            path: route.source.path.reduce(
+              (prev, path) => ({ ...prev, [path.name]: path.testValue }),
+              {},
+            ),
+            query: Object.entries(route.source.query).reduce(
+              (prev, [, query]) => ({ ...prev, [query.name]: query.testValue }),
+              {},
+            ),
+          },
         },
         toddle: getServerToddleObject(files),
       } as any,

@@ -22,6 +22,10 @@ export interface ComponentData {
   Variables?: Record<string, unknown>
   Contexts?: Record<string, Record<string, unknown>>
   'URL parameters'?: Record<string, string | null>
+  'Route parameters': {
+    path: Record<string, string | null>
+    query: Record<string, string | null>
+  }
   Apis?: Record<
     string,
     LegacyApiStatus | (ApiStatus & { inputs?: Record<string, unknown> })
