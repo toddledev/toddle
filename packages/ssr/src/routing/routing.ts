@@ -4,7 +4,10 @@ import {
   PageRoute,
 } from '@toddledev/core/dist/component/component.types'
 import { isDefined } from '@toddledev/core/dist/utils/util'
-import { getServerToddleObject } from '../rendering/formulaContext'
+import {
+  getParameters,
+  getServerToddleObject,
+} from '../rendering/formulaContext'
 import { ProjectFiles, Route } from '../ssr.types'
 
 export const matchPageForUrl = ({
@@ -90,21 +93,23 @@ export const getRouteDestination = ({
 }) => {
   try {
     const requestUrl = new URL(req.url)
+
+    const { searchParamsWithDefaults, pathParams } = getParameters({
+      route: route.source,
+      req,
+    })
+
     const url = getUrl(
       route.destination,
       // destination formulas should only have access to URL parameters from
       // the route's source definition + global formulas.
       {
         data: {
-          'Route parameters': {
-            path: route.source.path.reduce(
-              (prev, path) => ({ ...prev, [path.name]: path.testValue }),
-              {},
-            ),
-            query: Object.entries(route.source.query).reduce(
-              (prev, [, query]) => ({ ...prev, [query.name]: query.testValue }),
-              {},
-            ),
+          'URL parameters': {
+            source: {
+              path: pathParams,
+              query: searchParamsWithDefaults,
+            },
           },
         },
         toddle: getServerToddleObject(files),
