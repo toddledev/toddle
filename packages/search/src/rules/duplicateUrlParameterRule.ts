@@ -10,17 +10,17 @@ export const duplicateUrlParameterRule: Rule<{ trigger: string }> = {
       nodeType !== 'component' ||
       !isDefined(value.route) ||
       !isDefined(value.route.path) ||
-      !isDefined(value.route.query) ||
-      value.route.path.length === 0 ||
-      Object.values(value.route.query).length === 0
+      !isDefined(value.route.query)
     ) {
       return
     }
-    const pathNames = new Set(
-      value.route.path
-        .filter((path) => path.type === 'param' || path.optional)
-        .map((path) => path.name),
-    )
+    const pathNames = new Set<string>()
+    value.route.path.forEach((p, i) => {
+      if (pathNames.has(p.name)) {
+        report([...path, 'route', 'path', i])
+      }
+      pathNames.add(p.name)
+    })
     Object.keys(value.route.query).forEach((key) => {
       if (pathNames.has(key)) {
         report([...path, 'route', 'query', key])
