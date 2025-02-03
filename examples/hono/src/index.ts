@@ -38,6 +38,7 @@ app.get('/sitemap.xml', sitemap)
 app.get('/robots.txt', robots)
 app.get('/manifest.json', manifest)
 app.get('/favicon.ico', favicon)
+app.get('/serviceWorker.js', serviceWorker)
 
 // toddle specific endpoints/services on /.toddle/ subpath 👇
 app.route('/.toddle/fonts', fontRouter)
@@ -47,7 +48,6 @@ app.all(
   proxyRequestHandler,
 )
 app.get('/.toddle/custom-element/:filename{.+.js}', customElement)
-// .toddle/serviceWorker/...
 
 // Treat all other requests as page requests
 app.get('/*', toddlePage)
