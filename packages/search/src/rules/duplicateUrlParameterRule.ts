@@ -1,7 +1,7 @@
 import { isDefined } from '@toddledev/core/dist/utils/util'
 import type { Rule } from '../types'
 
-export const duplicateUrlParameterRule: Rule<{ trigger: string }> = {
+export const duplicateUrlParameterRule: Rule<{ name: string }> = {
   code: 'duplicate url parameter',
   level: 'warning',
   category: 'Quality',
@@ -17,13 +17,13 @@ export const duplicateUrlParameterRule: Rule<{ trigger: string }> = {
     const pathNames = new Set<string>()
     value.route.path.forEach((p, i) => {
       if (pathNames.has(p.name)) {
-        report([...path, 'route', 'path', i])
+        report([...path, 'route', 'path', i], { name: p.name })
       }
       pathNames.add(p.name)
     })
     Object.keys(value.route.query).forEach((key) => {
       if (pathNames.has(key)) {
-        report([...path, 'route', 'query', key])
+        report([...path, 'route', 'query', key], { name: key })
       }
     })
   },
