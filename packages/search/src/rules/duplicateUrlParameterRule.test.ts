@@ -50,6 +50,7 @@ describe('duplicateUrlParameterRule', () => {
       'query',
       'id',
     ])
+    expect(problems[0].details).toEqual({ name: 'id' })
   })
   test('should detect duplicate path parameters', () => {
     const problems = Array.from(
@@ -88,6 +89,7 @@ describe('duplicateUrlParameterRule', () => {
     expect(problems).toHaveLength(1)
     expect(problems[0].code).toBe('duplicate url parameter')
     expect(problems[0].path).toEqual(['components', 'test', 'route', 'path', 1])
+    expect(problems[0].details).toEqual({ name: 'company' })
   })
   test('should not detect non-duplicate URL parameters', () => {
     const problems = Array.from(
