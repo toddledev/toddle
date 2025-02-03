@@ -3,22 +3,22 @@
  * This is more efficient than processing each callback in a separate requestAnimationFrame due to the overhead.
  */
 export class BatchQueue {
-  private batchQueue = new Set<() => void>()
+  private batchQueue: Array<() => void> = []
   private isProcessing = false
-
   private processBatch() {
     if (this.isProcessing) return
     this.isProcessing = true
 
     requestAnimationFrame(() => {
-      this.batchQueue.forEach((callback) => callback())
-      this.batchQueue.clear()
+      while (this.batchQueue.length > 0) {
+        const callback = this.batchQueue.shift()
+        callback?.()
+      }
       this.isProcessing = false
     })
   }
-
   public add(callback: () => void) {
-    this.batchQueue.add(callback)
+    this.batchQueue.push(callback)
     this.processBatch()
   }
 }
