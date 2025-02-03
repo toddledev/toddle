@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "bun run --port 3030 --hot src/index.ts",
     "typecheck": "tsc --noEmit",
-    "typecheck:watch": "tsc --noEmit -w"
+    "watch": "tsc --noEmit -w"
   },
   "dependencies": {
     "hono": "4.6.16"

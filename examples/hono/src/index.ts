@@ -4,6 +4,7 @@ import { env } from 'hono/adapter'
 import type { HonoEnv } from '../hono'
 import { proxyRequestHandler } from './routes/apiProxy'
 import { customCode } from './routes/customCode'
+import { customElement } from './routes/customElement'
 import { favicon } from './routes/favicon'
 import { fontRouter } from './routes/font'
 import { manifest } from './routes/manifest'
@@ -45,9 +46,8 @@ app.all(
   '/.toddle/omvej/components/:componentName/apis/:apiName',
   proxyRequestHandler,
 )
-
+app.get('/.toddle/custom-element/:filename{.+.js}', customElement)
 // .toddle/serviceWorker/...
-// .toddle/omvej/...
 
 // Treat all other requests as page requests
 app.get('/*', toddlePage)
