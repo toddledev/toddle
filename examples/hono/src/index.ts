@@ -32,7 +32,7 @@ app.use(async (c, next) => {
     return c.text('Project not found', { status: 404 })
   }
   c.set('project', project)
-  await next()
+  return next()
 })
 
 app.get('/sitemap.xml', sitemap)
