@@ -146,3 +146,4 @@ export const getPathSegments = (url: URL) =>
     .substring(1)
     .split('/')
     .filter((s) => s !== '')
+    .map((s) => decodeURIComponent(s))
