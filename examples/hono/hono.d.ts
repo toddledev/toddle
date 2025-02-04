@@ -1,5 +1,4 @@
-import type { ToddleProject } from '@toddledev/ssr/dist/ssr.types'
-import { ProjectFiles } from '@toddledev/ssr/dist/ssr.types'
+import type { ProjectFiles, ToddleProject } from '@toddledev/ssr/dist/ssr.types'
 
 export interface HonoEnv {
   Variables: {
