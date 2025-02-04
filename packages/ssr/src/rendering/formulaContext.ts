@@ -116,7 +116,7 @@ export const getDataUrlParameters = ({
   }
 }
 
-const getParameters = ({
+export const getParameters = ({
   route,
   req,
 }: {
@@ -136,19 +136,23 @@ const getParameters = ({
     }),
     {},
   )
-  const params: Record<string, string | null> = { ...searchParams }
   const pathSegments = getPathSegments(url)
-  route?.path.forEach((p, i) => {
-    if (p.type === 'param') {
-      if (isDefined(pathSegments[i]) && typeof pathSegments[i] === 'string') {
-        params[p.name] = pathSegments[i]
+  const pathParams = route?.path.reduce((prev, param, index) => {
+    if (param.type === 'param') {
+      if (
+        isDefined(pathSegments[index]) &&
+        typeof pathSegments[index] === 'string'
+      ) {
+        return { ...prev, [param.name]: pathSegments[index] }
       } else {
         // Explicitly set path parameters to null by default
         // to avoid undefined values when serializing for the runtime
-        params[p.name] = null
+        return { ...prev, [param.name]: null }
       }
     }
-  })
+
+    return prev
+  }, {})
 
   // Explicitly set all query params to null by default
   // to avoid undefined values in the runtime
@@ -156,9 +160,10 @@ const getParameters = ({
     Record<string, null>
   >((params, key) => ({ ...params, [key]: null }), {})
   return {
-    combinedParams: params,
-    hash: url.hash.slice(1),
+    pathParams,
     searchParamsWithDefaults: { ...defaultQueryParams, ...searchParams },
+    combinedParams: { ...searchParams, ...pathParams },
+    hash: url.hash.slice(1),
     url,
   }
 }
