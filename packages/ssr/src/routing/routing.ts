@@ -106,10 +106,8 @@ export const getRouteDestination = ({
       {
         data: {
           'Route parameters': {
-            source: {
-              path: pathParams,
-              query: searchParamsWithDefaults,
-            },
+            path: pathParams,
+            query: searchParamsWithDefaults,
           },
         },
         toddle: getServerToddleObject(files),

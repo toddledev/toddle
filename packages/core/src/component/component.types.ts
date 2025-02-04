@@ -23,13 +23,10 @@ export interface ComponentData {
   Contexts?: Record<string, Record<string, unknown>>
   'URL parameters'?: Record<string, string | null>
   // eg. source: { path: { docs: null }, query: { embed: everything } }
-  'Route parameters'?: Record<
-    string,
-    {
-      path: Record<string, string | null>
-      query: Record<string, string | null>
-    }
-  >
+  'Route parameters'?: {
+    path: Record<string, string | null>
+    query: Record<string, string | null>
+  }
   Apis?: Record<
     string,
     LegacyApiStatus | (ApiStatus & { inputs?: Record<string, unknown> })
