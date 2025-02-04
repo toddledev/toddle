@@ -4,10 +4,12 @@ import { env } from 'hono/adapter'
 import type { HonoEnv } from '../hono'
 import { proxyRequestHandler } from './routes/apiProxy'
 import { customCode } from './routes/customCode'
+import { customElement } from './routes/customElement'
 import { favicon } from './routes/favicon'
 import { fontRouter } from './routes/font'
 import { manifest } from './routes/manifest'
 import { robots } from './routes/robots'
+import { serviceWorker } from './routes/serviceWorker'
 import { sitemap } from './routes/sitemap'
 import { staticRouter } from './routes/static'
 import { toddlePage } from './routes/toddlePage'
@@ -37,6 +39,7 @@ app.get('/sitemap.xml', sitemap)
 app.get('/robots.txt', robots)
 app.get('/manifest.json', manifest)
 app.get('/favicon.ico', favicon)
+app.get('/serviceWorker.js', serviceWorker)
 
 // toddle specific endpoints/services on /.toddle/ subpath 👇
 app.route('/.toddle/fonts', fontRouter)
@@ -45,9 +48,7 @@ app.all(
   '/.toddle/omvej/components/:componentName/apis/:apiName',
   proxyRequestHandler,
 )
-
-// .toddle/serviceWorker/...
-// .toddle/omvej/...
+app.get('/.toddle/custom-element/:filename{.+.js}', customElement)
 
 // Treat all other requests as page requests
 app.get('/*', toddlePage)

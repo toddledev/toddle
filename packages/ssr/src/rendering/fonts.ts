@@ -1,4 +1,4 @@
-import { FontFamily } from '@toddledev/core/dist/styling/theme'
+import type { FontFamily } from '@toddledev/core/dist/styling/theme'
 import { easySort } from '@toddledev/core/dist/utils/collections'
 
 export const getFontCssUrl = ({
