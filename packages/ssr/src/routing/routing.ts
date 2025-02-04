@@ -105,7 +105,7 @@ export const getRouteDestination = ({
       // the route's source definition + global formulas.
       {
         data: {
-          'URL parameters': {
+          'Route parameters': {
             source: {
               path: pathParams,
               query: searchParamsWithDefaults,

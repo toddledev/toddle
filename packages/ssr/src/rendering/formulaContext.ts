@@ -160,7 +160,7 @@ export const getParameters = ({
     Record<string, null>
   >((params, key) => ({ ...params, [key]: null }), {})
   return {
-    pathParams: pathParams,
+    pathParams,
     searchParamsWithDefaults: { ...defaultQueryParams, ...searchParams },
     combinedParams: { ...searchParams, ...pathParams },
     hash: url.hash.slice(1),
