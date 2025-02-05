@@ -9,7 +9,12 @@ import {
 } from '../formula/formulaUtils'
 import { isDefined } from '../utils/util'
 import { getActionsInAction } from './actionUtils'
-import type { ActionModel, Component, NodeModel } from './component.types'
+import type {
+  ActionModel,
+  Component,
+  CustomActionModel,
+  NodeModel,
+} from './component.types'
 import { isPageComponent } from './isPageComponent'
 
 export class ToddleComponent<Handler> {
@@ -83,12 +88,10 @@ export class ToddleComponent<Handler> {
 
   get actionReferences(): Set<string> {
     return new Set(
-      Array.from(this.actionModelsInComponent()).map(([, a]) =>
-        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-        a.type === 'Custom' || a.type === undefined
-          ? [a.package, a.name].filter(isDefined).join('/')
-          : a.type,
-      ),
+      Array.from(this.actionModelsInComponent())
+        .filter(([, a]) => a.type === 'Custom' || a.type === undefined)
+        .map<CustomActionModel>(([, a]) => a as CustomActionModel)
+        .map((a) => [a.package, a.name].filter(isDefined).join('/')),
     )
   }
 
