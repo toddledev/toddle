@@ -84,6 +84,7 @@ export class ToddleComponent<Handler> {
   get actionReferences(): Set<string> {
     return new Set(
       Array.from(this.actionModelsInComponent()).map(([, a]) =>
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         a.type === 'Custom' || a.type === undefined
           ? [a.package, a.name].filter(isDefined).join('/')
           : a.type,
