@@ -9,7 +9,6 @@ export function* getActionsInAction(
     return
   }
 
-  yield [path, action]
   switch (action.type) {
     case 'SetVariable':
     case 'SetURLParameter':
@@ -29,6 +28,7 @@ export function* getActionsInAction(
       break
     case 'Custom':
     case undefined:
+      yield [path, action]
       for (const [eventKey, event] of Object.entries(action.events ?? {})) {
         for (const [key, a] of Object.entries(event?.actions ?? {})) {
           yield* getActionsInAction(a, [

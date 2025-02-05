@@ -47,7 +47,6 @@ export function* getFormulasInFormula<Handler>({
     return
   }
 
-  yield [path, formula]
   switch (formula.type) {
     case 'path':
     case 'value':
@@ -63,6 +62,7 @@ export function* getFormulasInFormula<Handler>({
       }
       break
     case 'function': {
+      yield [path, formula]
       const formulaKey = [formula.package, formula.name]
         .filter(isDefined)
         .join('/')
