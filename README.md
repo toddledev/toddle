@@ -22,9 +22,10 @@ Install using [bun](https://bun.sh/) by running `bun install`
 
 ### Commands
 
+- Install: `bun install`
 - Lint: `bun lint`
 - Check types: `bun typecheck`
-- Test: `bun test`
+- Build: `bun run build` <-- builds all packages
 
 ## Status
 

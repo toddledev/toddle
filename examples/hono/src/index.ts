@@ -1,6 +1,7 @@
+import { serveStatic } from '@hono/node-server/serve-static'
 import { initIsEqual } from '@toddledev/ssr/dist/rendering/equals'
+import type { ProjectFiles, ToddleProject } from '@toddledev/ssr/dist/ssr.types'
 import { Hono } from 'hono'
-import { env } from 'hono/adapter'
 import type { HonoEnv } from '../hono'
 import { proxyRequestHandler } from './routes/apiProxy'
 import { customCode } from './routes/customCode'
@@ -11,9 +12,7 @@ import { manifest } from './routes/manifest'
 import { robots } from './routes/robots'
 import { serviceWorker } from './routes/serviceWorker'
 import { sitemap } from './routes/sitemap'
-import { staticRouter } from './routes/static'
 import { toddlePage } from './routes/toddlePage'
-import { getProject } from './utils/project'
 
 // Inject isEqual on globalThis
 // this is currently used by some builtin formulas
@@ -21,17 +20,26 @@ initIsEqual()
 
 const app = new Hono<HonoEnv>()
 
-// Static routes don't need access to the project
-app.route('/_static', staticRouter)
+// Allow accessing static assets (reset stylesheet + page/custom element runtime)
+app.use(
+  '/_static/*',
+  // See https://hono.dev/docs/getting-started/nodejs#serve-static-files
+  serveStatic({
+    root: './assets',
+  }),
+)
 
+// Keep the project reference in memory for future requests
+let project: { files: ProjectFiles; project: ToddleProject }
 // Load the project onto context to make it easier to use for other routes
 app.use(async (c, next) => {
-  const { template } = env(c)
-  const project = getProject(template)
   if (!project) {
-    return c.text('Project not found', { status: 404 })
+    project = await import(`../../projects/${c.env.template ?? 'small'}.json`)
+    if (!project) {
+      return c.text('Project not found', { status: 404 })
+    }
   }
-  c.set('project', project)
+  c.set('project', project as { files: ProjectFiles; project: ToddleProject })
   return next()
 })
 
