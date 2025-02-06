@@ -9,7 +9,12 @@ import {
 } from '../formula/formulaUtils'
 import { isDefined } from '../utils/util'
 import { getActionsInAction } from './actionUtils'
-import type { ActionModel, Component, NodeModel } from './component.types'
+import type {
+  ActionModel,
+  Component,
+  CustomActionModel,
+  NodeModel,
+} from './component.types'
 import { isPageComponent } from './isPageComponent'
 
 export class ToddleComponent<Handler> {
@@ -75,20 +80,22 @@ export class ToddleComponent<Handler> {
   get formulaReferences() {
     return new Set(
       Array.from(this.formulasInComponent())
-        .filter(([, f]) => f.type === 'function')
-        .map<FunctionOperation>(([, f]) => f as FunctionOperation)
-        .map((f) => [f.package, f.name].filter(isDefined).join('/')),
+        .filter(
+          (entry): entry is [(string | number)[], FunctionOperation] =>
+            entry[1].type === 'function',
+        )
+        .map(([, f]) => [f.package, f.name].filter(isDefined).join('/')),
     )
   }
 
   get actionReferences(): Set<string> {
     return new Set(
-      Array.from(this.actionModelsInComponent()).map(([, a]) =>
-        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-        a.type === 'Custom' || a.type === undefined
-          ? [a.package, a.name].filter(isDefined).join('/')
-          : a.type,
-      ),
+      Array.from(this.actionModelsInComponent())
+        .filter(
+          (entry): entry is [(string | number)[], CustomActionModel] =>
+            entry[1].type === 'Custom' || entry[1].type === undefined,
+        )
+        .map(([, a]) => [a.package, a.name].filter(isDefined).join('/')),
     )
   }
 
