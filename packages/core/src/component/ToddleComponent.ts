@@ -80,18 +80,22 @@ export class ToddleComponent<Handler> {
   get formulaReferences() {
     return new Set(
       Array.from(this.formulasInComponent())
-        .filter(([, f]) => f.type === 'function')
-        .map<FunctionOperation>(([, f]) => f as FunctionOperation)
-        .map((f) => [f.package, f.name].filter(isDefined).join('/')),
+        .filter(
+          (entry): entry is [(string | number)[], FunctionOperation] =>
+            entry[1].type === 'function',
+        )
+        .map(([, f]) => [f.package, f.name].filter(isDefined).join('/')),
     )
   }
 
   get actionReferences(): Set<string> {
     return new Set(
       Array.from(this.actionModelsInComponent())
-        .filter(([, a]) => a.type === 'Custom' || a.type === undefined)
-        .map<CustomActionModel>(([, a]) => a as CustomActionModel)
-        .map((a) => [a.package, a.name].filter(isDefined).join('/')),
+        .filter(
+          (entry): entry is [(string | number)[], CustomActionModel] =>
+            entry[1].type === 'Custom' || entry[1].type === undefined,
+        )
+        .map(([, a]) => [a.package, a.name].filter(isDefined).join('/')),
     )
   }
 
