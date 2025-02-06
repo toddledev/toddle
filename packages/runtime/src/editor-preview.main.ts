@@ -1054,15 +1054,15 @@ export const createRoot = (
       })
     }
     if (fastDeepEqual(_component.contexts, ctx?.component.contexts) === false) {
-      const contextProvidersCreated = new Set<string>()
       Contexts = (function createStaticContextFromComponent(
         component: Component,
+        contextProvidersCreated?: Set<string>,
       ) {
-        contextProvidersCreated.add(component.name)
+        contextProvidersCreated?.add(component.name)
         return mapObject(
           component.contexts ?? {},
           ([providerName, context]) => {
-            if (contextProvidersCreated.has(providerName)) {
+            if (contextProvidersCreated?.has(providerName)) {
               // Circular dependency detected in context-providers (ie. A -> B -> A -> ...), stop recursion
               return [providerName, {}]
             }
@@ -1085,7 +1085,10 @@ export const createRoot = (
                   ([name, attr]) => [name, attr.testValue],
                 ),
                 // Recursively resolve contexts providers before their children to build up the fake context tree in preview mode
-                Contexts: createStaticContextFromComponent(providerComponent),
+                Contexts: createStaticContextFromComponent(
+                  providerComponent,
+                  contextProvidersCreated ?? new Set(),
+                ),
               },
               component: providerComponent,
               root: ctx?.root,
