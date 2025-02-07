@@ -133,8 +133,6 @@ describe('noReferenceEventRule', () => {
         rules: [noReferenceEventRule],
       }),
     )
-
-    console.log('problems', problems)
     expect(problems).toEqual([])
   })
 })

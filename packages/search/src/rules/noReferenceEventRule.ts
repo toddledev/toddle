@@ -18,7 +18,8 @@ export const noReferenceEventRule: Rule<{ name: string }> = {
           if (
             'name' in action &&
             'arguments' in action &&
-            action.name === 'TriggerEvent'
+            action.name === 'TriggerEvent' &&
+            action.version === undefined
           ) {
             const formula = action.arguments?.find(
               (a) => a.name === 'name',
