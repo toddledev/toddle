@@ -5,7 +5,7 @@ import {
 } from '@toddledev/core/dist/component/component.types'
 import { isDefined } from '@toddledev/core/dist/utils/util'
 import {
-  getDataUrlParameters,
+  getParameters,
   getServerToddleObject,
 } from '../rendering/formulaContext'
 import { ProjectFiles, Route } from '../ssr.types'
@@ -93,16 +93,22 @@ export const getRouteDestination = ({
 }) => {
   try {
     const requestUrl = new URL(req.url)
+
+    const { searchParamsWithDefaults, pathParams } = getParameters({
+      route: route.source,
+      req,
+    })
+
     const url = getUrl(
       route.destination,
       // destination formulas should only have access to URL parameters from
       // the route's source definition + global formulas.
       {
         data: {
-          'URL parameters': getDataUrlParameters({
-            route: route.source,
-            req,
-          }),
+          'Route parameters': {
+            path: pathParams,
+            query: searchParamsWithDefaults,
+          },
         },
         toddle: getServerToddleObject(files),
       } as any,
@@ -140,3 +146,4 @@ export const getPathSegments = (url: URL) =>
     .substring(1)
     .split('/')
     .filter((s) => s !== '')
+    .map((s) => decodeURIComponent(s))
