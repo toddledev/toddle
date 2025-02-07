@@ -2,6 +2,7 @@ import { serveStatic } from '@hono/node-server/serve-static'
 import { initIsEqual } from '@toddledev/ssr/dist/rendering/equals'
 import type { ProjectFiles, ToddleProject } from '@toddledev/ssr/dist/ssr.types'
 import { Hono } from 'hono'
+import { env } from 'hono/adapter'
 import type { HonoEnv } from '../hono'
 import { proxyRequestHandler } from './routes/apiProxy'
 import { customCode } from './routes/customCode'
@@ -33,8 +34,9 @@ app.use(
 let project: { files: ProjectFiles; project: ToddleProject }
 // Load the project onto context to make it easier to use for other routes
 app.use(async (c, next) => {
+  const { template } = env(c)
   if (!project) {
-    project = await import(`../../projects/${c.env.template ?? 'small'}.json`)
+    project = await import(`../../projects/${template ?? 'small'}.json`)
     if (!project) {
       return c.text('Project not found', { status: 404 })
     }
