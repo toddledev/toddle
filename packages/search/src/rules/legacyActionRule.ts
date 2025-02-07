@@ -1,5 +1,5 @@
-import { ActionModel } from '@toddledev/core/dist/component/component.types'
 import type { Rule } from '../types'
+import { isLegacyAction } from '../util/shouldSearchPath'
 
 export const legacyActionRule: Rule<{
   name: string
@@ -21,16 +21,3 @@ export const legacyActionRule: Rule<{
     }
   },
 }
-
-const isLegacyAction = (model: ActionModel) => {
-  switch (model.type) {
-    case 'Custom':
-    case undefined:
-      return legacyCustomActions.some(
-        (action) => action.name === model.name && action.type === model?.type,
-      )
-  }
-  return false
-}
-
-const legacyCustomActions = [{ type: undefined, name: 'If' }]
