@@ -1,5 +1,5 @@
 {
-  "lockfileVersion": 0,
+  "lockfileVersion": 1,
   "workspaces": {
     "": {
       "devDependencies": {
@@ -24,7 +24,7 @@
     "packages/lib": {
       "name": "@toddledev/std-lib",
       "dependencies": {
-        "@toddledev/core": "packages/core",
+        "@toddledev/core": "workspace:*",
         "fast-deep-equal": "3.1.3",
       },
       "devDependencies": {
@@ -36,7 +36,7 @@
     "packages/runtime": {
       "name": "@toddledev/runtime",
       "dependencies": {
-        "@toddledev/core": "packages/core",
+        "@toddledev/core": "workspace:*",
         "fast-deep-equal": "3.1.3",
         "path-to-regexp": "6.3.0",
       },
@@ -48,13 +48,13 @@
     "packages/search": {
       "name": "@toddledev/search",
       "dependencies": {
-        "@toddledev/ssr": "packages/ssr",
+        "@toddledev/ssr": "workspace:*",
       },
     },
     "packages/ssr": {
       "name": "@toddledev/ssr",
       "dependencies": {
-        "@toddledev/core": "packages/core",
+        "@toddledev/core": "workspace:*",
         "cookie": "1.0.2",
         "xss": "1.0.15",
       },
@@ -261,15 +261,15 @@
 
     "@sinonjs/fake-timers": ["@sinonjs/fake-timers@10.3.0", "", { "dependencies": { "@sinonjs/commons": "^3.0.0" } }, "sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA=="],
 
-    "@toddledev/core": ["@toddledev/core@workspace:packages/core", { "devDependencies": { "@types/react": "19.0.8" } }],
+    "@toddledev/core": ["@toddledev/core@workspace:packages/core"],
 
-    "@toddledev/runtime": ["@toddledev/runtime@workspace:packages/runtime", { "dependencies": { "@toddledev/core": "packages/core", "fast-deep-equal": "3.1.3", "path-to-regexp": "6.3.0" }, "devDependencies": { "@happy-dom/global-registrator": "16.8.1", "esbuild": "0.24.2" } }],
+    "@toddledev/runtime": ["@toddledev/runtime@workspace:packages/runtime"],
 
-    "@toddledev/search": ["@toddledev/search@workspace:packages/search", { "dependencies": { "@toddledev/ssr": "packages/ssr" } }],
+    "@toddledev/search": ["@toddledev/search@workspace:packages/search"],
 
-    "@toddledev/ssr": ["@toddledev/ssr@workspace:packages/ssr", { "dependencies": { "@toddledev/core": "packages/core", "cookie": "1.0.2", "xss": "1.0.15" } }],
+    "@toddledev/ssr": ["@toddledev/ssr@workspace:packages/ssr"],
 
-    "@toddledev/std-lib": ["@toddledev/std-lib@workspace:packages/lib", { "dependencies": { "@toddledev/core": "packages/core", "fast-deep-equal": "3.1.3" }, "devDependencies": { "@types/node": "22.13.1", "jest-environment-jsdom": "29.7.0", "ts-jest": "29.2.5" } }],
+    "@toddledev/std-lib": ["@toddledev/std-lib@workspace:packages/lib"],
 
     "@tootallnate/once": ["@tootallnate/once@2.0.0", "", {}, "sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A=="],
 
