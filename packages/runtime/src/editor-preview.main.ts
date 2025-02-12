@@ -207,7 +207,7 @@ export const initGlobalObject = ({
   Object.entries(libFormulas).forEach(([name, module]) =>
     window.toddle.registerFormula(
       '@toddle/' + name,
-      module.default as any,
+      module.default as FormulaHandler,
       'getArgumentInputData' in module
         ? module.getArgumentInputData
         : undefined,
@@ -1009,8 +1009,14 @@ export const createRoot = (
         routeSignal.subscribe((route) =>
           dataSignal.update((data) => ({
             ...data,
-            'URL parameters': route as any,
-            Attributes: route,
+            'URL parameters': {
+              ...data['URL parameters'],
+              ...route,
+            },
+            Attributes: {
+              ...data.Attributes,
+              ...route,
+            },
           })),
         )
 
