@@ -264,7 +264,7 @@ export type EventModel = {
 
 export type CustomActionModel = {
   // Some legacy custom actions use an undefined type
-  type?: 'Custom' | undefined
+  type?: 'Custom'
   package?: string
   name: string
   description?: string
@@ -272,6 +272,7 @@ export type CustomActionModel = {
   arguments?: { name: string; formula: Formula }[]
   events?: Record<string, { actions: ActionModel[] }>
   version?: 2 | never
+  label?: string
 }
 
 export type SwitchActionModel = {
