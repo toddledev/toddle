@@ -1,3 +1,5 @@
+import { ActionModel } from '@toddledev/core/dist/component/component.types'
+
 export function shouldSearchPath(
   path: (string | number)[],
   pathsToVisit: string[][] = [],
@@ -9,3 +11,19 @@ export function shouldSearchPath(
     )
   )
 }
+
+export const isLegacyAction = (model: ActionModel) => {
+  switch (model.type) {
+    case 'Custom':
+    case undefined:
+      return legacyCustomActions.some(
+        (action) => action.name === model.name && action.type === model?.type,
+      )
+  }
+  return false
+}
+
+const legacyCustomActions = [
+  { type: undefined, name: 'If' },
+  { type: undefined, name: 'TriggerEvent' },
+]
