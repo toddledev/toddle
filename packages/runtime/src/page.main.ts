@@ -465,7 +465,7 @@ export const createRoot = (domNode: HTMLElement) => {
     }
   }
 
-  const elements = renderComponent({
+  renderComponent({
     ...ctx,
     providers,
     path: '0',
@@ -473,10 +473,6 @@ export const createRoot = (domNode: HTMLElement) => {
     onEvent: ctx.triggerEvent,
     parentElement: domNode,
     instance: {},
-  })
-  domNode.innerText = ''
-  elements.forEach((elem) => {
-    domNode.appendChild(elem)
   })
   window.__toddle.isPageLoaded = true
 }
