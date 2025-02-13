@@ -1179,7 +1179,6 @@ export const createRoot = (
         'URL parameters': {
           ...window.toddle.locationSignal.get().query,
           ...window.toddle.locationSignal.get().params,
-
         } as Record<string, string>,
         Attributes,
         Variables,
