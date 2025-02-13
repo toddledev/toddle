@@ -15,8 +15,11 @@ export const legacyActionRule: Rule<{
     if (isLegacyAction(value)) {
       let details: { name: string } | undefined
       if ('name' in value) {
-        details = { name: value.name }
+        details = {
+          name: value.name,
+        }
       }
+
       report(path, details)
     }
   },
@@ -26,11 +29,28 @@ const isLegacyAction = (model: ActionModel) => {
   switch (model.type) {
     case 'Custom':
     case undefined:
-      return legacyCustomActions.some(
-        (action) => action.name === model.name && action.type === model?.type,
-      )
+      // Legacy action has no version, while newer ones have a version 2+
+      return !model.version && LEGACY_CUSTOM_ACTIONS.has(model.name)
   }
   return false
 }
 
-const legacyCustomActions = [{ type: undefined, name: 'If' }]
+const LEGACY_CUSTOM_ACTIONS = new Set([
+  'If',
+  'PreventDefault',
+  'StopPropagation',
+  'Copy To Clipboard',
+  'CopyToClipboard',
+  'UpdateVariable',
+  'Update Variable',
+  'Update URL parameter',
+  'updateUrlParameters',
+  'UpdateQueryParam',
+  'Update Query',
+  'Fetch',
+  'SetTimeout',
+  'SetInterval',
+  'FocusElement',
+  'Debug',
+  'GoToURL',
+])
