@@ -1,4 +1,7 @@
-import { ElementNodeModel } from '@toddledev/core/dist/component/component.types'
+import {
+  ElementNodeModel,
+  NodeModel,
+} from '@toddledev/core/dist/component/component.types'
 import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import {
   getClassName,
@@ -158,35 +161,52 @@ export function createElement({
     elem.addEventListener(event.trigger, handler)
   })
 
-  // for script and style tags we just render the first text child.
+  // for script, style & SVG<text> tags we only render text child.
   if (
     node.tag.toLocaleLowerCase() === 'script' ||
-    node.tag.toLocaleLowerCase() === 'style'
+    node.tag.toLocaleLowerCase() === 'style' ||
+    (node.tag.toLocaleLowerCase() === 'text' && isSvg)
   ) {
-    const childId = node.children[0]
-    const childNode = childId ? ctx.component.nodes[childId] : undefined
-    if (childNode?.type === 'text') {
-      if (childNode.value.type === 'value') {
-        elem.textContent = String(childNode.value.value)
-      } else {
-        const textSignal = dataSignal.map((data) => {
-          return String(
-            applyFormula(childNode.value, {
-              data,
-              component: ctx.component,
-              formulaCache: ctx.formulaCache,
-              root: ctx.root,
-              package: ctx.package,
-              toddle: ctx.toddle,
-              env: ctx.env,
-            }),
-          )
-        })
-        textSignal.subscribe((value) => {
-          elem.textContent = value
-        })
-      }
+    const textValues: Array<Signal<string> | string> = []
+    node.children
+      .map<NodeModel | undefined>((child) => ctx.component.nodes[child])
+      .filter((node) => node?.type === 'text')
+      .forEach((node) => {
+        if (node.value.type === 'value') {
+          textValues.push(String(node.value.value))
+        } else {
+          const textSignal = dataSignal.map((data) => {
+            return String(
+              applyFormula(node.value, {
+                data,
+                component: ctx.component,
+                formulaCache: ctx.formulaCache,
+                root: ctx.root,
+                package: ctx.package,
+                toddle: ctx.toddle,
+                env: ctx.env,
+              }),
+            )
+          })
+          textValues.push(textSignal)
+        }
+      })
+
+    // if all values are string, we can directly set textContent
+    if (textValues.every((value) => typeof value === 'string')) {
+      elem.textContent = textValues.join('')
     }
+
+    // for each signal, we subscribe and rewrite the entire textContent from all text nodes
+    textValues
+      .filter((value) => typeof value !== 'string')
+      .forEach((valueSignal) => {
+        valueSignal.subscribe(() => {
+          elem.textContent = textValues
+            .map((value) => (typeof value === 'string' ? value : value.get()))
+            .join('')
+        })
+      })
   } else {
     node.children.forEach((child, i) => {
       const childNodes = createNode({
