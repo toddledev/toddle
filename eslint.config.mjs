@@ -61,12 +61,12 @@ export default [
       '@typescript-eslint/no-confusing-non-null-assertion': 'error',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/restrict-template-expressions': 'warn',
+      '@typescript-eslint/consistent-type-imports': 'warn',
       'no-unused-vars': 'off',
       'inclusive-language/use-inclusive-words': [
         'error',
         './lint/inclusive-words.json',
       ],
-
       '@typescript-eslint/no-unused-vars': [
         'error',
         {

@@ -1,4 +1,4 @@
-import {
+import type {
   ElementNodeModel,
   NodeModel,
 } from '@toddledev/core/dist/component/component.types'
@@ -13,7 +13,7 @@ import type { Signal } from '../signal/signal'
 import { getDragData } from '../utils/getDragData'
 import { getElementTagName } from '../utils/getElementTagName'
 import { setAttribute } from '../utils/setAttribute'
-import { NodeRenderer, createNode } from './createNode'
+import type { NodeRenderer, createNode } from './createNode'
 
 export function createElement({
   node,
@@ -162,10 +162,11 @@ export function createElement({
   })
 
   // for script, style & SVG<text> tags we only render text child.
+  const nodeTag = node.tag.toLocaleLowerCase()
   if (
-    node.tag.toLocaleLowerCase() === 'script' ||
-    node.tag.toLocaleLowerCase() === 'style' ||
-    (node.tag.toLocaleLowerCase() === 'text' && isSvg)
+    nodeTag === 'script' ||
+    nodeTag === 'style' ||
+    (nodeTag === 'text' && isSvg)
   ) {
     const textValues: Array<Signal<string> | string> = []
     node.children
