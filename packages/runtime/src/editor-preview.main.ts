@@ -207,7 +207,7 @@ export const initGlobalObject = ({
   Object.entries(libFormulas).forEach(([name, module]) =>
     window.toddle.registerFormula(
       '@toddle/' + name,
-      module.default as any,
+      module.default as FormulaHandler,
       'getArgumentInputData' in module
         ? module.getArgumentInputData
         : undefined,
@@ -986,7 +986,6 @@ export const createRoot = (
     }
 
     let { Attributes, Variables, Contexts } = dataSignal.get()
-    let UrlParameters = dataSignal.get()['URL parameters']
     if (
       fastDeepEqual(ctx?.component.attributes, _component.attributes) === false
     ) {
@@ -1002,6 +1001,27 @@ export const createRoot = (
       // Subscribe to the route signal so we can preview URL parameter changes in the editor
       routeSignal?.destroy()
       if (_component.route) {
+        // Populate initial URL parameters with test data
+        window.toddle.locationSignal.update((location) => {
+          if (!_component.route) return location
+
+          return {
+            ...location,
+            params: Object.fromEntries(
+              _component.route.path
+                .filter((p) => p.type === 'param')
+                .map((p) => [p.name, p.testValue]),
+            ),
+            query: mapObject(
+              _component.route.query,
+              ([name, { testValue }]: [string, { testValue: string }]) => [
+                name,
+                testValue,
+              ],
+            ),
+          }
+        })
+
         routeSignal = window.toddle.locationSignal.map(({ query, params }) => {
           return { ...query, ...params }
         })
@@ -1009,7 +1029,7 @@ export const createRoot = (
         routeSignal.subscribe((route) =>
           dataSignal.update((data) => ({
             ...data,
-            'URL parameters': route as any,
+            'URL parameters': route,
             Attributes: route,
           })),
         )
@@ -1022,17 +1042,6 @@ export const createRoot = (
         }))
       }
 
-      UrlParameters = {
-        ...Object.fromEntries(
-          _component.route.path
-            .filter((p) => p.type === 'param')
-            .map((p) => [p.name, p.testValue]),
-        ),
-        ...mapObject(_component.route.query, ([name, { testValue }]) => [
-          name,
-          testValue,
-        ]),
-      }
       Attributes = mapObject(_component.attributes, ([name, { testValue }]) => [
         name,
         testValue,
@@ -1167,7 +1176,10 @@ export const createRoot = (
     dataSignal.update((data) => {
       return {
         ...data,
-        'URL parameters': UrlParameters,
+        'URL parameters': {
+          ...window.toddle.locationSignal.get().query,
+          ...window.toddle.locationSignal.get().params,
+        } as Record<string, string>,
         Attributes,
         Variables,
         Contexts,
