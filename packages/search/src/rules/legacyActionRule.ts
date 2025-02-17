@@ -53,4 +53,5 @@ const LEGACY_CUSTOM_ACTIONS = new Set([
   'FocusElement',
   'Debug',
   'GoToURL',
+  'TriggerEvent',
 ])
