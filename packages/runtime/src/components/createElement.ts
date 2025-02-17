@@ -13,7 +13,8 @@ import type { Signal } from '../signal/signal'
 import { getDragData } from '../utils/getDragData'
 import { getElementTagName } from '../utils/getElementTagName'
 import { setAttribute } from '../utils/setAttribute'
-import type { NodeRenderer, createNode } from './createNode'
+import type { NodeRenderer } from './createNode'
+import { createNode } from './createNode'
 
 export function createElement({
   node,
