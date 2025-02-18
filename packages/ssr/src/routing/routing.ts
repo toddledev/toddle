@@ -1,7 +1,7 @@
 import { getUrl } from '@toddledev/core/dist/api/api'
 import {
   PageComponent,
-  PageRoute,
+  RouteDeclaration,
 } from '@toddledev/core/dist/component/component.types'
 import { isDefined } from '@toddledev/core/dist/utils/util'
 import {
@@ -43,15 +43,16 @@ export const matchRoutes = <T>({
 }: {
   url: URL
   entries: T[]
-  getRoute: (entry: T) => Pick<PageRoute, 'path' | 'query'>
+  getRoute: (entry: T) => Pick<RouteDeclaration, 'path' | 'query'>
 }): T | undefined => {
+  console.log('entries', entries)
   const pathSegments = getPathSegments(url)
   const matches = Object.values(entries)
     .filter((entry) => {
       const route = getRoute(entry)
       return (
-        pathSegments.length <= route.path.length &&
-        route.path.every(
+        pathSegments.length <= (route.path ?? []).length &&
+        (route.path ?? []).every(
           (segment, index) =>
             segment.type === 'param' ||
             segment.optional === true ||
@@ -61,17 +62,19 @@ export const matchRoutes = <T>({
     })
     .sort((a, b) => {
       const routeA = getRoute(a)
+      const aPath = routeA.path ?? []
       const routeB = getRoute(b)
+      const bPath = routeB.path ?? []
       // Prefer shorter routes
-      const diff = routeA.path.length - routeB.path.length
+      const diff = aPath.length - bPath.length
       if (diff !== 0) {
         return diff
       }
       for (let i = 0; i < pathSegments.length; i++) {
         // Prefer static segments over dynamic ones
         // We don't need to check if the name matches, since we did that in the filter above
-        const aScore = routeA.path[i].type === 'static' ? 1 : 0
-        const bScore = routeB.path[i].type === 'static' ? 1 : 0
+        const aScore = aPath[i].type === 'static' ? 1 : 0
+        const bScore = bPath[i].type === 'static' ? 1 : 0
         if (aScore !== bScore) {
           return bScore - aScore
         }

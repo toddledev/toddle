@@ -12,7 +12,9 @@ export function removeTestData(component: Component): Component {
       ? {
           route: {
             ...component.route,
-            path: component.route.path.map((p) => omit(p, ['testValue'])),
+            path: (component.route.path ?? []).map((p) =>
+              omit(p, ['testValue']),
+            ),
             query: mapObject(component.route.query, ([key, value]) => [
               key,
               omit(value, ['testValue']),

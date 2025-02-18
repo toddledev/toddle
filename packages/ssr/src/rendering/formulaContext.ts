@@ -137,7 +137,7 @@ export const getParameters = ({
     {},
   )
   const pathSegments = getPathSegments(url)
-  const pathParams = route?.path.reduce((prev, param, index) => {
+  const pathParams = (route?.path ?? []).reduce((prev, param, index) => {
     if (param.type === 'param') {
       if (
         isDefined(pathSegments[index]) &&
