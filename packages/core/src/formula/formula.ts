@@ -231,7 +231,7 @@ export function applyFormula(
             return null
           }
         } else if (typeof legacyFunc === 'function') {
-          const args = formula.arguments.map((arg) =>
+          const args = (formula.arguments ?? []).map((arg) =>
             arg.isFunction
               ? (Args: any) =>
                   applyFormula(arg.formula, {
