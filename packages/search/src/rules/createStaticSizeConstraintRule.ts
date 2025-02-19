@@ -1,45 +1,45 @@
 import type { NodeModel } from '@toddledev/core/dist/component/component.types'
-import type { ComponentNodeNode, Level, Rule } from '../types'
+import type { Level, Rule } from '../types'
 
 export function createStaticSizeConstraintRule(
   tag: string,
   maxSize: number,
   level: Level = 'warning',
-): Rule<
-  {
-    tag: string
-    maxSize: number
-  },
-  ComponentNodeNode
-> {
+): Rule<{
+  tag: string
+  size: number
+}> {
   return {
     code: 'size constraint',
     level: level,
     category: 'Performance',
-    visit: (report, { nodeType, value, component }) => {
+    visit: (report, args) => {
       if (
-        nodeType === 'component-node' &&
-        value.type === 'element' &&
-        value.tag === tag
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+        args.nodeType === 'component-node' &&
+        args.value.type === 'element' &&
+        args.value.tag === tag
       ) {
-        // TODO: Evaluate tag to calculate size
         let size = 0
-
-        const evaluateElement = (element: NodeModel) => {
-          if (element.type !== 'element' && element.type !== 'text') {
+        const component = args.component
+        const evaluateElement = (element?: NodeModel): string => {
+          if (
+            !element ||
+            (element.type !== 'element' && element.type !== 'text')
+          ) {
             return ''
           }
-          const children = (element.children ?? [])
-            .map((child) => component.nodes[child])
-            .filter(Boolean)
-          return `<${element.type === 'element' ? element.tag : 'span'}>
-            ${children}.join(
-              ' ',
-            )}>${element.children.map((child) => evaluateElement(child)).join('')}</${element.tag}>`
+          const children = (element.children ?? []).map((child) =>
+            evaluateElement(component.nodes[child]),
+          )
+          const tag = element.type === 'element' ? element.tag : 'span'
+          return `<${tag}>${children.join('')}</${tag}>`
         }
-        size = new Blob([element]).size
+        const staticElement = evaluateElement(args.value)
+        console.log(staticElement)
+        size = new Blob([staticElement]).size
         if (size > maxSize) {
-          report(path, { tag, maxSize })
+          report(args.path, { tag, size })
         }
       }
     },

@@ -1,8 +1,8 @@
 import { searchProject } from '../searchProject'
-import { createRequiredElementAttributeRule } from './createRequiredElementAttributeRule'
+import { createStaticSizeConstraintRule } from './createStaticSizeConstraintRule'
 
-describe('requiredElementAttributeRule', () => {
-  test('should detect missing required element attribute', () => {
+describe('createStaticSizeConstraintRule', () => {
+  test.only('should calculate element size correctly', () => {
     const problems = Array.from(
       searchProject({
         files: {
@@ -17,6 +17,24 @@ describe('requiredElementAttributeRule', () => {
                   classes: {},
                   events: {},
                   tag: 'img',
+                  children: ['svg'],
+                  style: {},
+                },
+                svg: {
+                  type: 'element',
+                  attrs: {},
+                  classes: {},
+                  events: {},
+                  tag: 'svg',
+                  children: ['elem'],
+                  style: {},
+                },
+                elem: {
+                  type: 'element',
+                  attrs: {},
+                  classes: {},
+                  events: {},
+                  tag: 'div',
                   children: [],
                   style: {},
                 },
@@ -28,12 +46,14 @@ describe('requiredElementAttributeRule', () => {
             },
           },
         },
-        rules: [createRequiredElementAttributeRule('img', 'alt')],
+        rules: [createStaticSizeConstraintRule('svg', 1)],
       }),
     )
 
     expect(problems).toHaveLength(1)
-    expect(problems[0].code).toBe('required element attribute')
-    expect(problems[0].path).toEqual(['components', 'test', 'nodes', 'root'])
+    expect(problems[0].code).toBe('size constraint')
+    expect(problems[0].path).toEqual(['components', 'test', 'nodes', 'svg'])
+    const expectedSize = new Blob(['<svg><div></div></svg>']).size
+    expect(problems[0].details.size).toEqual(expectedSize)
   })
 })
