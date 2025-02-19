@@ -25,7 +25,10 @@ export function createStaticSizeConstraintRule(
         const evaluateElement = (element?: NodeModel): string => {
           if (
             !element ||
-            (element.type !== 'element' && element.type !== 'text')
+            (element.type !== 'element' &&
+              element.type !== 'text' &&
+              element.type !== 'slot' &&
+              element.type !== 'component')
           ) {
             return ''
           }
