@@ -1007,6 +1007,7 @@ export const createRoot = (
 
           return {
             ...location,
+            route: _component.route,
             params: Object.fromEntries(
               _component.route.path
                 .filter((p) => p.type === 'param')
@@ -1033,13 +1034,6 @@ export const createRoot = (
             Attributes: route,
           })),
         )
-
-        const route = routeSignal.get()
-        dataSignal.update((data) => ({
-          ...data,
-          'URL parameters': route,
-          Attributes: route,
-        }))
       }
 
       Attributes = mapObject(_component.attributes, ([name, { testValue }]) => [
