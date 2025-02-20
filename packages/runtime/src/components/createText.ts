@@ -28,7 +28,16 @@ export function createText({
   ctx,
 }: RenderTextProps): HTMLSpanElement {
   const { value } = node
-  const elem = document.createElement('span')
+  let elem: HTMLElement
+  const existingElement = document.querySelector(
+    `[data-node-id="${id}"]`,
+  ) as HTMLElement | null
+  if (existingElement && !existingElement.hasAttribute('data-id')) {
+    elem = existingElement
+  } else {
+    elem = document.createElement('span')
+  }
+
   elem.setAttribute('data-node-id', id)
   if (typeof id === 'string') {
     elem.setAttribute('data-id', path)

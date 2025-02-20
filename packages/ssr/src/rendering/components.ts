@@ -187,11 +187,11 @@ const renderComponent = async ({
             : node.tag
         const nodeClasses = `${classHash} ${classList}`.trim()
         if (!VOID_HTML_ELEMENTS.includes(tag)) {
-          return `<${tag} ${nodeAttrs} data-node-id="${escapeAttrValue(
+          return `<${tag} ${nodeAttrs} data-node-component="${component.name}" data-node-id="${escapeAttrValue(
             id,
           )}" class="${escapeAttrValue(nodeClasses)}">${innerHTML}</${tag}>`
         } else {
-          return `<${tag} ${nodeAttrs} data-node-id="${escapeAttrValue(
+          return `<${tag} ${nodeAttrs} data-node-component="${component.name}" data-node-id="${escapeAttrValue(
             id,
           )}" class="${escapeAttrValue(nodeClasses)}" />`
         }
