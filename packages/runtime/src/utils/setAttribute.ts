@@ -4,7 +4,7 @@ import { isDefined, toBoolean } from '@toddledev/core/dist/utils/util'
  * Some attributes need special handling.
  */
 export function setAttribute(
-  elem: HTMLElement | SVGElement,
+  elem: HTMLElement | SVGElement | MathMLElement,
   attr: string,
   value: any,
 ) {

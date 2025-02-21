@@ -1,11 +1,12 @@
-import {
+import type {
   ComponentData,
   NodeModel,
 } from '@toddledev/core/dist/component/component.types'
 import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import { toBoolean } from '@toddledev/core/dist/utils/util'
-import { Signal, signal } from '../signal/signal'
-import { ComponentContext } from '../types'
+import type { Signal } from '../signal/signal'
+import { signal } from '../signal/signal'
+import type { ComponentContext, SupportedNamespaces } from '../types'
 import { ensureEfficientOrdering, getNextSiblingElement } from '../utils/nodes'
 import { createComponent } from './createComponent'
 import { createElement } from './createElement'
@@ -17,7 +18,7 @@ export function createNode({
   dataSignal,
   path,
   ctx,
-  isSvg,
+  namespace,
   parentElement,
   instance,
 }: {
@@ -25,7 +26,7 @@ export function createNode({
   dataSignal: Signal<ComponentData>
   path: string
   ctx: ComponentContext
-  isSvg?: boolean
+  namespace?: SupportedNamespaces
   parentElement: Element | ShadowRoot
   instance: Record<string, string>
 }): Element[] {
@@ -56,6 +57,7 @@ export function createNode({
               node.package ?? (isLocalComponent ? undefined : ctx.package),
           },
           parentElement,
+          namespace,
         })
       case 'text':
         return [createText({ ...props, node })]
@@ -70,7 +72,7 @@ export function createNode({
     id,
     path,
     ctx,
-    isSvg,
+    namespace,
     parentElement,
     instance,
   }: NodeRenderer<NodeModel>): Element[] {
@@ -102,7 +104,7 @@ export function createNode({
             path,
             id,
             ctx,
-            isSvg,
+            namespace,
             parentElement,
             instance,
           }),
@@ -278,7 +280,7 @@ export function createNode({
               dataSignal: childDataSignal,
               path: Key === '0' ? path : `${path}(${Key})`,
               ctx,
-              isSvg,
+              namespace,
               parentElement,
               instance,
             }
@@ -347,7 +349,7 @@ export function createNode({
       ctx,
       id,
       path,
-      isSvg,
+      namespace,
       parentElement,
       instance,
     })
@@ -358,7 +360,7 @@ export function createNode({
     ctx,
     id,
     path,
-    isSvg,
+    namespace,
     parentElement,
     instance,
   })
@@ -369,7 +371,7 @@ export type NodeRenderer<NodeType> = {
   id: string
   path: string
   ctx: ComponentContext
-  isSvg?: boolean
+  namespace?: SupportedNamespaces
   parentElement: Element | ShadowRoot
   instance: Record<string, string>
 }

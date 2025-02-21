@@ -22,14 +22,24 @@ export function createElement({
   id,
   path,
   ctx,
-  isSvg,
+  namespace,
   instance,
 }: NodeRenderer<ElementNodeModel>): Element {
   const tag = getElementTagName(node, ctx, id)
-  const elem =
-    isSvg || tag === 'svg'
-      ? document.createElementNS('http://www.w3.org/2000/svg', tag)
-      : document.createElement(tag)
+  switch (tag) {
+    case 'svg': {
+      namespace = 'http://www.w3.org/2000/svg'
+      break
+    }
+    case 'math': {
+      namespace = 'http://www.w3.org/1998/Math/MathML'
+      break
+    }
+  }
+
+  const elem = namespace
+    ? (document.createElementNS(namespace, tag) as SVGElement | MathMLElement)
+    : document.createElement(tag)
 
   elem.setAttribute('data-node-id', id)
   if (path) {
@@ -154,8 +164,7 @@ export function createElement({
             console.error(e)
           }
         }
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        handleAction(action, { ...dataSignal.get(), Event: e }, ctx, e)
+        void handleAction(action, { ...dataSignal.get(), Event: e }, ctx, e)
       })
       return false
     }
@@ -167,7 +176,7 @@ export function createElement({
   if (
     nodeTag === 'script' ||
     nodeTag === 'style' ||
-    (nodeTag === 'text' && isSvg)
+    (nodeTag === 'text' && namespace === 'http://www.w3.org/2000/svg')
   ) {
     const textValues: Array<Signal<string> | string> = []
     node.children
@@ -218,7 +227,7 @@ export function createElement({
         dataSignal,
         ctx,
         // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-        isSvg: isSvg || tag === 'svg',
+        namespace,
         instance,
       })
       childNodes.forEach((childNode) => elem.appendChild(childNode))
