@@ -8,6 +8,7 @@ export function createSlot({
   ctx,
   parentElement,
   instance,
+  namespace,
 }: NodeRenderer<SlotNodeModel>): Element[] {
   const slotName = node.name ?? 'default'
   let children: Element[] = []
@@ -27,6 +28,7 @@ export function createSlot({
           providers: ctx.providers,
         },
         instance,
+        namespace,
       })
     })
   } else {
@@ -39,6 +41,7 @@ export function createSlot({
         ctx,
         parentElement,
         instance,
+        namespace,
       })
     })
   }

@@ -19,7 +19,7 @@ export const RESET_STYLES = `
     margin:0;
   }
 
-  [data-node-id]:not([data-unset-toddle-styles],[data-node-type="text"],noscript,br,script,style,link,template,meta,title,base), [data-node-id]:not([data-unset-toddle-styles],noscript)::before, [data-node-id]:not([data-unset-toddle-styles],noscript)::after {
+  [data-node-id]:not([data-unset-toddle-styles],[data-node-type="text"],noscript,br,script,style,math,math *,link,template,meta,title,base), [data-node-id]:not([data-unset-toddle-styles],noscript)::before, [data-node-id]:not([data-unset-toddle-styles],noscript)::after {
     display: flex;
     flex-direction: column;
     flex-grow: 0;

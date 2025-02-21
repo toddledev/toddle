@@ -2,7 +2,7 @@
   "name": "toddle",
   "type": "module",
   "license": "Apache-2.0",
-  "version": "0.0.3-alpha.28",
+  "version": "0.0.3-alpha.29",
   "homepage": "https://github.com/toddledev/toddle",
   "private": "false",
   "workspaces": [
@@ -10,7 +10,7 @@
   ],
   "devDependencies": {
     "@eslint/js": "9.20.0",
-    "@typescript-eslint/eslint-plugin": "8.23.0",
+    "@typescript-eslint/eslint-plugin": "8.24.1",
     "@typescript-eslint/parser": "8.24.1",
     "@types/jest": "29.5.14",
     "eslint": "9.20.1",

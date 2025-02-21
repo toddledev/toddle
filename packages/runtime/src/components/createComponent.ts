@@ -4,7 +4,7 @@ import type {
   ComponentNodeModel,
 } from '@toddledev/core/dist/component/component.types'
 import { applyFormula } from '@toddledev/core/dist/formula/formula'
-import { RequireFields } from '@toddledev/core/dist/types'
+import type { RequireFields } from '@toddledev/core/dist/types'
 import { mapObject } from '@toddledev/core/dist/utils/collections'
 import { isDefined } from '@toddledev/core/dist/utils/util'
 import { createLegacyAPI } from '../api/createAPI'
@@ -13,8 +13,14 @@ import { isContextProvider } from '../context/isContextProvider'
 import { subscribeToContext } from '../context/subscribeToContext'
 import { registerComponentToLogState } from '../debug/logState'
 import { handleAction } from '../events/handleAction'
-import { Signal, signal } from '../signal/signal'
-import { ComponentChild, ComponentContext, ContextApi } from '../types'
+import type { Signal } from '../signal/signal'
+import { signal } from '../signal/signal'
+import type {
+  ComponentChild,
+  ComponentContext,
+  ContextApi,
+  SupportedNamespaces,
+} from '../types'
 import { createFormulaCache } from '../utils/createFormulaCache'
 import { renderComponent } from './renderComponent'
 
@@ -25,6 +31,7 @@ export type RenderComponentNodeProps = {
   ctx: ComponentContext
   parentElement: Element | ShadowRoot
   instance: Record<string, string>
+  namespace?: SupportedNamespaces
 }
 
 export function createComponent({
@@ -34,6 +41,7 @@ export function createComponent({
   ctx,
   parentElement,
   instance,
+  namespace,
 }: RenderComponentNodeProps): Element[] {
   const nodeLookupKey = [ctx.package, node.name].filter(isDefined).join('/')
   const component = ctx.components?.find((comp) => comp.name === nodeLookupKey)
@@ -265,6 +273,7 @@ export function createComponent({
     onEvent,
     toddle: ctx.toddle,
     env: ctx.env,
+    namespace,
     // If the root node is another component, then append and forward previous instance
     instance:
       node.id === 'root'
