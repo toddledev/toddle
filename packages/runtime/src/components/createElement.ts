@@ -226,7 +226,6 @@ export function createElement({
         path: path + '.' + i,
         dataSignal,
         ctx,
-        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
         namespace,
         instance,
       })
