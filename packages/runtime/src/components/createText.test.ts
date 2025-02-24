@@ -2,15 +2,16 @@ import { describe, expect, test } from '@jest/globals'
 import type { ComponentData } from '@toddledev/core/dist/component/component.types'
 import { valueFormula } from '@toddledev/core/dist/formula/formulaUtils'
 import { Signal } from '../signal/signal'
-import { ComponentContext } from '../types'
+import type { ComponentContext } from '../types'
 import { createText } from './createText'
 
 describe('createText()', () => {
-  test('it returns a span element with text in it', () => {
-    const textElement = createText({
+  test('it returns a span element with text in it while in default namespace', () => {
+    let textElement = createText({
       ctx: {
         isRootComponent: false,
         component: { name: 'My Component' },
+        namespace: 'http://www.w3.org/1999/xhtml',
       } as Partial<ComponentContext> as any,
       dataSignal: undefined as any,
       path: 'test-text-element',
@@ -20,6 +21,8 @@ describe('createText()', () => {
         value: valueFormula('Hello world'),
       },
     })
+    expect(textElement instanceof HTMLSpanElement).toBe(true)
+    textElement = textElement as HTMLSpanElement
     expect(textElement.tagName).toBe('SPAN')
     expect(textElement.getAttribute('data-node-id')).toBe(
       'test-text-element-id',
@@ -29,9 +32,13 @@ describe('createText()', () => {
     expect(textElement.children.length).toBe(0)
     expect(textElement.innerText).toBe('Hello world')
   })
-  test('it does not add a data-component attribute for root elements', () => {
+  test('it returns a text node while not in the default namespace', () => {
     const textElement = createText({
-      ctx: { isRootComponent: true } as Partial<ComponentContext> as any,
+      ctx: {
+        isRootComponent: false,
+        component: { name: 'My Component' },
+        namespace: 'http://www.w3.org/2000/svg',
+      } as Partial<ComponentContext> as any,
       dataSignal: undefined as any,
       path: 'test-text-element',
       id: 'test-text-element-id',
@@ -39,7 +46,23 @@ describe('createText()', () => {
         type: 'text',
         value: valueFormula('Hello world'),
       },
-    })
+    }) as Text
+    expect(textElement instanceof Text).toBe(true)
+    expect(textElement.textContent).toBe('Hello world')
+  })
+  test('it does not add a data-component attribute for root elements', () => {
+    const textElement = createText({
+      ctx: {
+        isRootComponent: true,
+      } as Partial<ComponentContext> as any,
+      dataSignal: undefined as any,
+      path: 'test-text-element',
+      id: 'test-text-element-id',
+      node: {
+        type: 'text',
+        value: valueFormula('Hello world'),
+      },
+    }) as HTMLSpanElement
     expect(textElement.getAttribute('data-component')).toBeNull()
   })
   test('Signal changes update the text element', () => {
@@ -59,9 +82,9 @@ describe('createText()', () => {
         },
       },
     })
-    expect(textElement.innerText).toBe('Hello world')
+    expect(textElement.textContent).toBe('Hello world')
     dataSignal.set({ Attributes: { text: 'Goodbye world' } })
-    expect(textElement.innerText).toBe('Goodbye world')
+    expect(textElement.textContent).toBe('Goodbye world')
   })
   test('Show formulas are not respected for text elements', () => {
     const textElement = createText({
@@ -75,7 +98,7 @@ describe('createText()', () => {
         condition: valueFormula(false),
       },
     })
-    expect(textElement.innerText).toBe('Hello world')
+    expect(textElement.textContent).toBe('Hello world')
   })
   test('Repeat formulas are not respected for text elements', () => {
     const textElement = createText({
@@ -89,6 +112,6 @@ describe('createText()', () => {
         repeat: valueFormula(['1', '2', '3']),
       },
     })
-    expect(textElement.innerText).toBe('Hello world')
+    expect(textElement.textContent).toBe('Hello world')
   })
 })

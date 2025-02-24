@@ -9,9 +9,9 @@ export function createSlot({
   parentElement,
   instance,
   namespace,
-}: NodeRenderer<SlotNodeModel>): Element[] {
+}: NodeRenderer<SlotNodeModel>): ReadonlyArray<Element | Text> {
   const slotName = node.name ?? 'default'
-  let children: Element[] = []
+  let children: Array<Element | Text> = []
   // Is slotted content provided?
   if (ctx.children[slotName]) {
     children = ctx.children[slotName].flatMap((child) => {

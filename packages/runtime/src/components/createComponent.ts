@@ -42,7 +42,7 @@ export function createComponent({
   parentElement,
   instance,
   namespace,
-}: RenderComponentNodeProps): Element[] {
+}: RenderComponentNodeProps): ReadonlyArray<Element | Text> {
   const nodeLookupKey = [ctx.package, node.name].filter(isDefined).join('/')
   const component = ctx.components?.find((comp) => comp.name === nodeLookupKey)
   if (!component) {

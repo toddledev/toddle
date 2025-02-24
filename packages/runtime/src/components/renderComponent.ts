@@ -67,7 +67,7 @@ export function renderComponent({
   toddle,
   namespace,
   env,
-}: RenderComponentProps): Element[] {
+}: RenderComponentProps): ReadonlyArray<Element | Text> {
   const ctx: ComponentContext = {
     triggerEvent: onEvent,
     component,

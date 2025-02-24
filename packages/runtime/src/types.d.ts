@@ -96,5 +96,6 @@ export type FormulaCache = Record<
  * In toddle, we infer the namespace based on the tag name, but it would be interesting to also allow the user to specify it explicitly with the `xmlns` attribute.
  */
 export type SupportedNamespaces =
+  | 'http://www.w3.org/1999/xhtml'
   | 'http://www.w3.org/2000/svg'
   | 'http://www.w3.org/1998/Math/MathML'

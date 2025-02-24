@@ -10,6 +10,7 @@ import {
 import { isDefined, toBoolean } from '@toddledev/core/dist/utils/util'
 import { handleAction } from '../events/handleAction'
 import type { Signal } from '../signal/signal'
+import type { SupportedNamespaces } from '../types'
 import { getDragData } from '../utils/getDragData'
 import { getElementTagName } from '../utils/getElementTagName'
 import { setAttribute } from '../utils/setAttribute'
@@ -35,6 +36,11 @@ export function createElement({
       namespace = 'http://www.w3.org/1998/Math/MathML'
       break
     }
+  }
+
+  // Explicitly setting a namespace has precedence over inferring it from the tag
+  if (node.attrs['xmlns'] && node.attrs['xmlns'].type === 'value') {
+    namespace = String(node.attrs['xmlns'].value) as SupportedNamespaces
   }
 
   const elem = namespace
@@ -172,12 +178,9 @@ export function createElement({
   })
 
   // for script, style & SVG<text> tags we only render text child.
+  // this can be removed once we fix the editor to handle raw text nodes without wrapping <span>
   const nodeTag = node.tag.toLocaleLowerCase()
-  if (
-    nodeTag === 'script' ||
-    nodeTag === 'style' ||
-    (nodeTag === 'text' && namespace === 'http://www.w3.org/2000/svg')
-  ) {
+  if (nodeTag === 'script' || nodeTag === 'style') {
     const textValues: Array<Signal<string> | string> = []
     node.children
       .map<NodeModel | undefined>((child) => ctx.component.nodes[child])
