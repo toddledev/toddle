@@ -82,7 +82,6 @@ export function renderComponent({
     providers,
     package: packageName,
     toddle,
-    namespace,
     env,
   }
 

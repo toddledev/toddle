@@ -11,8 +11,8 @@ describe('createText()', () => {
       ctx: {
         isRootComponent: false,
         component: { name: 'My Component' },
-        namespace: 'http://www.w3.org/1999/xhtml',
       } as Partial<ComponentContext> as any,
+      namespace: 'http://www.w3.org/1999/xhtml',
       dataSignal: undefined as any,
       path: 'test-text-element',
       id: 'test-text-element-id',
@@ -37,8 +37,8 @@ describe('createText()', () => {
       ctx: {
         isRootComponent: false,
         component: { name: 'My Component' },
-        namespace: 'http://www.w3.org/2000/svg',
       } as Partial<ComponentContext> as any,
+      namespace: 'http://www.w3.org/2000/svg',
       dataSignal: undefined as any,
       path: 'test-text-element',
       id: 'test-text-element-id',

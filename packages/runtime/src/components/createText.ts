@@ -26,10 +26,11 @@ export function createText({
   id,
   path,
   dataSignal,
+  namespace,
   ctx,
 }: RenderTextProps): HTMLSpanElement | Text {
   // Span element is not valid outside of the default namespace
-  if (ctx.namespace && ctx.namespace !== 'http://www.w3.org/1999/xhtml') {
+  if (namespace && namespace !== 'http://www.w3.org/1999/xhtml') {
     return createTextNS({ node, dataSignal, ctx })
   }
 

@@ -60,10 +60,9 @@ export function createNode({
               node.package ?? (isLocalComponent ? undefined : ctx.package),
           },
           parentElement,
-          namespace,
         })
       case 'text':
-        return [createText({ ...props, namespace, node })]
+        return [createText({ ...props, node })]
       case 'slot':
         return createSlot({ ...props, node })
     }

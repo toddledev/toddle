@@ -71,7 +71,6 @@ export interface ComponentContext {
       ctx: ComponentContext
     }
   >
-  namespace?: SupportedNamespaces
   toddle: Toddle<LocationSignal, PreviewShowSignal>
   env: ToddleEnv
 }
