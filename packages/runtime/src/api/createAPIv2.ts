@@ -149,7 +149,11 @@ export function createAPI(
         api.client?.onMessage?.actions?.forEach((action) => {
           handleAction(
             action,
-            { ...ctx.dataSignal.get(), Event: event },
+            {
+              ...getFormulaContext(api).data,
+              ...ctx.dataSignal.get(),
+              Event: event,
+            },
             ctx,
             event,
           )
@@ -161,7 +165,11 @@ export function createAPI(
         api.client?.onCompleted?.actions?.forEach((action) => {
           handleAction(
             action,
-            { ...ctx.dataSignal.get(), Event: event },
+            {
+              ...getFormulaContext(api).data,
+              ...ctx.dataSignal.get(),
+              Event: event,
+            },
             ctx,
             event,
           )
@@ -176,7 +184,11 @@ export function createAPI(
         api.client?.onFailed?.actions?.forEach((action) => {
           handleAction(
             action,
-            { ...ctx.dataSignal.get(), Event: event },
+            {
+              ...getFormulaContext(api).data,
+              ...ctx.dataSignal.get(),
+              Event: event,
+            },
             ctx,
             event,
           )
