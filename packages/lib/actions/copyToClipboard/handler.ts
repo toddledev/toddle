@@ -1,4 +1,4 @@
-import { ActionHandler } from '@toddledev/core/dist/types'
+import type { ActionHandler } from '@toddledev/core/dist/types'
 
 const handler: ActionHandler = ([value]) => {
   if (typeof value !== 'string') {

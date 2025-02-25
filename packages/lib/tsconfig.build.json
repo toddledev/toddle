@@ -3,16 +3,22 @@
     "alwaysStrict": true,
     "esModuleInterop": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "module": "commonjs",
+    "module": "ESNext",
     "moduleResolution": "node",
-    "noEmit": true,
     "preserveConstEnums": true,
     "sourceMap": true,
     "strict": true,
     "strictBuiltinIteratorReturn": true,
     "target": "ESNext",
-    "types": []
+    "types": [],
+    "outDir": "dist",
+    "declaration": true
   },
-  "include": ["actions", "formulas", "./actions.ts", "./formulas.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": [
+    "formulas/**/*.ts",
+    "actions/**/*.ts",
+    "./actions.ts",
+    "./formulas.ts"
+  ],
+  "exclude": ["**/*.test.ts"]
 }

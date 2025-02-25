@@ -1,4 +1,4 @@
-import { ActionHandler } from '@toddledev/core/dist/types'
+import type { ActionHandler } from '@toddledev/core/dist/types'
 import { isDefined } from '@toddledev/core/dist/utils/util'
 
 const handler: ActionHandler = ([delay], ctx) => {
