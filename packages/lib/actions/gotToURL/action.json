@@ -8,6 +8,13 @@
         "type": "value",
         "value": "https://example.com"
       }
+    },
+    {
+      "name": "Open in new tab",
+      "formula": {
+        "type": "value",
+        "value": false
+      }
     }
   ]
 }
