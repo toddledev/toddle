@@ -1,13 +1,9 @@
-import {
-  Component,
-  HeadTagTypes,
-} from '@toddledev/core/dist/component/component.types'
-import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
-import {
-  FormulaContext,
-  applyFormula,
-} from '@toddledev/core/dist/formula/formula'
-import { OldTheme, Theme } from '@toddledev/core/dist/styling/theme'
+import type { Component } from '@toddledev/core/dist/component/component.types'
+import { HeadTagTypes } from '@toddledev/core/dist/component/component.types'
+import type { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
+import type { FormulaContext } from '@toddledev/core/dist/formula/formula'
+import { applyFormula } from '@toddledev/core/dist/formula/formula'
+import type { OldTheme, Theme } from '@toddledev/core/dist/styling/theme'
 import { easySort } from '@toddledev/core/dist/utils/collections'
 import { validateUrl } from '@toddledev/core/dist/utils/url'
 import { isDefined } from '@toddledev/core/dist/utils/util'

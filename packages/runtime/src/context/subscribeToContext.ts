@@ -2,14 +2,12 @@ import type {
   Component,
   ComponentData,
 } from '@toddledev/core/dist/component/component.types'
-import {
-  FormulaContext,
-  applyFormula,
-} from '@toddledev/core/dist/formula/formula'
+import type { FormulaContext } from '@toddledev/core/dist/formula/formula'
+import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import { mapObject } from '@toddledev/core/dist/utils/collections'
 import { isDefined } from '@toddledev/core/dist/utils/util'
-import { Signal } from '../signal/signal'
-import { ComponentContext } from '../types'
+import type { Signal } from '../signal/signal'
+import type { ComponentContext } from '../types'
 
 export function subscribeToContext(
   componentDataSignal: Signal<ComponentData>,

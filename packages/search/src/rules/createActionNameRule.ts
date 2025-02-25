@@ -1,4 +1,4 @@
-import { Category, Code, Level, Rule } from '../types'
+import type { Category, Code, Level, Rule } from '../types'
 
 /**
  * Generic rule factory for creating a rule that checks for a specific action name.

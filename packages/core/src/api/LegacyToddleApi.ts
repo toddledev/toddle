@@ -1,5 +1,5 @@
 import { isFormula, type Formula } from '../formula/formula'
-import { GlobalFormulas } from '../formula/formulaTypes'
+import type { GlobalFormulas } from '../formula/formulaTypes'
 import {
   getFormulasInAction,
   getFormulasInFormula,

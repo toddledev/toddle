@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import { LegacyComponentAPI } from '@toddledev/core/dist/api/apiTypes'
-import { ComponentData } from '@toddledev/core/dist/component/component.types'
+import type { LegacyComponentAPI } from '@toddledev/core/dist/api/apiTypes'
+import type { ComponentData } from '@toddledev/core/dist/component/component.types'
 import { applyFormula, isFormula } from '@toddledev/core/dist/formula/formula'
 import { mapValues } from '@toddledev/core/dist/utils/collections'
 import { parseJSONWithDate } from '@toddledev/core/dist/utils/json'
 import { handleAction } from '../events/handleAction'
-import { Signal } from '../signal/signal'
-import { ComponentContext } from '../types'
+import type { Signal } from '../signal/signal'
+import type { ComponentContext } from '../types'
 
 export type ApiRequest = {
   url: string

@@ -1,5 +1,5 @@
 import { getUrl } from '@toddledev/core/dist/api/api'
-import {
+import type {
   PageComponent,
   PageRoute,
 } from '@toddledev/core/dist/component/component.types'
@@ -8,7 +8,7 @@ import {
   getParameters,
   getServerToddleObject,
 } from '../rendering/formulaContext'
-import { ProjectFiles, Route } from '../ssr.types'
+import type { ProjectFiles, Route } from '../ssr.types'
 
 export const matchPageForUrl = ({
   url,

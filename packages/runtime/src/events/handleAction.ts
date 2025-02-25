@@ -1,9 +1,11 @@
-import type { ComponentData } from '@toddledev/core/dist/component/component.types'
-import { ActionModel } from '@toddledev/core/dist/component/component.types'
+import type {
+  ActionModel,
+  ComponentData,
+} from '@toddledev/core/dist/component/component.types'
 import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import { mapValues, omitKeys } from '@toddledev/core/dist/utils/collections'
 import { isDefined, toBoolean } from '@toddledev/core/dist/utils/util'
-import { ComponentContext } from '../types'
+import type { ComponentContext } from '../types'
 
 // eslint-disable-next-line max-params
 export function handleAction(

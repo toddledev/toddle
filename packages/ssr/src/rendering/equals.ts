@@ -1,4 +1,4 @@
-import { Toddle } from '@toddledev/core/dist/types'
+import type { Toddle } from '@toddledev/core/dist/types'
 import fastDeepEqual from 'fast-deep-equal'
 
 export const initIsEqual = () => {

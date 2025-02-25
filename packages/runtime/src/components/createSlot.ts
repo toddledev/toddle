@@ -1,5 +1,6 @@
-import { SlotNodeModel } from '@toddledev/core/dist/component/component.types'
-import { NodeRenderer, createNode } from './createNode'
+import type { SlotNodeModel } from '@toddledev/core/dist/component/component.types'
+import type { NodeRenderer } from './createNode'
+import { createNode } from './createNode'
 
 export function createSlot({
   path,

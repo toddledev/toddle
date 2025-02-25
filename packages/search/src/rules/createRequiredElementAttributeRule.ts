@@ -1,5 +1,5 @@
 import { isDefined } from '@toddledev/core/dist/utils/util'
-import { Level, Rule } from '../types'
+import type { Level, Rule } from '../types'
 
 export function createRequiredElementAttributeRule(
   tag: string,

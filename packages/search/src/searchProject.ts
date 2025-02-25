@@ -3,7 +3,7 @@ import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
 import { isToddleFormula } from '@toddledev/core/dist/formula/formulaTypes'
 import { ToddleFormula } from '@toddledev/core/dist/formula/ToddleFormula'
 import type { ProjectFiles } from '@toddledev/ssr/dist/ssr.types'
-import { ApplicationState, NodeType, Result, Rule } from './types'
+import type { ApplicationState, NodeType, Result, Rule } from './types'
 import { shouldSearchPath } from './util/shouldSearchPath'
 
 /**

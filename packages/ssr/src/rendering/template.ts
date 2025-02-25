@@ -1,5 +1,5 @@
 import { STRING_TEMPLATE } from '@toddledev/core/dist/api/template'
-import { ToddleServerEnv } from '@toddledev/core/dist/formula/formula'
+import type { ToddleServerEnv } from '@toddledev/core/dist/formula/formula'
 import { isDefined } from '@toddledev/core/dist/utils/util'
 import { skipCookieHeader, skipToddleHeader } from '../utils/headers'
 

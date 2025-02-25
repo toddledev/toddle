@@ -1,8 +1,8 @@
 import { isLegacyApi } from '../api/api'
 import { LegacyToddleApi } from '../api/LegacyToddleApi'
 import { ToddleApiV2 } from '../api/ToddleApiV2'
-import { Formula, FunctionOperation } from '../formula/formula'
-import { GlobalFormulas } from '../formula/formulaTypes'
+import type { Formula, FunctionOperation } from '../formula/formula'
+import type { GlobalFormulas } from '../formula/formulaTypes'
 import {
   getFormulasInAction,
   getFormulasInFormula,

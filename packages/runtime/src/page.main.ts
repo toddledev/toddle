@@ -3,9 +3,10 @@ import type {
   Component,
   ComponentData,
 } from '@toddledev/core/dist/component/component.types'
-import { applyFormula, ToddleEnv } from '@toddledev/core/dist/formula/formula'
-import { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
-import {
+import type { ToddleEnv } from '@toddledev/core/dist/formula/formula'
+import { applyFormula } from '@toddledev/core/dist/formula/formula'
+import type { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
+import type {
   ActionHandler,
   ArgumentInputDataFunction,
   FormulaHandler,
