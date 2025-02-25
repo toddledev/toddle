@@ -14,7 +14,6 @@ import { noReferenceApiRule } from './rules/noReferenceApiRule'
 import { noReferenceAttributeRule } from './rules/noReferenceAttributeRule'
 import { noReferenceComponentFormulaRule } from './rules/noReferenceComponentFormulaRule'
 import { noReferenceComponentRule } from './rules/noReferenceComponentRule'
-import { noReferenceComponentWorkflowRule } from './rules/noReferenceComponentWorkflowRule'
 import { noReferenceEventRule } from './rules/noReferenceEventRule'
 import { noReferenceProjectActionRule } from './rules/noReferenceProjectActionRule'
 import { noReferenceProjectFormulaRule } from './rules/noReferenceProjectFormulaRule'
@@ -29,8 +28,6 @@ import { unknownComponentSlotRule } from './rules/unknownComponentSlotRule'
 import { unknownContextFormulaRule } from './rules/unknownContextFormulaRule'
 import { unknownContextProviderFormulaRule } from './rules/unknownContextProviderFormulaRule'
 import { unknownContextProviderRule } from './rules/unknownContextProviderRule'
-import { unknownContextProviderWorkflowRule } from './rules/unknownContextProviderWorkflowRule'
-import { unknownContextWorkflowRule } from './rules/unknownContextWorkflowRule'
 import { unknownCookieRule } from './rules/unknownCookieRule'
 import { unknownEventRule } from './rules/unknownEventRule'
 import { unknownFormulaRule } from './rules/unknownFormulaRule'
@@ -40,6 +37,10 @@ import { unknownTriggerEventRule } from './rules/unknownTriggerEventRule'
 import { unknownUrlParameterRule } from './rules/unknownUrlParameterRule'
 import { unknownVariableRule } from './rules/unknownVariableRule'
 import { unknownVariableSetterRule } from './rules/unknownVariableSetterRule'
+import { noReferenceComponentWorkflowRule } from './rules/workflows/noReferenceComponentWorkflowRule'
+import { unknownContextProviderWorkflowRule } from './rules/workflows/unknownContextProviderWorkflowRule'
+import { unknownContextWorkflowRule } from './rules/workflows/unknownContextWorkflowRule'
+import { unknownWorkflowParameterRule } from './rules/workflows/unknownWorkflowParameterRule'
 import { searchProject } from './searchProject'
 import type { ApplicationState, Category, Code, Level, Result } from './types'
 
@@ -136,6 +137,7 @@ const RULES = [
   unknownUrlParameterRule,
   unknownVariableRule,
   unknownVariableSetterRule,
+  unknownWorkflowParameterRule,
 ]
 
 /**

@@ -1,4 +1,4 @@
-import type { Rule } from '../types'
+import type { Rule } from '../../types'
 
 export const unknownContextProviderWorkflowRule: Rule<{
   providerName: string
