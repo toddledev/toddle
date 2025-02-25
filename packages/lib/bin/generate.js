@@ -7,14 +7,14 @@ function load(type) {
   const res = {}
 
   const folders = fs
-    .readdirSync(`${parentDir}/${type}`)
+    .readdirSync(`${parentDir}/${type}s`)
     .filter((f) => f.includes('.') === false)
 
   fs.writeFileSync(
-    `${parentDir}/${type}.ts`,
+    `${parentDir}/${type}s.ts`,
     `${folders
       .map(
-        (folder) => `import * as ${folder} from "./${type}/${folder}/handler"`,
+        (folder) => `import * as ${folder} from "./${type}s/${folder}/handler"`,
       )
       .join('\n')}
 
@@ -24,22 +24,21 @@ export {
   `,
   )
 
-  // for (const folder of folders) {
-  //   const config = require(`${type}s/${folder}/${type}.json`)
-  //   res['@toddle/' + folder] = config
-  // }
+  for (const folder of folders) {
+    const config = require(`../${type}s/${folder}/${type}.json`)
+    res['@toddle/' + folder] = config
+  }
 
   return res
 }
-// fs.rmSync(distPath, { recursive: true, force: true })
-// fs.mkdirSync(distPath, { recursive: true })
-const formulas = load('formulas')
-const actions = load('actions')
+const formulas = load('formula')
+const actions = load('action')
 
-// fs.writeFileSync(
-//   `${distPath}/lib.ts`,
-//   `
-//     export const formulas = ${JSON.stringify(formulas, null, 2)};
-//     export const actions = ${JSON.stringify(actions, null, 2)};
-// `,
-// )
+// The lib.ts file is used by toddle internally to list all available formulas and actions
+fs.writeFileSync(
+  `${distPath}/lib.ts`,
+  `
+    export const formulas = ${JSON.stringify(formulas, null, 2)};
+    export const actions = ${JSON.stringify(actions, null, 2)};
+`,
+)
