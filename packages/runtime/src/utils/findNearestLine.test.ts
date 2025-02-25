@@ -1,4 +1,4 @@
-import { Line, Point } from '../editor/types'
+import type { Line, Point } from '../editor/types'
 import { findNearestLine } from './findNearestLine'
 
 describe('findNearestLine', () => {

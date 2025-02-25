@@ -1,5 +1,5 @@
 import { isFormula } from '@toddledev/core/dist/formula/formula'
-import { Level, Rule } from '../types'
+import type { Level, Rule } from '../types'
 
 export function createRequiredMetaTagRule(
   tag: string,

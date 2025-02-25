@@ -1,5 +1,5 @@
 import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
-import { Formula } from '@toddledev/core/dist/formula/formula'
+import type { Formula } from '@toddledev/core/dist/formula/formula'
 import { isToddleFormula } from '@toddledev/core/dist/formula/formulaTypes'
 import type { Rule } from '../types'
 

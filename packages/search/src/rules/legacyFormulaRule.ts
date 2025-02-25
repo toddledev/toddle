@@ -1,4 +1,4 @@
-import { FunctionOperation } from '@toddledev/core/dist/formula/formula'
+import type { FunctionOperation } from '@toddledev/core/dist/formula/formula'
 import { isToddleFormula } from '@toddledev/core/dist/formula/formulaTypes'
 import { isDefined } from '@toddledev/core/dist/utils/util'
 import type { ProjectFiles } from '@toddledev/ssr/dist/ssr.types'

@@ -1,5 +1,5 @@
 import { isDefined } from '@toddledev/core/dist/utils/util'
-import { Rule } from '../types'
+import type { Rule } from '../types'
 
 export const unknownClassnameRule: Rule<{
   name: string

@@ -1,16 +1,17 @@
-import { applyFormula, Formula, FormulaContext } from '../formula/formula'
+import type { Formula, FormulaContext } from '../formula/formula'
+import { applyFormula } from '../formula/formula'
 import { omitKeys, sortObjectEntries } from '../utils/collections'
 import { hash } from '../utils/hash'
 import { isDefined, isObject, toBoolean } from '../utils/util'
-import {
+import type {
   ApiBase,
-  ApiMethod,
   ApiPerformance,
   ApiRequest,
   ComponentAPI,
   LegacyComponentAPI,
   ToddleRequestInit,
 } from './apiTypes'
+import { ApiMethod } from './apiTypes'
 import { LegacyToddleApi } from './LegacyToddleApi'
 import { ToddleApiV2 } from './ToddleApiV2'
 

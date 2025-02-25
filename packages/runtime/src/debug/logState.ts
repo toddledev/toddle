@@ -2,7 +2,7 @@ import type {
   Component,
   ComponentData,
 } from '@toddledev/core/dist/component/component.types'
-import { Signal } from '../signal/signal'
+import type { Signal } from '../signal/signal'
 
 export function initLogState() {
   ;(window as any).logState = () => {

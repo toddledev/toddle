@@ -1,4 +1,4 @@
-import { ActionModel } from '@toddledev/core/dist/component/component.types'
+import type { ActionModel } from '@toddledev/core/dist/component/component.types'
 import type { Rule } from '../types'
 
 export const legacyActionRule: Rule<{

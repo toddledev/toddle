@@ -1,4 +1,4 @@
-import { CustomActionModel } from '@toddledev/core/dist/component/component.types'
+import type { CustomActionModel } from '@toddledev/core/dist/component/component.types'
 import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
 import type { Rule } from '../types'
 

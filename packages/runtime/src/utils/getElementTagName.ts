@@ -1,5 +1,5 @@
-import { ElementNodeModel } from '@toddledev/core/dist/component/component.types'
-import { ComponentContext } from '../types'
+import type { ElementNodeModel } from '@toddledev/core/dist/component/component.types'
+import type { ComponentContext } from '../types'
 
 export function getElementTagName(
   node: ElementNodeModel,

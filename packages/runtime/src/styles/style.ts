@@ -1,5 +1,5 @@
-import type { Component } from '@toddledev/core/dist/component/component.types'
-import {
+import type {
+  Component,
   ComponentNodeModel,
   ElementNodeModel,
   NodeStyleModel,

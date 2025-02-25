@@ -1,13 +1,13 @@
 import { getActionsInAction } from '../component/actionUtils'
-import { ActionModel } from '../component/component.types'
+import type { ActionModel } from '../component/component.types'
 import { type Formula } from '../formula/formula'
-import { GlobalFormulas } from '../formula/formulaTypes'
+import type { GlobalFormulas } from '../formula/formulaTypes'
 import {
   getFormulasInAction,
   getFormulasInFormula,
 } from '../formula/formulaUtils'
 import { isDefined } from '../utils/util'
-import { ApiRequest } from './apiTypes'
+import type { ApiRequest } from './apiTypes'
 
 export class ToddleApiV2<Handler> implements ApiRequest {
   private api: ApiRequest

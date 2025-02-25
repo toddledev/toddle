@@ -41,7 +41,7 @@ import { unknownUrlParameterRule } from './rules/unknownUrlParameterRule'
 import { unknownVariableRule } from './rules/unknownVariableRule'
 import { unknownVariableSetterRule } from './rules/unknownVariableSetterRule'
 import { searchProject } from './searchProject'
-import { ApplicationState, Category, Code, Level, Result } from './types'
+import type { ApplicationState, Category, Code, Level, Result } from './types'
 
 export type Options = {
   /**

@@ -7,20 +7,17 @@ import type {
   ComponentData,
   MetaEntry,
 } from '@toddledev/core/dist/component/component.types'
-import {
+import type {
   FormulaContext,
   ToddleEnv,
-  applyFormula,
 } from '@toddledev/core/dist/formula/formula'
-import { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
+import { applyFormula } from '@toddledev/core/dist/formula/formula'
+import type { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
 import { valueFormula } from '@toddledev/core/dist/formula/formulaUtils'
-import {
-  OldTheme,
-  Theme,
-  getThemeCss,
-} from '@toddledev/core/dist/styling/theme'
+import type { OldTheme, Theme } from '@toddledev/core/dist/styling/theme'
+import { getThemeCss } from '@toddledev/core/dist/styling/theme'
 import { theme } from '@toddledev/core/dist/styling/theme.const'
-import {
+import type {
   ActionHandler,
   ArgumentInputDataFunction,
   FormulaHandler,
@@ -40,9 +37,10 @@ import { dragEnded } from './editor/drag-drop/dragEnded'
 import { dragMove } from './editor/drag-drop/dragMove'
 import { dragReorder } from './editor/drag-drop/dragReorder'
 import { dragStarted } from './editor/drag-drop/dragStarted'
-import { DragState } from './editor/types'
+import type { DragState } from './editor/types'
 import { handleAction } from './events/handleAction'
-import { Signal, signal } from './signal/signal'
+import type { Signal } from './signal/signal'
+import { signal } from './signal/signal'
 import { insertStyles, styleToCss } from './styles/style'
 import type {
   ComponentContext,

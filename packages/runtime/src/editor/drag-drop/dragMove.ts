@@ -1,5 +1,5 @@
 import { findNearestLine } from '../../utils/findNearestLine'
-import { DragState } from '../types'
+import type { DragState } from '../types'
 import { DRAG_REORDER_CLASSNAME } from './dragReorder'
 import { removeDropHighlight, setExternalDropHighlight } from './dropHighlight'
 import { getInsertAreas } from './getInsertAreas'
