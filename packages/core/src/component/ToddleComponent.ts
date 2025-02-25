@@ -463,4 +463,8 @@ export class ToddleComponent<Handler> {
   get isPage() {
     return isPageComponent(this.component)
   }
+
+  get contexts() {
+    return this.component.contexts
+  }
 }

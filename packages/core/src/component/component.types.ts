@@ -163,35 +163,13 @@ export interface Component {
   route?: PageRoute | null
   attributes: Record<string, { name: string; testValue: unknown }>
   variables: Record<string, { initialValue: Formula }>
-  formulas?: Record<
-    string,
-    {
-      name: string
-      arguments: Array<{ name: string; testValue: any }>
-      memoize?: boolean
-      exposeInContext?: boolean
-      formula: Formula
-    }
-  >
+  formulas?: Record<string, ComponentFormula>
   contexts?: Record<
     // `componentName` or `packageName/componentName` if the context comes from a different package than the component itself
     string,
-    {
-      formulas: string[]
-      workflows: string[]
-      componentName?: string
-      package?: string
-    }
+    ComponentContext
   >
-  workflows?: Record<
-    string,
-    {
-      name: string
-      parameters: Array<{ name: string; testValue: any }>
-      actions: ActionModel[]
-      exposeInContext?: boolean
-    }
-  >
+  workflows?: Record<string, ComponentWorkflow>
   apis: Record<string, ComponentAPI>
   nodes: Record<string, NodeModel>
   events?: ComponentEvent[]
@@ -199,6 +177,28 @@ export interface Component {
   onAttributeChange?: EventModel
   // exported indicates that a component is exported in a package
   exported?: boolean
+}
+
+export interface ComponentFormula {
+  name: string
+  arguments: Array<{ name: string; testValue: any }>
+  memoize?: boolean
+  exposeInContext?: boolean
+  formula: Formula
+}
+
+export interface ComponentWorkflow {
+  name: string
+  parameters: Array<{ name: string; testValue: any }>
+  actions: ActionModel[]
+  exposeInContext?: boolean
+}
+
+export interface ComponentContext {
+  formulas: string[]
+  workflows: string[]
+  componentName?: string
+  package?: string
 }
 
 export type PageComponent = RequireFields<Component, 'route'>

@@ -1,4 +1,4 @@
-import { searchProject } from '../searchProject'
+import { searchProject } from '../../searchProject'
 import { unknownContextProviderWorkflowRule } from './unknownContextProviderWorkflowRule'
 
 describe('unknownContextProviderWorkflowRule', () => {

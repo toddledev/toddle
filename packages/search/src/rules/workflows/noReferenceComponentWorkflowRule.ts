@@ -1,5 +1,5 @@
 import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
-import type { Rule } from '../types'
+import type { Rule } from '../../types'
 
 export const noReferenceComponentWorkflowRule: Rule<{
   name: string
