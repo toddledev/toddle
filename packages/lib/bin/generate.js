@@ -7,15 +7,14 @@ function load(type) {
   const res = {}
 
   const folders = fs
-    .readdirSync(`${parentDir}/${type}s`)
+    .readdirSync(`${parentDir}/${type}`)
     .filter((f) => f.includes('.') === false)
 
   fs.writeFileSync(
-    `${distPath}/${type}s.ts`,
+    `${parentDir}/${type}.ts`,
     `${folders
       .map(
-        (folder) =>
-          `import * as ${folder} from "../${type}s/${folder}/handler"`,
+        (folder) => `import * as ${folder} from "./${type}/${folder}/handler"`,
       )
       .join('\n')}
 
@@ -25,22 +24,22 @@ export {
   `,
   )
 
-  for (const folder of folders) {
-    const config = require(`../${type}s/${folder}/${type}.json`)
-    res['@toddle/' + folder] = config
-  }
+  // for (const folder of folders) {
+  //   const config = require(`${type}s/${folder}/${type}.json`)
+  //   res['@toddle/' + folder] = config
+  // }
 
   return res
 }
-fs.rmSync(distPath, { recursive: true, force: true })
-fs.mkdirSync(distPath, { recursive: true })
-const formulas = load('formula')
-const actions = load('action')
+// fs.rmSync(distPath, { recursive: true, force: true })
+// fs.mkdirSync(distPath, { recursive: true })
+const formulas = load('formulas')
+const actions = load('actions')
 
-fs.writeFileSync(
-  `${distPath}/lib.ts`,
-  `
-    export const formulas = ${JSON.stringify(formulas, null, 2)};
-    export const actions = ${JSON.stringify(actions, null, 2)};
-`,
-)
+// fs.writeFileSync(
+//   `${distPath}/lib.ts`,
+//   `
+//     export const formulas = ${JSON.stringify(formulas, null, 2)};
+//     export const actions = ${JSON.stringify(actions, null, 2)};
+// `,
+// )
