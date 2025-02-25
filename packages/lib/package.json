@@ -7,7 +7,7 @@
     "@toddledev/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "22.13.4",
+    "@types/node": "22.13.5",
     "jest-environment-jsdom": "29.7.0",
     "ts-jest": "29.2.5"
   },
