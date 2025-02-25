@@ -7,7 +7,8 @@ import {
   getRequestQueryParams,
   getUrl,
 } from './api'
-import type { ApiMethod, ApiRequest } from './apiTypes'
+import type { ApiRequest } from './apiTypes'
+import { ApiMethod } from './apiTypes'
 
 describe('getApiPath()', () => {
   test('it returns a valid url path string', () => {
