@@ -21,7 +21,6 @@ export const unknownWorkflowParameterRule: Rule<{ parameter: string }> = {
       const subscription = args.component.contexts?.[value.contextProvider]
       const isSubscribed = subscription?.workflows?.includes(value.workflow)
       if (!isSubscribed || typeof subscription?.componentName !== 'string') {
-        console.error('Unable to find subscription')
         return
       }
       workflow = subscription?.package
@@ -32,7 +31,6 @@ export const unknownWorkflowParameterRule: Rule<{ parameter: string }> = {
             value.workflow
           ]
       if (!workflow) {
-        console.error('Unable to find workflow')
         return
       }
     } else {
