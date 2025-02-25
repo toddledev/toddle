@@ -94,8 +94,8 @@ export const getNextSiblingElement = (
  */
 export function ensureEfficientOrdering(
   parentElement: Element | ShadowRoot,
-  items: Element[],
-  nextElement: Element | null = null,
+  items: ReadonlyArray<Element | Text>,
+  nextElement: Element | Text | null = null,
 ) {
   // Identify the starting point for comparisons.
   let insertBeforeElement = nextElement // If insertBeforeElement is null, items will be appended at the end.

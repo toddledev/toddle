@@ -29,12 +29,15 @@ export function createNode({
   namespace?: SupportedNamespaces
   parentElement: Element | ShadowRoot
   instance: Record<string, string>
-}): Element[] {
+}): ReadonlyArray<Element | Text> {
   const node = ctx.component.nodes[id]
   if (!node) {
     return []
   }
-  const create = ({ node, ...props }: NodeRenderer<NodeModel>): Element[] => {
+  const create = ({
+    node,
+    ...props
+  }: NodeRenderer<NodeModel>): ReadonlyArray<Element | Text> => {
     switch (node.type) {
       case 'element':
         return [
@@ -57,7 +60,6 @@ export function createNode({
               node.package ?? (isLocalComponent ? undefined : ctx.package),
           },
           parentElement,
-          namespace,
         })
       case 'text':
         return [createText({ ...props, node })]
@@ -75,7 +77,7 @@ export function createNode({
     namespace,
     parentElement,
     instance,
-  }: NodeRenderer<NodeModel>): Element[] {
+  }: NodeRenderer<NodeModel>): ReadonlyArray<Element | Text> {
     let firstRun = true
     let childDataSignal: Signal<ComponentData> | null = null
     const showSignal = dataSignal.map((data) =>
@@ -92,7 +94,7 @@ export function createNode({
       ),
     )
 
-    const elements: Element[] = []
+    const elements: Array<Element | Text> = []
     const toggle = (show: boolean) => {
       if (show && elements.length === 0) {
         childDataSignal?.destroy()
@@ -162,14 +164,14 @@ export function createNode({
     return elements
   }
 
-  function repeat(): Element[] {
+  function repeat(): ReadonlyArray<Element | Text> {
     let firstRun = true
     let repeatItems = new Map<
       string | number,
       {
         dataSignal: Signal<ComponentData>
         cleanup: () => void
-        elements: Element[]
+        elements: ReadonlyArray<Element | Text>
       }
     >()
     const repeatSignal = dataSignal.map((data) => {
@@ -195,7 +197,7 @@ export function createNode({
           {
             dataSignal: Signal<ComponentData>
             cleanup: () => void
-            elements: Element[]
+            elements: ReadonlyArray<Element | Text>
           }
         >()
 

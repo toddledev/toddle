@@ -155,11 +155,16 @@ export function applyFormula(
       case 'value':
         return formula.value
       case 'path': {
-        return formula.path.reduce(
-          (input: any, key) =>
-            input && typeof input === 'object' ? input[key] : null,
-          ctx.data,
-        )
+        let input: any = ctx.data
+        for (const key of formula.path) {
+          if (input && typeof input === 'object') {
+            input = input[key]
+          } else {
+            return null
+          }
+        }
+
+        return input
       }
       case 'switch': {
         for (const branch of formula.cases) {
