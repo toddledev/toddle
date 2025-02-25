@@ -16,15 +16,14 @@ export function setDropHighlight(
   }
 
   highlight = document.createElement('div')
+  highlight.classList.add('__drop-area')
   const { top, left } = targetContainer.getBoundingClientRect()
   highlight.style.setProperty('position', 'fixed')
   highlight.style.setProperty('left', `${element.offsetLeft + left}px`)
   highlight.style.setProperty('top', `${element.offsetTop + top}px`)
   highlight.style.setProperty('width', `${element.offsetWidth}px`)
   highlight.style.setProperty('height', `${element.offsetHeight}px`)
-  highlight.style.setProperty('view-transition-name', 'drop-highlight')
-  highlight.style.setProperty('outline', `2px solid #${color}`)
-  highlight.style.setProperty('outline-offset', '-2px')
+  highlight.style.setProperty('outline-color', `#${color}`)
   highlight.style.setProperty(
     'border-radius',
     window.getComputedStyle(element).borderRadius,
@@ -34,10 +33,6 @@ export function setDropHighlight(
   highlight.style.setProperty(
     '--dashed-line-color',
     `color-mix(in srgb, #${color} 33%, transparent)`,
-  )
-  highlight.style.setProperty(
-    'background-image',
-    'repeating-linear-gradient(45deg, var(--dashed-line-color) 0, var(--dashed-line-color) 1px, transparent 0, transparent 50%)',
   )
   document.body.append(highlight)
 }
@@ -60,16 +55,17 @@ export function setExternalDropHighlight({
 }) {
   highlight?.remove()
   highlight = document.createElement('div')
+  highlight.classList.add('__drop-area-line')
   highlight.style.setProperty('top', `${center.y}px`)
   highlight.style.setProperty('left', `${center.x}px`)
   if (layout === 'block') {
     highlight.style.setProperty('width', `${length}px`)
-    highlight.style.setProperty('height', `3px`)
-    highlight.style.setProperty('translate', '-50% -1.5px')
+    highlight.style.setProperty('height', `4px`)
+    highlight.style.setProperty('translate', '-50% -2px')
   } else {
     highlight.style.setProperty('height', `${length}px`)
-    highlight.style.setProperty('width', `3px`)
-    highlight.style.setProperty('translate', '-1.5px -50%')
+    highlight.style.setProperty('width', `4px`)
+    highlight.style.setProperty('translate', '-2px -50%')
   }
 
   const gradient = `radial-gradient(circle at ${projectionPoint * 100}% ${

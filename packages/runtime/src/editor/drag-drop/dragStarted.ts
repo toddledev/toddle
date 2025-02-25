@@ -1,4 +1,6 @@
 import type { DragState, Point } from '../types'
+import { DRAG_MOVE_CLASSNAME } from './dragMove'
+import { DRAG_REORDER_CLASSNAME } from './dragReorder'
 import { setDropHighlight } from './dropHighlight'
 
 export function dragStarted({
@@ -39,6 +41,8 @@ export function dragStarted({
   if (asCopy) {
     dragState.copy = element.cloneNode(true) as HTMLElement
     dragState.copy.style.setProperty('opacity', '0.5')
+    dragState.copy.classList.remove(DRAG_REORDER_CLASSNAME)
+    dragState.copy.classList.remove(DRAG_MOVE_CLASSNAME)
     dragState.initialContainer.insertBefore(
       dragState.copy,
       dragState.initialNextSibling,
@@ -75,6 +79,7 @@ export function dragStarted({
   dragState.initialContainer.insertBefore(element, dragState.initialNextSibling)
 
   // Highlight container
+  element.classList.add(DRAG_REORDER_CLASSNAME)
   window.parent?.postMessage(
     {
       type: 'highlight',
