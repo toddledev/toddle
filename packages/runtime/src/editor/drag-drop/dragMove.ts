@@ -1,10 +1,7 @@
 import { findNearestLine } from '../../utils/findNearestLine'
 import type { DragState } from '../types'
-import { DRAG_REORDER_CLASSNAME } from './dragReorder'
 import { removeDropHighlight, setExternalDropHighlight } from './dropHighlight'
 import { getInsertAreas } from './getInsertAreas'
-
-export const DRAG_MOVE_CLASSNAME = '__drag-mode--move'
 
 export function dragMove(dragState: DragState | null, exclude: HTMLElement[]) {
   if (!dragState) {
@@ -26,8 +23,6 @@ export function dragMove(dragState: DragState | null, exclude: HTMLElement[]) {
     dragState.element.style.setProperty('translate', '0')
     const rect = dragState.element.getBoundingClientRect()
     document.body.appendChild(dragState.element)
-    dragState.element.classList.add(DRAG_MOVE_CLASSNAME)
-    dragState.element.classList.remove(DRAG_REORDER_CLASSNAME)
     dragState.element.style.setProperty(
       '--drag-mode--move-left',
       `${rect.left}px`,

@@ -1,9 +1,7 @@
 import { tryStartViewTransition } from '../../utils/tryStartViewTransition'
 import type { DragState } from '../types'
-import { DRAG_MOVE_CLASSNAME } from './dragMove'
 import { setDropHighlight } from './dropHighlight'
 
-export const DRAG_REORDER_CLASSNAME = '__drag-mode--reorder'
 const OVERLAP_OFFSET_PX = 100
 
 export function dragReorder(dragState: DragState | null) {
@@ -17,8 +15,6 @@ export function dragReorder(dragState: DragState | null) {
 
     // Move back to the original container
     const prevRect = dragState.element.getBoundingClientRect()
-    dragState.element.classList.add(DRAG_REORDER_CLASSNAME)
-    dragState.element.classList.remove(DRAG_MOVE_CLASSNAME)
     dragState.initialContainer.insertBefore(
       dragState.element,
       dragState.initialNextSibling,

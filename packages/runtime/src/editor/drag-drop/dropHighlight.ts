@@ -16,16 +16,28 @@ export function setDropHighlight(
   }
 
   highlight = document.createElement('div')
-  highlight.classList.add('__drop-area')
   const { top, left } = targetContainer.getBoundingClientRect()
+  highlight.style.setProperty('position', 'fixed')
   highlight.style.setProperty('left', `${element.offsetLeft + left}px`)
   highlight.style.setProperty('top', `${element.offsetTop + top}px`)
   highlight.style.setProperty('width', `${element.offsetWidth}px`)
   highlight.style.setProperty('height', `${element.offsetHeight}px`)
-  highlight.style.setProperty('border', `2px solid #${color}`)
+  highlight.style.setProperty('view-transition-name', 'drop-highlight')
+  highlight.style.setProperty('outline', `2px solid #${color}`)
+  highlight.style.setProperty('outline-offset', '-2px')
   highlight.style.setProperty(
     'border-radius',
     window.getComputedStyle(element).borderRadius,
+  )
+  highlight.style.setProperty('background-size', '9px 9px')
+  highlight.style.setProperty('background-color', 'rgba(0, 0, 0, 0)')
+  highlight.style.setProperty(
+    '--dashed-line-color',
+    `color-mix(in srgb, #${color} 33%, transparent)`,
+  )
+  highlight.style.setProperty(
+    'background-image',
+    'repeating-linear-gradient(45deg, var(--dashed-line-color) 0, var(--dashed-line-color) 1px, transparent 0, transparent 50%)',
   )
   document.body.append(highlight)
 }
@@ -48,7 +60,6 @@ export function setExternalDropHighlight({
 }) {
   highlight?.remove()
   highlight = document.createElement('div')
-  highlight.classList.add('__drop-area-line')
   highlight.style.setProperty('top', `${center.y}px`)
   highlight.style.setProperty('left', `${center.x}px`)
   if (layout === 'block') {
