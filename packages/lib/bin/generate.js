@@ -31,6 +31,8 @@ export {
 
   return res
 }
+fs.rmSync(distPath, { recursive: true, force: true })
+fs.mkdirSync(distPath, { recursive: true })
 const formulas = load('formula')
 const actions = load('action')
 
