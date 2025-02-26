@@ -4,6 +4,7 @@ import { createRequiredDirectChildRule } from './rules/createRequiredDirectChild
 import { createRequiredDirectParentRule } from './rules/createRequiredDirectParentRule'
 import { createRequiredElementAttributeRule } from './rules/createRequiredElementAttributeRule'
 import { createRequiredMetaTagRule } from './rules/createRequiredMetaTagRule'
+import { createStaticSizeConstraintRule } from './rules/createStaticSizeConstraintRule'
 import { duplicateEventTriggerRule } from './rules/duplicateEventTriggerRule'
 import { duplicateUrlParameterRule } from './rules/duplicateUrlParameterRule'
 import { imageWithoutDimensionRule } from './rules/imageWithoutDimensionRule'
@@ -100,6 +101,7 @@ const RULES = [
   createRequiredDirectParentRule(['fieldset'], ['legend']),
   // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl#technical_summary
   createRequiredDirectChildRule(['dl'], ['dd', 'dt', 'script', 'template']),
+  createStaticSizeConstraintRule('svg', 1000),
   imageWithoutDimensionRule,
   duplicateEventTriggerRule,
   duplicateUrlParameterRule,

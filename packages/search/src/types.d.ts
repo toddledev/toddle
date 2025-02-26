@@ -26,6 +26,7 @@ type Code =
   | 'duplicate url parameter'
   | 'legacy action'
   | 'legacy formula'
+  | 'size constraint'
   | 'no-console'
   | 'no context consumers'
   | 'no-reference api input'
