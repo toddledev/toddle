@@ -1,4 +1,3 @@
-import type { ComponentWorkflow } from '@toddledev/core/dist/component/component.types'
 import type { Rule } from '../../types'
 
 export const unknownWorkflowParameterRule: Rule<{ parameter: string }> = {
@@ -6,48 +5,35 @@ export const unknownWorkflowParameterRule: Rule<{ parameter: string }> = {
   level: 'error',
   category: 'Unknown Reference',
   visit: (report, args) => {
-    const { path, files, value, nodeType } = args
+    const { path, value, nodeType } = args
+    console.log({ path })
     if (
-      nodeType !== 'action-model' ||
-      value.type !== 'TriggerWorkflow' ||
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      Object.entries(value?.parameters ?? {}).length === 0
+      nodeType !== 'formula' ||
+      value.type !== 'path' ||
+      // We want a path that looks like ['components', 'componentName', 'workflows', 'workflowName', ...]
+      path.length < 4 ||
+      path[2] !== 'workflows' ||
+      // The path formula would usually look like ['Parameters', 'parameterName']
+      value.path[0] !== 'Parameters' ||
+      value.path.length < 2
     ) {
       return
     }
-
-    let workflow: ComponentWorkflow | undefined
-    if (typeof value.contextProvider === 'string') {
-      const subscription = args.component.contexts?.[value.contextProvider]
-      const isSubscribed = subscription?.workflows?.includes(value.workflow)
-      if (!isSubscribed || typeof subscription?.componentName !== 'string') {
-        return
-      }
-      workflow = subscription?.package
-        ? files.packages?.[subscription.package]?.components[
-            subscription.componentName
-          ]?.workflows?.[value.workflow]
-        : files.components[subscription.componentName]?.workflows?.[
-            value.workflow
-          ]
-      if (!workflow) {
-        return
-      }
-    } else {
-      workflow = args.component.workflows?.[value.workflow]
-    }
-    if (!workflow) {
+    const component = args.component
+    if (!component) {
       return
     }
+    const [_components, _componentName, _workflows, workflowName] = path
+    const [_Parameters, parameterName] = value.path
     const workflowParameters = new Set(
-      Object.values(workflow.parameters).map((p) => p.name),
+      Object.values(component.workflows?.[workflowName]?.parameters ?? {}).map(
+        (p) => p.name,
+      ),
     )
-    Object.keys(value.parameters).forEach((parameterKey) => {
-      if (!workflowParameters.has(parameterKey)) {
-        report([...path, 'parameters', parameterKey], {
-          parameter: parameterKey,
-        })
-      }
-    })
+    if (!workflowParameters.has(parameterName)) {
+      report(path, {
+        parameter: parameterName,
+      })
+    }
   },
 }

@@ -321,6 +321,7 @@ function* visitNode(
             files,
             pathsToVisit,
             memo,
+            component,
           },
           state,
         )

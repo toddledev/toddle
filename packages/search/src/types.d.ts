@@ -62,6 +62,7 @@ type Code =
   | 'unknown url parameter'
   | 'unknown variable setter'
   | 'unknown variable'
+  | 'unknown trigger workflow parameter'
   | 'unknown workflow parameter'
 
 type Category =
@@ -201,6 +202,7 @@ type ComponentAttributeNode = {
 type FormulaNode = {
   nodeType: 'formula'
   value: Formula
+  component?: ToddleComponent<Function>
 } & Base
 
 type ActionModelNode = {
