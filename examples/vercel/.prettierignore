@@ -1,0 +1,5 @@
+**/dist/**/*
+bun.lock
+packages/lib/actions.ts
+packages/lib/formulas.ts
+public/**/*
