@@ -11,11 +11,10 @@ function load(type) {
     .filter((f) => f.includes('.') === false)
 
   fs.writeFileSync(
-    `${distPath}/${type}s.ts`,
+    `${parentDir}/${type}s.ts`,
     `${folders
       .map(
-        (folder) =>
-          `import * as ${folder} from "../${type}s/${folder}/handler"`,
+        (folder) => `import * as ${folder} from "./${type}s/${folder}/handler"`,
       )
       .join('\n')}
 
@@ -37,6 +36,7 @@ fs.mkdirSync(distPath, { recursive: true })
 const formulas = load('formula')
 const actions = load('action')
 
+// The lib.ts file is used by toddle internally to list all available formulas and actions
 fs.writeFileSync(
   `${distPath}/lib.ts`,
   `

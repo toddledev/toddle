@@ -12,7 +12,7 @@
     "ts-jest": "29.2.6"
   },
   "scripts": {
-    "build": "bun ./bin/generate.js",
+    "build": "bun ./bin/generate.js && tsc --project tsconfig.build.json",
     "npm-publish": "bun run build && bun publish --access public",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -20,8 +20,6 @@
     "typecheck:watch": "tsc --noEmit -w"
   },
   "files": [
-    "dist",
-    "actions",
-    "formulas"
+    "dist"
   ]
 }
