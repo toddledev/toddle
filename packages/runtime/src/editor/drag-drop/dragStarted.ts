@@ -25,6 +25,7 @@ export function dragStarted({
   initialNextSibling ??= element.nextElementSibling
 
   const dragState: DragState = {
+    destroying: false,
     elementType: elementIsComponent(element) ? 'component' : 'element',
     element,
     offset: lastCursorPosition,

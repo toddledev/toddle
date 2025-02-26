@@ -70,7 +70,7 @@ export function setExternalDropHighlight({
 
   const gradient = `radial-gradient(circle at ${projectionPoint * 100}% ${
     projectionPoint * 100
-  }%, #${color} 0%, #${color}80 max(100%, 75px))`
+  }%, #${color} 0%, #${color}55 max(100%, 75px))`
   highlight.style.setProperty('background', gradient)
   document.body.appendChild(highlight)
 }
