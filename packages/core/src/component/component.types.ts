@@ -293,7 +293,7 @@ export type VariableActionModel = {
 export type FetchActionModel = {
   type: 'Fetch'
   api: string
-  inputs?: Record<string, { formula: Formula }>
+  inputs?: Record<string, { formula: Formula | null }>
   onSuccess: { actions: ActionModel[] }
   onError: { actions: ActionModel[] }
   onMessage?: { actions: ActionModel[] }

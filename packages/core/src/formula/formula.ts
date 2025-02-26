@@ -26,6 +26,7 @@ type FunctionArgument = {
 export type FunctionOperation = {
   type: 'function'
   name: string
+  display_name?: string | null
   package?: string
   arguments: FunctionArgument[]
   variableArguments?: boolean
