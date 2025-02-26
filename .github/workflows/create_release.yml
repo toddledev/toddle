@@ -1,0 +1,29 @@
+# Github action that creates a release in this repository
+name: 'Create Release'
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: 'Tag name for the release'
+        required: true
+        type: string
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
+    steps:
+      - name: Debug
+        run: echo ${{ inputs.version }}
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Create release
+        run: |
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            /repos/toddledev/toddle/releases \
+            -f "tag_name=${{ inputs.version }}" -f "target_commitish=main" -f "name=${{ inputs.version }}" -f "body=Release ${{ inputs.version }}" -F "draft=true" -F "prerelease=false" -F "generate_release_notes=true"
