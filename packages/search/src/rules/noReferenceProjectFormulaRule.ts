@@ -1,6 +1,7 @@
 import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
 import type { Formula } from '@toddledev/core/dist/formula/formula'
 import { isToddleFormula } from '@toddledev/core/dist/formula/formulaTypes'
+import { ToddleApiService } from '@toddledev/ssr/dist/ToddleApiService'
 import type { Rule } from '../types'
 
 export const noReferenceProjectFormulaRule: Rule<void> = {
@@ -10,6 +11,21 @@ export const noReferenceProjectFormulaRule: Rule<void> = {
   visit: (report, { path, files, value, nodeType, memo }) => {
     if (nodeType !== 'project-formula') {
       return
+    }
+
+    // Check in all API services first, since that should be quick
+    for (const apiService of Object.values(files.services ?? {})) {
+      const service = new ToddleApiService({
+        service: apiService,
+        globalFormulas: { formulas: files.formulas, packages: files.packages },
+      })
+      const formulas = service.formulasInService()
+      for (const [_formulaPath, formula] of formulas) {
+        // Check if the formula is used in the formula
+        if (checkFormula(formula, value.name)) {
+          return
+        }
+      }
     }
 
     const componentFormulaReferences = memo(
