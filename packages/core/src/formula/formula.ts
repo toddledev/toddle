@@ -145,7 +145,7 @@ export function isFormulaApplyOperation(
 }
 
 export function applyFormula(
-  formula: Formula | string | number | undefined | boolean,
+  formula: Formula | string | number | undefined | null | boolean,
   ctx: FormulaContext,
 ): any {
   if (!isFormula(formula)) {

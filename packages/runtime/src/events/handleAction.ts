@@ -124,7 +124,7 @@ export function handleAction(
         // This is needed if the inputs are formulas referencing workflow parameters
         const actionInputs = isv2
           ? mapValues(action.inputs ?? {}, (input) =>
-              applyFormula(input.formula ?? undefined, {
+              applyFormula(input.formula, {
                 data,
                 component: ctx.component,
                 formulaCache: ctx.formulaCache,
