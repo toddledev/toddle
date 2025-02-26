@@ -338,6 +338,7 @@ function* visitNode(
             files,
             pathsToVisit,
             memo,
+            component,
           },
           state,
         )
@@ -353,6 +354,7 @@ function* visitNode(
             files,
             pathsToVisit,
             memo,
+            component,
           },
           state,
         )
