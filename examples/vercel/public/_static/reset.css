@@ -1,0 +1,72 @@
+
+@layer reset {
+  html {
+    height:100%;
+  }
+
+  #App {
+    height:100%;
+    display:flex;
+    flex-direction:column;
+  }
+
+  body {
+    height:100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin:0;
+  }
+
+  [data-node-id]:not([data-unset-toddle-styles],[data-node-type="text"],noscript,br,script,style,math,math *,link,template,meta,title,base), [data-node-id]:not([data-unset-toddle-styles],noscript)::before, [data-node-id]:not([data-unset-toddle-styles],noscript)::after {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
+
+    position: relative;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+
+    font-size: var(--text-base);
+    font-family: var(--font-sans);
+    font-weight: var(--font-weight-normal);
+
+    background: transparent;
+    color: inherit;
+    border: none;
+    box-shadow: none;
+  }
+
+  [data-node-id]:not([data-unset-toddle-styles]):is(p, h1, h2, h3, h4, h5, h6, label, span, strong, b, i, address, caption, code, cite, dt, dd, em, figcaption, legend, blockquote, abbr, pre, bdo, bdi) {
+    display: inline-block;
+    overflow-wrap: break-word;
+    color: inherit;
+  }
+
+  [data-node-id]:not([data-unset-toddle-styles]):is(input, button, textarea, select) {
+    outline: none;
+  }
+
+  [data-node-id]:not([data-unset-toddle-styles]):is(a) {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  [data-node-id]:not([data-unset-toddle-styles]):is(ul, ol, li) {
+    list-style: none;
+  }
+
+  [data-node-id]:not([data-unset-toddle-styles]):is(span[data-node-type="text"]) {
+    font: inherit;
+    display: inline;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
+    box-sizing: border-box;
+  }
+
+  [popover]:not(:popover-open):not(dialog[open]) {
+    display: revert;
+  }
+}
