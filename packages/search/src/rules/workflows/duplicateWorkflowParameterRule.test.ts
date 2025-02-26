@@ -52,7 +52,7 @@ describe('duplicateWorkflowParameterRule', () => {
       'parameters',
       1,
     ])
-    expect(problems[0].details).toEqual({ parameterName: 'myParameter' })
+    expect(problems[0].details).toEqual({ parameter: 'myParameter' })
   })
   test('should not detect unique workflow parameters', () => {
     const problems = Array.from(

@@ -1,6 +1,6 @@
 import type { Rule } from '../../types'
 
-export const duplicateWorkflowParameterRule: Rule<{ parameterName: string }> = {
+export const duplicateWorkflowParameterRule: Rule<{ parameter: string }> = {
   code: 'duplicate workflow parameter',
   level: 'warning',
   category: 'Quality',
@@ -15,7 +15,7 @@ export const duplicateWorkflowParameterRule: Rule<{ parameterName: string }> = {
     const parameterNames = new Set<string>()
     value.parameters.forEach((p, i) => {
       if (parameterNames.has(p.name)) {
-        report([...path, 'parameters', i], { parameterName: p.name })
+        report([...path, 'parameters', i], { parameter: p.name })
       }
       parameterNames.add(p.name)
     })
