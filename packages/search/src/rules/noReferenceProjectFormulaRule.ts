@@ -2,6 +2,7 @@ import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
 import type { Formula } from '@toddledev/core/dist/formula/formula'
 import { isToddleFormula } from '@toddledev/core/dist/formula/formulaTypes'
 import { ToddleApiService } from '@toddledev/ssr/dist/ToddleApiService'
+import { ToddleRoute } from '@toddledev/ssr/dist/ToddleRoute'
 import type { Rule } from '../types'
 
 export const noReferenceProjectFormulaRule: Rule<void> = {
@@ -20,6 +21,21 @@ export const noReferenceProjectFormulaRule: Rule<void> = {
         globalFormulas: { formulas: files.formulas, packages: files.packages },
       })
       const formulas = service.formulasInService()
+      for (const [_formulaPath, formula] of formulas) {
+        // Check if the formula is used in the formula
+        if (checkFormula(formula, value.name)) {
+          return
+        }
+      }
+    }
+
+    // Check routes before components, since they should be quicker
+    for (const projectRoute of Object.values(files.routes ?? {})) {
+      const route = new ToddleRoute({
+        route: projectRoute,
+        globalFormulas: { formulas: files.formulas, packages: files.packages },
+      })
+      const formulas = route.formulasInRoute()
       for (const [_formulaPath, formula] of formulas) {
         // Check if the formula is used in the formula
         if (checkFormula(formula, value.name)) {

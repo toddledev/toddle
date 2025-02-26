@@ -19,6 +19,7 @@ import type {
   ApiService,
   PluginAction,
   ProjectFiles,
+  Route,
 } from '@toddledev/ssr/dist/ssr.types'
 
 type Code =
@@ -150,6 +151,11 @@ type ProjectApiService = {
   value: ApiService
 } & Base
 
+type ProjectRoute = {
+  nodeType: 'project-route'
+  value: Route
+} & Base
+
 type ComponentNode = {
   nodeType: 'component'
   value: Component
@@ -277,6 +283,7 @@ export type NodeType =
   | ProjectConfigNode
   | ProjectFormulaNode
   | ProjectThemeNode
+  | ProjectRoute
   | StyleVariantNode
 
 export interface Rule<T = unknown, V = NodeType> {

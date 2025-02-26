@@ -4,6 +4,7 @@ import { isToddleFormula } from '@toddledev/core/dist/formula/formulaTypes'
 import { ToddleFormula } from '@toddledev/core/dist/formula/ToddleFormula'
 import type { ProjectFiles } from '@toddledev/ssr/dist/ssr.types'
 import { ToddleApiService } from '@toddledev/ssr/dist/ToddleApiService'
+import { ToddleRoute } from '@toddledev/ssr/dist/ToddleRoute'
 import type { ApplicationState, NodeType, Result, Rule } from './types'
 import { shouldSearchPath } from './util/shouldSearchPath'
 
@@ -108,6 +109,23 @@ export function* searchProject({
           nodeType: 'api-service',
           value: files.services[key],
           path: ['services', key],
+          rules,
+          files,
+          pathsToVisit,
+          memo,
+        },
+        state,
+      )
+    }
+  }
+
+  if (files.routes) {
+    for (const key in files.routes) {
+      yield* visitNode(
+        {
+          nodeType: 'project-route',
+          value: files.routes[key],
+          path: ['routes', key],
           rules,
           files,
           pathsToVisit,
@@ -421,6 +439,31 @@ function* visitNode(
         },
       })
       for (const [formulaPath, formula] of apiService.formulasInService()) {
+        yield* visitNode(
+          {
+            nodeType: 'formula',
+            value: formula,
+            path: [...path, ...formulaPath],
+            rules,
+            files,
+            pathsToVisit,
+            memo,
+          },
+          state,
+        )
+      }
+      break
+    }
+
+    case 'project-route': {
+      const projectRoute = new ToddleRoute<string>({
+        route: value,
+        globalFormulas: {
+          formulas: files.formulas,
+          packages: files.packages,
+        },
+      })
+      for (const [formulaPath, formula] of projectRoute.formulasInRoute()) {
         yield* visitNode(
           {
             nodeType: 'formula',
