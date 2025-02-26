@@ -26,6 +26,7 @@ type FunctionArgument = {
 export type FunctionOperation = {
   type: 'function'
   name: string
+  display_name?: string | null
   package?: string
   arguments: FunctionArgument[]
   variableArguments?: boolean
@@ -144,7 +145,7 @@ export function isFormulaApplyOperation(
 }
 
 export function applyFormula(
-  formula: Formula | string | number | undefined | boolean,
+  formula: Formula | string | number | undefined | null | boolean,
   ctx: FormulaContext,
 ): any {
   if (!isFormula(formula)) {

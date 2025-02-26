@@ -61,8 +61,8 @@ export interface ApiRequest extends ApiBase {
   headers?: Record<string, { formula: Formula; enabled?: Formula | null }>
   method?: ApiMethod
   body?: Formula
-  // inputs for an API request - the server will only accept listed arguments
-  inputs: Record<string, { formula: Formula }>
+  // inputs for an API request
+  inputs: Record<string, { formula: Formula | null }>
   service?: string | null
   servicePath?: string | null
   server?: {
