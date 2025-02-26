@@ -1,6 +1,7 @@
 {
   "name": "@toddledev/std-lib",
   "license": "Apache-2.0",
+  "type": "module",
   "homepage": "https://github.com/toddledev/toddle",
   "dependencies": {
     "fast-deep-equal": "3.1.3",

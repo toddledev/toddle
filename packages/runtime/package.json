@@ -1,6 +1,7 @@
 {
   "name": "@toddledev/runtime",
   "license": "Apache-2.0",
+  "type": "module",
   "homepage": "https://github.com/toddledev/toddle",
   "dependencies": {
     "@toddledev/core": "workspace:*",
