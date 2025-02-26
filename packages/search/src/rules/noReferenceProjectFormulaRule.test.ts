@@ -205,4 +205,47 @@ describe('noReferenceFormulaRule', () => {
 
     expect(problems).toEqual([])
   })
+  test('should not detect unused global formulas used in routes', () => {
+    const problems = Array.from(
+      searchProject({
+        files: {
+          formulas: {
+            'my-formula-1': {
+              name: 'my-formula-1',
+              arguments: [],
+              formula: {
+                type: 'value',
+                value: 'value',
+              },
+            },
+          },
+          components: {},
+          routes: {
+            myRoute: {
+              type: 'redirect',
+              source: {
+                path: [],
+                query: {},
+              },
+              destination: {
+                path: {
+                  p1: {
+                    formula: {
+                      type: 'function',
+                      name: 'my-formula-1',
+                      arguments: [],
+                    },
+                    index: 0,
+                  },
+                },
+              },
+            },
+          },
+        },
+        rules: [noReferenceProjectFormulaRule],
+      }),
+    )
+
+    expect(problems).toEqual([])
+  })
 })
