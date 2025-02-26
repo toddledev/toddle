@@ -80,7 +80,7 @@ export function createAPI(
     const evaluatedInputs = Object.entries(api.inputs).reduce<
       Record<string, unknown>
     >((acc, [key, value]) => {
-      acc[key] = applyFormula(value.formula, formulaContext)
+      acc[key] = applyFormula(value.formula ?? undefined, formulaContext)
       return acc
     }, {})
 
