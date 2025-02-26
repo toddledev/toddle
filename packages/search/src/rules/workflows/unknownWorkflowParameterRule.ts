@@ -6,7 +6,6 @@ export const unknownWorkflowParameterRule: Rule<{ parameter: string }> = {
   category: 'Unknown Reference',
   visit: (report, args) => {
     const { path, value, nodeType } = args
-    console.log({ path })
     if (
       nodeType !== 'formula' ||
       value.type !== 'path' ||
