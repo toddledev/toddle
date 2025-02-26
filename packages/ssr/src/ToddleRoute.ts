@@ -19,7 +19,7 @@ export class ToddleRoute<Handler> {
   }
 
   /**
-   * Traverse all formulas in the API Service.
+   * Traverse all formulas in the route
    * @returns An iterable that yields the path and formula.
    */
   *formulasInRoute(): Generator<[(string | number)[], Formula]> {
