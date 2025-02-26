@@ -172,4 +172,37 @@ describe('noReferenceFormulaRule', () => {
 
     expect(problems).toEqual([])
   })
+  test('should not detect unused global formulas used in API services', () => {
+    const problems = Array.from(
+      searchProject({
+        files: {
+          formulas: {
+            'my-formula-1': {
+              name: 'my-formula-1',
+              arguments: [],
+              formula: {
+                type: 'value',
+                value: 'value',
+              },
+            },
+          },
+          components: {},
+          services: {
+            myService: {
+              type: 'supabase',
+              name: 'myService',
+              baseUrl: {
+                type: 'function',
+                name: 'my-formula-1',
+                arguments: [],
+              },
+            },
+          },
+        },
+        rules: [noReferenceProjectFormulaRule],
+      }),
+    )
+
+    expect(problems).toEqual([])
+  })
 })

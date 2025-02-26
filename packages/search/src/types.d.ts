@@ -15,7 +15,11 @@ import type { ToddleComponent } from '@toddledev/core/dist/component/ToddleCompo
 import type { Formula } from '@toddledev/core/dist/formula/formula'
 import type { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
 import type { Theme } from '@toddledev/core/dist/styling/theme'
-import type { PluginAction, ProjectFiles } from '@toddledev/ssr/dist/ssr.types'
+import type {
+  ApiService,
+  PluginAction,
+  ProjectFiles,
+} from '@toddledev/ssr/dist/ssr.types'
 
 type Code =
   | 'duplicate event trigger'
@@ -138,6 +142,11 @@ type ProjectActionNode = {
   value: PluginAction
 } & Base
 
+type ProjectApiService = {
+  nodeType: 'api-service'
+  value: ApiService
+} & Base
+
 type ComponentNode = {
   nodeType: 'component'
   value: Component
@@ -257,6 +266,7 @@ export type NodeType =
   | ComponentWorkflowNode
   | FormulaNode
   | ProjectActionNode
+  | ProjectApiService
   | ProjectConfigNode
   | ProjectFormulaNode
   | ProjectThemeNode

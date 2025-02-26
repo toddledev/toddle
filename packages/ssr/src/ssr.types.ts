@@ -38,7 +38,33 @@ export interface ProjectFiles {
     }
   }
   themes?: Record<string, Theme>
+  services?: Record<string, ApiService>
 }
+
+interface BaseApiService {
+  name: string // Should we deprecate this?
+  baseUrl?: Formula
+  docsUrl?: Formula
+  apiKey?: Formula
+  meta?: Record<string, unknown>
+}
+
+interface SupabaseApiService extends BaseApiService {
+  type: 'supabase'
+  meta?: {
+    projectUrl?: Formula
+  }
+}
+
+interface XanoApiService extends BaseApiService {
+  type: 'xano'
+}
+
+interface CustomApiService extends BaseApiService {
+  type: 'custom'
+}
+
+export type ApiService = SupabaseApiService | XanoApiService | CustomApiService
 
 export type InstalledPackage = Pick<
   ProjectFiles,
