@@ -37,6 +37,7 @@ import { unknownTriggerEventRule } from './rules/unknownTriggerEventRule'
 import { unknownUrlParameterRule } from './rules/unknownUrlParameterRule'
 import { unknownVariableRule } from './rules/unknownVariableRule'
 import { unknownVariableSetterRule } from './rules/unknownVariableSetterRule'
+import { duplicateWorkflowParameterRule } from './rules/workflows/duplicateWorkflowParameterRule'
 import { noReferenceComponentWorkflowRule } from './rules/workflows/noReferenceComponentWorkflowRule'
 import { unknownContextProviderWorkflowRule } from './rules/workflows/unknownContextProviderWorkflowRule'
 import { unknownContextWorkflowRule } from './rules/workflows/unknownContextWorkflowRule'
@@ -104,6 +105,7 @@ const RULES = [
   createRequiredDirectChildRule(['dl'], ['dd', 'dt', 'script', 'template']),
   duplicateEventTriggerRule,
   duplicateUrlParameterRule,
+  duplicateWorkflowParameterRule,
   imageWithoutDimensionRule,
   legacyActionRule,
   legacyFormulaRule,

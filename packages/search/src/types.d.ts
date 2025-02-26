@@ -24,6 +24,7 @@ import type {
 type Code =
   | 'duplicate event trigger'
   | 'duplicate url parameter'
+  | 'duplicate workflow parameter'
   | 'legacy action'
   | 'legacy formula'
   | 'no-console'
@@ -171,10 +172,12 @@ type ComponentWorkflowNode = {
   nodeType: 'component-workflow'
   value: {
     name: string
-    parameters: {
-      name: string
-      testValue: any
-    }[]
+    parameters?:
+      | {
+          name: string
+          testValue: any
+        }[]
+      | null
     actions: ActionModel[]
     exposeInContext?: boolean | undefined
   }
