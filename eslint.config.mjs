@@ -23,6 +23,8 @@ export default [
       'eslint.config.mjs',
       'bun.lock',
       'examples/**/*',
+      'packages/lib/actions.ts',
+      'packages/lib/formulas.ts',
     ],
   },
   ...compat.extends(
