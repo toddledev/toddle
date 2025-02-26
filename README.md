@@ -5,6 +5,7 @@ Create highly performant web apps with SSR, branching, version control, componen
 [Discord](https://discord.com/invite/svBKYZf3UR) | [BlueSky](https://bsky.app/profile/toddle.dev) | [YouTube](https://youtube.com/@toddledev) | [LinkedIn](https://www.linkedin.com/company/toddledev) | [X](https://x.com/toddledev/)
 
 ![Test status](https://github.com/toddledev/toddle/actions/workflows/test.yml/badge.svg)
+![Release status](https://github.com/toddledev/toddle/actions/workflows/main.yml/badge.svg)
 
 ## Introduction
 
