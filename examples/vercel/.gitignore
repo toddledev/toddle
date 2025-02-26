@@ -28,3 +28,6 @@ lerna-debug.log*
 # misc
 .DS_Store
 .vercel
+
+# files added during prebuild
+public/_static/
