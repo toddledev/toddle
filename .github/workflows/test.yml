@@ -90,7 +90,7 @@ jobs:
       - name: Test lib
         run: |
           cd packages/lib
-          bun run test
+          bun test
   test-search:
     runs-on: ubuntu-latest
     steps:
