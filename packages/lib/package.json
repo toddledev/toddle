@@ -8,15 +8,11 @@
     "@toddledev/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "22.13.5",
-    "jest-environment-jsdom": "29.7.0",
-    "ts-jest": "29.2.6"
+    "@types/node": "22.13.5"
   },
   "scripts": {
     "build": "bun ./bin/generate.js && tsc --project tsconfig.build.json",
     "npm-publish": "bun run build && bun publish --access public",
-    "test": "jest",
-    "test:watch": "jest --watch",
     "typecheck": "tsc --noEmit",
     "typecheck:watch": "tsc --noEmit -w"
   },
