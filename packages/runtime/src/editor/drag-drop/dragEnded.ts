@@ -26,6 +26,9 @@ export async function dragEnded(dragState: DragState, canceled: boolean) {
       )
     }
   })
+  dragState.repeatedNodes.forEach((node, i) => {
+    node.style.setProperty('view-transition-name', 'dropped-item-repeated-' + i)
+  })
   await tryStartViewTransition(() => {
     if (canceled) {
       dragState.copy?.remove()
@@ -45,6 +48,13 @@ export async function dragEnded(dragState: DragState, canceled: boolean) {
     dragState.element.style.removeProperty('translate')
     dragState.repeatedNodes.toReversed().forEach((node) => {
       dragState.element.insertAdjacentElement('afterend', node)
+      node.classList.remove('drag-repeat-node')
+      node.style.removeProperty('rotate')
+      node.style.removeProperty('--drag-repeat-node-width')
+      node.style.removeProperty('--drag-repeat-node-height')
+      node.style.removeProperty('--drag-repeat-node-translate')
+      node.style.removeProperty('--drag-repeat-node-rotate')
+      node.style.removeProperty('--drag-repeat-node-opacity')
     })
     removeDropHighlight()
     window.parent.postMessage(
