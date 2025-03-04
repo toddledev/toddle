@@ -6,12 +6,7 @@
       "name": "Array",
       "description": "An array containing one or more arrays",
       "type": { "type": "Array" },
-      "formula": {
-        "type": "function",
-        "name": "@toddle/list",
-        "arguments": [],
-        "variableArguments": true
-      }
+      "formula": { "type": "array", "arguments": [] }
     }
   ],
   "output": {

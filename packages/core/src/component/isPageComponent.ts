@@ -1,5 +1,6 @@
 import { isDefined } from '../utils/util'
-import type { Component } from './component.types'
+import type { Component, PageComponent } from './component.types'
 
-export const isPageComponent = (component: Component) =>
-  isDefined(component.route)
+export const isPageComponent = (
+  component: Component,
+): component is PageComponent => isDefined(component.route)
