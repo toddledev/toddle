@@ -13,6 +13,7 @@ import { manifest } from './routes/manifest'
 import { robots } from './routes/robots'
 import { serviceWorker } from './routes/serviceWorker'
 import { sitemap } from './routes/sitemap'
+import { stylesheetHandler } from './routes/stylesheetHandler'
 import { toddlePage } from './routes/toddlePage'
 
 // Inject isEqual on globalThis
@@ -53,6 +54,7 @@ app.get('/serviceWorker.js', serviceWorker)
 
 // toddle specific endpoints/services on /.toddle/ subpath 👇
 app.route('/.toddle/fonts', fontRouter)
+app.get('/.toddle/stylesheet/:pageName{.+.css}', stylesheetHandler)
 app.get('/.toddle/custom-code.js', customCode)
 app.all(
   '/.toddle/omvej/components/:componentName/apis/:apiName',

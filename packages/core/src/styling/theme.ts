@@ -85,9 +85,7 @@ export const getThemeCss = (theme: Theme | OldTheme, options: ThemeOptions) => {
   if ('breakpoints' in theme) {
     return getOldThemeCss(theme)
   }
-  return `
-${options.includeResetStyle ? RESET_STYLES : ''}
-
+  return `${options.includeResetStyle ? RESET_STYLES : ''}
 @layer base {
   ${
     options.createFontFaces
@@ -117,7 +115,6 @@ ${options.includeResetStyle ? RESET_STYLES : ''}
           .join('\n')
       : ''
   }
-
   body, :host {
     /* Color */
       ${theme.color
@@ -143,7 +140,6 @@ ${options.includeResetStyle ? RESET_STYLES : ''}
         ),
       )
       .join('\n')}
-
     /* Font weight */
     ${theme['font-weight']
       .flatMap((group) => {
@@ -157,7 +153,6 @@ ${options.includeResetStyle ? RESET_STYLES : ''}
         )
       })
       .join('\n')}
-
     /* Shadows */
     ${theme.shadow
       .flatMap((group) => {
@@ -171,7 +166,6 @@ ${options.includeResetStyle ? RESET_STYLES : ''}
         )
       })
       .join('\n')}
-
     /* Border radius */
     ${theme['border-radius']
       .flatMap((group) => {
@@ -183,7 +177,6 @@ ${options.includeResetStyle ? RESET_STYLES : ''}
         )
       })
       .join('\n')}
-
     /* Spacing */
     ${theme.spacing
       .map((group) => {
@@ -199,7 +192,6 @@ ${options.includeResetStyle ? RESET_STYLES : ''}
           .join('\n')
       })
       .join('\n')}
-
     /* Z-index */
     ${theme['z-index']
       .map((group) => {
@@ -216,7 +208,6 @@ ${options.includeResetStyle ? RESET_STYLES : ''}
       })
       .join('\n')}
   }
-
   @keyframes animation-spin {
     from {
       transform: rotate(0deg);
@@ -225,7 +216,6 @@ ${options.includeResetStyle ? RESET_STYLES : ''}
       transform: rotate(360deg);
     }
   }
-
   @keyframes animation-fade-in {
     from {
       opacity:0;
@@ -234,8 +224,6 @@ ${options.includeResetStyle ? RESET_STYLES : ''}
       opacity:1;
     }
   }
-
-
   @keyframes animation-fade-out {
     from {
       opacity:1;
