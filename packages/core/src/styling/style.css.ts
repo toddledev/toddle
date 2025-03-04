@@ -239,12 +239,10 @@ ${selector}::-webkit-scrollbar {
         )
         if (childComponent) {
           insertComponentStyles(childComponent, node.package ?? package_name)
-          stylesheet +=
-            '\n' +
-            getNodeStyles(
-              node as any,
-              toValidClassName(`${component.name}:${id}`, true),
-            )
+          stylesheet += getNodeStyles(
+            node as any,
+            toValidClassName(`${component.name}:${id}`, true),
+          )
 
           return
         }
@@ -257,7 +255,7 @@ ${selector}::-webkit-scrollbar {
         return ''
       }
       hashes.add(classHash)
-      stylesheet += '\n' + getNodeStyles(node as any, classHash)
+      stylesheet += getNodeStyles(node as any, classHash)
     })
   }
   insertComponentStyles(root)
