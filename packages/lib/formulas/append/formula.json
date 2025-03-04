@@ -7,12 +7,7 @@
         "type": "Array"
       },
       "description": "The array to append to",
-      "formula": {
-        "type": "function",
-        "name": "@toddle/list",
-        "arguments": [],
-        "variableArguments": true
-      }
+      "formula": { "type": "array", "arguments": [] }
     },
     {
       "name": "Item",

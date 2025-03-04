@@ -5,12 +5,7 @@
       "name": "Array",
       "type": { "type": "Array" },
       "description": "The array of numbers to sum",
-      "formula": {
-        "type": "function",
-        "name": "@toddle/list",
-        "arguments": [],
-        "variableArguments": true
-      }
+      "formula": { "type": "array", "arguments": [] }
     }
   ],
   "description": "Return the sum of an array of numbers",
