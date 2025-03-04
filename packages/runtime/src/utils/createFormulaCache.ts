@@ -2,13 +2,13 @@ import type {
   Component,
   ComponentData,
 } from '@toddledev/core/dist/component/component.types'
-import {
+import type {
   Formula,
   FunctionOperation,
 } from '@toddledev/core/dist/formula/formula'
 import { get, mapObject } from '@toddledev/core/dist/utils/collections'
 import { isDefined } from '@toddledev/core/dist/utils/util'
-import { FormulaCache } from '../types'
+import type { FormulaCache } from '../types'
 
 export function createFormulaCache(component: Component): FormulaCache {
   if (!isDefined(component.formulas)) {

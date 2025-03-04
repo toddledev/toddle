@@ -15,11 +15,17 @@ import type { ToddleComponent } from '@toddledev/core/dist/component/ToddleCompo
 import type { Formula } from '@toddledev/core/dist/formula/formula'
 import type { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
 import type { Theme } from '@toddledev/core/dist/styling/theme'
-import type { PluginAction, ProjectFiles } from '@toddledev/ssr/dist/ssr.types'
+import type {
+  ApiService,
+  PluginAction,
+  ProjectFiles,
+  Route,
+} from '@toddledev/ssr/dist/ssr.types'
 
 type Code =
   | 'duplicate event trigger'
   | 'duplicate url parameter'
+  | 'duplicate workflow parameter'
   | 'legacy action'
   | 'legacy formula'
   | 'no-console'
@@ -62,6 +68,8 @@ type Code =
   | 'unknown url parameter'
   | 'unknown variable setter'
   | 'unknown variable'
+  | 'unknown trigger workflow parameter'
+  | 'unknown workflow parameter'
 
 type Category =
   | 'Unknown Reference'
@@ -138,6 +146,16 @@ type ProjectActionNode = {
   value: PluginAction
 } & Base
 
+type ProjectApiService = {
+  nodeType: 'api-service'
+  value: ApiService
+} & Base
+
+type ProjectRoute = {
+  nodeType: 'project-route'
+  value: Route
+} & Base
+
 type ComponentNode = {
   nodeType: 'component'
   value: Component
@@ -160,10 +178,12 @@ type ComponentWorkflowNode = {
   nodeType: 'component-workflow'
   value: {
     name: string
-    parameters: {
-      name: string
-      testValue: any
-    }[]
+    parameters?:
+      | {
+          name: string
+          testValue: any
+        }[]
+      | null
     actions: ActionModel[]
     exposeInContext?: boolean | undefined
   }
@@ -200,11 +220,13 @@ type ComponentAttributeNode = {
 type FormulaNode = {
   nodeType: 'formula'
   value: Formula
+  component?: ToddleComponent<Function>
 } & Base
 
 type ActionModelNode = {
   nodeType: 'action-model'
   value: ActionModel
+  component: ToddleComponent<Function>
 } & Base
 
 type ComponentContext = {
@@ -257,9 +279,11 @@ export type NodeType =
   | ComponentWorkflowNode
   | FormulaNode
   | ProjectActionNode
+  | ProjectApiService
   | ProjectConfigNode
   | ProjectFormulaNode
   | ProjectThemeNode
+  | ProjectRoute
   | StyleVariantNode
 
 export interface Rule<T = unknown, V = NodeType> {

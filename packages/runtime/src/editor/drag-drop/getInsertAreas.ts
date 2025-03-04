@@ -1,5 +1,5 @@
 import { getDOMNodeFromNodeId } from '../../editor-preview.main'
-import { InsertArea } from '../types'
+import type { InsertArea } from '../types'
 
 /**
  * Somewhat convoluted function to calculate all possible drop insertion areas, as lines between elements.

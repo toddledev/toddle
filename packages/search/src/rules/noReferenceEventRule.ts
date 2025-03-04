@@ -1,5 +1,5 @@
 import type { Rule } from '../types'
-import { isLegacyAction } from '../util/shouldSearchPath'
+import { isLegacyAction } from '../util/helpers'
 
 export const noReferenceEventRule: Rule<{ name: string }> = {
   code: 'no-reference event',

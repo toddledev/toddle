@@ -1,5 +1,5 @@
-import { NodeModel } from '@toddledev/core/dist/component/component.types'
-import { Level, Rule } from '../types'
+import type { NodeModel } from '@toddledev/core/dist/component/component.types'
+import type { Level, Rule } from '../types'
 
 export function createRequiredDirectChildRule(
   parentTags: string[],

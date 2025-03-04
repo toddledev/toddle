@@ -1,5 +1,5 @@
 import type { Rule } from '../types'
-import { isLegacyAction } from '../util/shouldSearchPath'
+import { isLegacyAction } from '../util/helpers'
 
 export const legacyActionRule: Rule<{
   name: string
@@ -15,8 +15,11 @@ export const legacyActionRule: Rule<{
     if (isLegacyAction(value)) {
       let details: { name: string } | undefined
       if ('name' in value) {
-        details = { name: value.name }
+        details = {
+          name: value.name,
+        }
       }
+
       report(path, details)
     }
   },

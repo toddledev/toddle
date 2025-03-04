@@ -3,13 +3,14 @@ import type { Component } from '../component/component.types'
 import { omitKeys } from '../utils/collections'
 import { isDefined } from '../utils/util'
 import { getClassName, toValidClassName } from './className'
-import { OldTheme, Theme, ThemeOptions, getThemeCss } from './theme'
-import {
+import type { OldTheme, Theme, ThemeOptions } from './theme'
+import { getThemeCss } from './theme'
+import type {
   ComponentNodeModel,
   ElementNodeModel,
   StyleDeclarationBlock,
-  variantSelector,
 } from './variantSelector'
+import { variantSelector } from './variantSelector'
 
 const LEGACY_BREAKPOINTS = {
   large: 1440,

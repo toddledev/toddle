@@ -3,8 +3,10 @@ import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
 import { isToddleFormula } from '@toddledev/core/dist/formula/formulaTypes'
 import { ToddleFormula } from '@toddledev/core/dist/formula/ToddleFormula'
 import type { ProjectFiles } from '@toddledev/ssr/dist/ssr.types'
-import { ApplicationState, NodeType, Result, Rule } from './types'
-import { shouldSearchPath } from './util/shouldSearchPath'
+import { ToddleApiService } from '@toddledev/ssr/dist/ToddleApiService'
+import { ToddleRoute } from '@toddledev/ssr/dist/ToddleRoute'
+import type { ApplicationState, NodeType, Result, Rule } from './types'
+import { shouldSearchPath } from './util/helpers'
 
 /**
  * Search a project by applying rules to all nodes in the project and returning reported results.
@@ -100,6 +102,40 @@ export function* searchProject({
     )
   }
 
+  if (files.services) {
+    for (const key in files.services) {
+      yield* visitNode(
+        {
+          nodeType: 'api-service',
+          value: files.services[key],
+          path: ['services', key],
+          rules,
+          files,
+          pathsToVisit,
+          memo,
+        },
+        state,
+      )
+    }
+  }
+
+  if (files.routes) {
+    for (const key in files.routes) {
+      yield* visitNode(
+        {
+          nodeType: 'project-route',
+          value: files.routes[key],
+          path: ['routes', key],
+          rules,
+          files,
+          pathsToVisit,
+          memo,
+        },
+        state,
+      )
+    }
+  }
+
   yield* visitNode(
     {
       nodeType: 'project-config',
@@ -152,7 +188,6 @@ function* visitNode(
 
   switch (nodeType) {
     case 'component': {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
       const component = new ToddleComponent<string>({
         component: value,
         packageName: undefined,
@@ -321,6 +356,7 @@ function* visitNode(
             files,
             pathsToVisit,
             memo,
+            component,
           },
           state,
         )
@@ -336,6 +372,7 @@ function* visitNode(
             files,
             pathsToVisit,
             memo,
+            component,
           },
           state,
         )
@@ -392,5 +429,55 @@ function* visitNode(
         }
       }
       break
+
+    case 'api-service': {
+      const apiService = new ToddleApiService<string>({
+        service: value,
+        globalFormulas: {
+          formulas: files.formulas,
+          packages: files.packages,
+        },
+      })
+      for (const [formulaPath, formula] of apiService.formulasInService()) {
+        yield* visitNode(
+          {
+            nodeType: 'formula',
+            value: formula,
+            path: [...path, ...formulaPath],
+            rules,
+            files,
+            pathsToVisit,
+            memo,
+          },
+          state,
+        )
+      }
+      break
+    }
+
+    case 'project-route': {
+      const projectRoute = new ToddleRoute<string>({
+        route: value,
+        globalFormulas: {
+          formulas: files.formulas,
+          packages: files.packages,
+        },
+      })
+      for (const [formulaPath, formula] of projectRoute.formulasInRoute()) {
+        yield* visitNode(
+          {
+            nodeType: 'formula',
+            value: formula,
+            path: [...path, ...formulaPath],
+            rules,
+            files,
+            pathsToVisit,
+            memo,
+          },
+          state,
+        )
+      }
+      break
+    }
   }
 }

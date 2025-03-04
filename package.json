@@ -2,23 +2,23 @@
   "name": "toddle",
   "type": "module",
   "license": "Apache-2.0",
-  "version": "0.0.3-alpha.26",
+  "version": "0.0.4-alpha.3",
   "homepage": "https://github.com/toddledev/toddle",
   "private": "false",
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
-    "@eslint/js": "9.19.0",
-    "@typescript-eslint/eslint-plugin": "8.23.0",
-    "@typescript-eslint/parser": "8.23.0",
+    "@eslint/js": "9.21.0",
+    "@typescript-eslint/eslint-plugin": "8.25.0",
+    "@typescript-eslint/parser": "8.25.0",
     "@types/jest": "29.5.14",
-    "eslint": "9.19.0",
+    "eslint": "9.21.0",
     "eslint-plugin-inclusive-language": "2.2.1",
     "jest": "29.7.0",
-    "prettier": "3.4.2",
+    "prettier": "3.5.3",
     "prettier-plugin-organize-imports": "4.1.0",
-    "typescript": "5.7.3"
+    "typescript": "5.8.2"
   },
   "scripts": {
     "build": "cd packages/core && bun run build && cd ../lib && bun run build && cd ../ssr && bun run build && cd ../search && bun run build && cd ../runtime && bun run build",

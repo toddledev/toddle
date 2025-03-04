@@ -1,6 +1,7 @@
 {
   "name": "@toddledev/runtime",
   "license": "Apache-2.0",
+  "type": "module",
   "homepage": "https://github.com/toddledev/toddle",
   "dependencies": {
     "@toddledev/core": "workspace:*",
@@ -8,7 +9,7 @@
     "path-to-regexp": "6.3.0"
   },
   "devDependencies": {
-    "@happy-dom/global-registrator": "16.8.1",
+    "@happy-dom/global-registrator": "17.1.8",
     "esbuild": "0.24.2"
   },
   "scripts": {

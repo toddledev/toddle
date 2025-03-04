@@ -7,20 +7,17 @@ import type {
   ComponentData,
   MetaEntry,
 } from '@toddledev/core/dist/component/component.types'
-import {
+import type {
   FormulaContext,
   ToddleEnv,
-  applyFormula,
 } from '@toddledev/core/dist/formula/formula'
-import { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
+import { applyFormula } from '@toddledev/core/dist/formula/formula'
+import type { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
 import { valueFormula } from '@toddledev/core/dist/formula/formulaUtils'
-import {
-  OldTheme,
-  Theme,
-  getThemeCss,
-} from '@toddledev/core/dist/styling/theme'
+import type { OldTheme, Theme } from '@toddledev/core/dist/styling/theme'
+import { getThemeCss } from '@toddledev/core/dist/styling/theme'
 import { theme } from '@toddledev/core/dist/styling/theme.const'
-import {
+import type {
   ActionHandler,
   ArgumentInputDataFunction,
   FormulaHandler,
@@ -40,9 +37,10 @@ import { dragEnded } from './editor/drag-drop/dragEnded'
 import { dragMove } from './editor/drag-drop/dragMove'
 import { dragReorder } from './editor/drag-drop/dragReorder'
 import { dragStarted } from './editor/drag-drop/dragStarted'
-import { DragState } from './editor/types'
+import type { DragState } from './editor/types'
 import { handleAction } from './events/handleAction'
-import { Signal, signal } from './signal/signal'
+import type { Signal } from './signal/signal'
+import { signal } from './signal/signal'
 import { insertStyles, styleToCss } from './styles/style'
 import type {
   ComponentContext,
@@ -207,7 +205,7 @@ export const initGlobalObject = ({
   Object.entries(libFormulas).forEach(([name, module]) =>
     window.toddle.registerFormula(
       '@toddle/' + name,
-      module.default as any,
+      module.default as FormulaHandler,
       'getArgumentInputData' in module
         ? module.getArgumentInputData
         : undefined,
@@ -986,7 +984,6 @@ export const createRoot = (
     }
 
     let { Attributes, Variables, Contexts } = dataSignal.get()
-    let UrlParameters = dataSignal.get()['URL parameters']
     if (
       fastDeepEqual(ctx?.component.attributes, _component.attributes) === false
     ) {
@@ -1002,6 +999,28 @@ export const createRoot = (
       // Subscribe to the route signal so we can preview URL parameter changes in the editor
       routeSignal?.destroy()
       if (_component.route) {
+        // Populate initial URL parameters with test data
+        window.toddle.locationSignal.update((location) => {
+          if (!_component.route) return location
+
+          return {
+            ...location,
+            route: _component.route,
+            params: Object.fromEntries(
+              _component.route.path
+                .filter((p) => p.type === 'param')
+                .map((p) => [p.name, p.testValue]),
+            ),
+            query: mapObject(
+              _component.route.query,
+              ([name, { testValue }]: [string, { testValue: string }]) => [
+                name,
+                testValue,
+              ],
+            ),
+          }
+        })
+
         routeSignal = window.toddle.locationSignal.map(({ query, params }) => {
           return { ...query, ...params }
         })
@@ -1009,30 +1028,12 @@ export const createRoot = (
         routeSignal.subscribe((route) =>
           dataSignal.update((data) => ({
             ...data,
-            'URL parameters': route as any,
+            'URL parameters': route,
             Attributes: route,
           })),
         )
-
-        const route = routeSignal.get()
-        dataSignal.update((data) => ({
-          ...data,
-          'URL parameters': route,
-          Attributes: route,
-        }))
       }
 
-      UrlParameters = {
-        ...Object.fromEntries(
-          _component.route.path
-            .filter((p) => p.type === 'param')
-            .map((p) => [p.name, p.testValue]),
-        ),
-        ...mapObject(_component.route.query, ([name, { testValue }]) => [
-          name,
-          testValue,
-        ]),
-      }
       Attributes = mapObject(_component.attributes, ([name, { testValue }]) => [
         name,
         testValue,
@@ -1167,7 +1168,10 @@ export const createRoot = (
     dataSignal.update((data) => {
       return {
         ...data,
-        'URL parameters': UrlParameters,
+        'URL parameters': {
+          ...window.toddle.locationSignal.get().query,
+          ...window.toddle.locationSignal.get().params,
+        } as Record<string, string>,
         Attributes,
         Variables,
         Contexts,

@@ -1,4 +1,4 @@
-import { Level, Rule } from '../types'
+import type { Level, Rule } from '../types'
 
 export function createRequiredDirectParentRule(
   parentTags: string[],

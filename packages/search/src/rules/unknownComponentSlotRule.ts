@@ -1,5 +1,5 @@
 import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
-import { SlotNodeModel } from '@toddledev/core/dist/component/component.types'
+import type { SlotNodeModel } from '@toddledev/core/dist/component/component.types'
 import type { Rule } from '../types'
 
 export const unknownComponentSlotRule: Rule<{ slotName: string }> = {

@@ -1,5 +1,5 @@
-import { Formula } from './formula'
-import { GlobalFormulas } from './formulaTypes'
+import type { Formula } from './formula'
+import type { GlobalFormulas } from './formulaTypes'
 import { getFormulasInFormula } from './formulaUtils'
 
 export class ToddleFormula<Handler> {

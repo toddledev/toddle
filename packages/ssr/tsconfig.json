@@ -2,9 +2,9 @@
   "compilerOptions": {
     "alwaysStrict": true,
     "esModuleInterop": true,
-    "lib": ["ESNext", "DOM"],
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "preserveConstEnums": true,
     "sourceMap": true,
     "strict": true,

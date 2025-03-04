@@ -1,13 +1,14 @@
 import type { ActionModel } from '../component/component.types'
 import { isDefined } from '../utils/util'
-import {
+import type {
   Formula,
   FunctionOperation,
-  isFormula,
   PathOperation,
   ValueOperation,
 } from './formula'
-import { GlobalFormulas, isToddleFormula } from './formulaTypes'
+import { isFormula } from './formula'
+import type { GlobalFormulas } from './formulaTypes'
+import { isToddleFormula } from './formulaTypes'
 
 export const valueFormula = (
   value: string | number | boolean | null | object,

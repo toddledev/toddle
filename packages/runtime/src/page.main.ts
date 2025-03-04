@@ -3,9 +3,10 @@ import type {
   Component,
   ComponentData,
 } from '@toddledev/core/dist/component/component.types'
-import { applyFormula, ToddleEnv } from '@toddledev/core/dist/formula/formula'
-import { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
-import {
+import type { ToddleEnv } from '@toddledev/core/dist/formula/formula'
+import { applyFormula } from '@toddledev/core/dist/formula/formula'
+import type { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
+import type {
   ActionHandler,
   ArgumentInputDataFunction,
   FormulaHandler,
@@ -112,7 +113,7 @@ export const initGlobalObject = (code?: {
   Object.entries(libFormulas).forEach(([name, module]) =>
     window.toddle.registerFormula(
       '@toddle/' + name,
-      module.default as any,
+      module.default as FormulaHandler,
       'getArgumentInputData' in module
         ? module.getArgumentInputData
         : undefined,
@@ -385,7 +386,7 @@ export const createRoot = (domNode: HTMLElement) => {
   routeSignal.subscribe((route) =>
     dataSignal.update((data) => ({
       ...data,
-      'URL parameters': route as any,
+      'URL parameters': route as Record<string, string>,
       Attributes: route,
     })),
   )

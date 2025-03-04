@@ -45,3 +45,11 @@ jobs:
     with:
       version: ${{needs.version_check.outputs.version}}
     secrets: inherit
+  create_release:
+    needs: version_check
+    # Only run this job if the version has changed
+    if: ${{needs.version_check.outputs.version}}
+    uses: toddledev/toddle/.github/workflows/create_release.yml@main
+    with:
+      version: ${{needs.version_check.outputs.version}}
+    secrets: inherit

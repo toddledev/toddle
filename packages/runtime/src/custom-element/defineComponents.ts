@@ -1,8 +1,8 @@
 import type { Component } from '@toddledev/core/dist/component/component.types'
-import { Theme } from '@toddledev/core/dist/styling/theme'
-import { Toddle } from '@toddledev/core/dist/types'
+import type { Theme } from '@toddledev/core/dist/styling/theme'
+import type { Toddle } from '@toddledev/core/dist/types'
 import { safeCustomElementName } from '@toddledev/core/dist/utils/customElements'
-import { LocationSignal } from '../types'
+import type { LocationSignal } from '../types'
 import { ToddleComponent } from './ToddleComponent'
 
 /**

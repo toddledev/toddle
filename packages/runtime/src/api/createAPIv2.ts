@@ -5,7 +5,7 @@ import {
   isApiError,
   requestHash,
 } from '@toddledev/core/dist/api/api'
-import {
+import type {
   ApiPerformance,
   ApiRequest,
   ApiStatus,
@@ -18,22 +18,22 @@ import {
   isJsonStreamHeader,
   isTextHeader,
 } from '@toddledev/core/dist/api/headers'
-import { ActionModel } from '@toddledev/core/dist/component/component.types'
-import {
+import type { ActionModel } from '@toddledev/core/dist/component/component.types'
+import type {
   Formula,
   FormulaContext,
   ValueOperationValue,
-  applyFormula,
 } from '@toddledev/core/dist/formula/formula'
-import { NestedOmit, RequireFields } from '@toddledev/core/dist/types'
+import { applyFormula } from '@toddledev/core/dist/formula/formula'
+import type { NestedOmit, RequireFields } from '@toddledev/core/dist/types'
 import {
   omitPaths,
   sortObjectEntries,
 } from '@toddledev/core/dist/utils/collections'
 import { PROXY_URL_HEADER, validateUrl } from '@toddledev/core/dist/utils/url'
 import { handleAction } from '../events/handleAction'
-import { Signal } from '../signal/signal'
-import { ComponentContext, ContextApi } from '../types'
+import type { Signal } from '../signal/signal'
+import type { ComponentContext, ContextApi } from '../types'
 
 /**
  * Set up an api v2 for a component.
@@ -149,7 +149,11 @@ export function createAPI(
         api.client?.onMessage?.actions?.forEach((action) => {
           handleAction(
             action,
-            { ...ctx.dataSignal.get(), Event: event },
+            {
+              ...getFormulaContext(api).data,
+              ...ctx.dataSignal.get(),
+              Event: event,
+            },
             ctx,
             event,
           )
@@ -161,7 +165,11 @@ export function createAPI(
         api.client?.onCompleted?.actions?.forEach((action) => {
           handleAction(
             action,
-            { ...ctx.dataSignal.get(), Event: event },
+            {
+              ...getFormulaContext(api).data,
+              ...ctx.dataSignal.get(),
+              Event: event,
+            },
             ctx,
             event,
           )
@@ -176,7 +184,11 @@ export function createAPI(
         api.client?.onFailed?.actions?.forEach((action) => {
           handleAction(
             action,
-            { ...ctx.dataSignal.get(), Event: event },
+            {
+              ...getFormulaContext(api).data,
+              ...ctx.dataSignal.get(),
+              Event: event,
+            },
             ctx,
             event,
           )

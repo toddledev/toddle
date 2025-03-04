@@ -26,6 +26,7 @@ type FunctionArgument = {
 export type FunctionOperation = {
   type: 'function'
   name: string
+  display_name?: string | null
   package?: string
   arguments: FunctionArgument[]
   variableArguments?: boolean
@@ -144,7 +145,7 @@ export function isFormulaApplyOperation(
 }
 
 export function applyFormula(
-  formula: Formula | string | number | undefined | boolean,
+  formula: Formula | string | number | undefined | null | boolean,
   ctx: FormulaContext,
 ): any {
   if (!isFormula(formula)) {
@@ -155,11 +156,16 @@ export function applyFormula(
       case 'value':
         return formula.value
       case 'path': {
-        return formula.path.reduce(
-          (input: any, key) =>
-            input && typeof input === 'object' ? input[key] : null,
-          ctx.data,
-        )
+        let input: any = ctx.data
+        for (const key of formula.path) {
+          if (input && typeof input === 'object') {
+            input = input[key]
+          } else {
+            return null
+          }
+        }
+
+        return input
       }
       case 'switch': {
         for (const branch of formula.cases) {
@@ -231,7 +237,7 @@ export function applyFormula(
             return null
           }
         } else if (typeof legacyFunc === 'function') {
-          const args = formula.arguments.map((arg) =>
+          const args = (formula.arguments ?? []).map((arg) =>
             arg.isFunction
               ? (Args: any) =>
                   applyFormula(arg.formula, {

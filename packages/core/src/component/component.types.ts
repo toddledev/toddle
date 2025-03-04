@@ -1,7 +1,7 @@
-import { ApiStatus, ComponentAPI, LegacyApiStatus } from '../api/apiTypes'
-import { Formula } from '../formula/formula'
-import { StyleTokenCategory } from '../styling/theme'
-import { RequireFields } from '../types'
+import type { ApiStatus, ComponentAPI, LegacyApiStatus } from '../api/apiTypes'
+import type { Formula } from '../formula/formula'
+import type { StyleTokenCategory } from '../styling/theme'
+import type { RequireFields } from '../types'
 
 interface ListItem {
   Item: unknown
@@ -163,35 +163,13 @@ export interface Component {
   route?: PageRoute | null
   attributes: Record<string, { name: string; testValue: unknown }>
   variables: Record<string, { initialValue: Formula }>
-  formulas?: Record<
-    string,
-    {
-      name: string
-      arguments: Array<{ name: string; testValue: any }>
-      memoize?: boolean
-      exposeInContext?: boolean
-      formula: Formula
-    }
-  >
+  formulas?: Record<string, ComponentFormula>
   contexts?: Record<
     // `componentName` or `packageName/componentName` if the context comes from a different package than the component itself
     string,
-    {
-      formulas: string[]
-      workflows: string[]
-      componentName?: string
-      package?: string
-    }
+    ComponentContext
   >
-  workflows?: Record<
-    string,
-    {
-      name: string
-      parameters: Array<{ name: string; testValue: any }>
-      actions: ActionModel[]
-      exposeInContext?: boolean
-    }
-  >
+  workflows?: Record<string, ComponentWorkflow>
   apis: Record<string, ComponentAPI>
   nodes: Record<string, NodeModel>
   events?: ComponentEvent[]
@@ -199,6 +177,28 @@ export interface Component {
   onAttributeChange?: EventModel
   // exported indicates that a component is exported in a package
   exported?: boolean
+}
+
+export interface ComponentFormula {
+  name: string
+  arguments: Array<{ name: string; testValue: any }>
+  memoize?: boolean
+  exposeInContext?: boolean
+  formula: Formula
+}
+
+export interface ComponentWorkflow {
+  name: string
+  parameters: Array<{ name: string; testValue: any }>
+  actions: ActionModel[]
+  exposeInContext?: boolean
+}
+
+export interface ComponentContext {
+  formulas: string[]
+  workflows: string[]
+  componentName?: string
+  package?: string
 }
 
 export type PageComponent = RequireFields<Component, 'route'>
@@ -264,7 +264,7 @@ export type EventModel = {
 
 export type CustomActionModel = {
   // Some legacy custom actions use an undefined type
-  type?: 'Custom' | undefined
+  type?: 'Custom'
   package?: string
   name: string
   description?: string
@@ -272,6 +272,7 @@ export type CustomActionModel = {
   arguments?: { name: string; formula: Formula }[]
   events?: Record<string, { actions: ActionModel[] }>
   version?: 2 | never
+  label?: string
 }
 
 export type SwitchActionModel = {
@@ -292,7 +293,7 @@ export type VariableActionModel = {
 export type FetchActionModel = {
   type: 'Fetch'
   api: string
-  inputs?: Record<string, { formula: Formula }>
+  inputs?: Record<string, { formula: Formula | null }>
   onSuccess: { actions: ActionModel[] }
   onError: { actions: ActionModel[] }
   onMessage?: { actions: ActionModel[] }

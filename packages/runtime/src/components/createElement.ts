@@ -1,4 +1,7 @@
-import { ElementNodeModel } from '@toddledev/core/dist/component/component.types'
+import type {
+  ElementNodeModel,
+  NodeModel,
+} from '@toddledev/core/dist/component/component.types'
 import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import {
   getClassName,
@@ -7,10 +10,12 @@ import {
 import { isDefined, toBoolean } from '@toddledev/core/dist/utils/util'
 import { handleAction } from '../events/handleAction'
 import type { Signal } from '../signal/signal'
+import type { SupportedNamespaces } from '../types'
 import { getDragData } from '../utils/getDragData'
 import { getElementTagName } from '../utils/getElementTagName'
 import { setAttribute } from '../utils/setAttribute'
-import { NodeRenderer, createNode } from './createNode'
+import type { NodeRenderer } from './createNode'
+import { createNode } from './createNode'
 
 export function createElement({
   node,
@@ -18,14 +23,29 @@ export function createElement({
   id,
   path,
   ctx,
-  isSvg,
+  namespace,
   instance,
 }: NodeRenderer<ElementNodeModel>): Element {
   const tag = getElementTagName(node, ctx, id)
-  const elem =
-    isSvg || tag === 'svg'
-      ? document.createElementNS('http://www.w3.org/2000/svg', tag)
-      : document.createElement(tag)
+  switch (tag) {
+    case 'svg': {
+      namespace = 'http://www.w3.org/2000/svg'
+      break
+    }
+    case 'math': {
+      namespace = 'http://www.w3.org/1998/Math/MathML'
+      break
+    }
+  }
+
+  // Explicitly setting a namespace has precedence over inferring it from the tag
+  if (node.attrs['xmlns'] && node.attrs['xmlns'].type === 'value') {
+    namespace = String(node.attrs['xmlns'].value) as SupportedNamespaces
+  }
+
+  const elem = namespace
+    ? (document.createElementNS(namespace, tag) as SVGElement | MathMLElement)
+    : document.createElement(tag)
 
   elem.setAttribute('data-node-id', id)
   if (path) {
@@ -150,43 +170,57 @@ export function createElement({
             console.error(e)
           }
         }
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        handleAction(action, { ...dataSignal.get(), Event: e }, ctx, e)
+        void handleAction(action, { ...dataSignal.get(), Event: e }, ctx, e)
       })
       return false
     }
     elem.addEventListener(event.trigger, handler)
   })
 
-  // for script and style tags we just render the first text child.
-  if (
-    node.tag.toLocaleLowerCase() === 'script' ||
-    node.tag.toLocaleLowerCase() === 'style'
-  ) {
-    const childId = node.children[0]
-    const childNode = childId ? ctx.component.nodes[childId] : undefined
-    if (childNode?.type === 'text') {
-      if (childNode.value.type === 'value') {
-        elem.textContent = String(childNode.value.value)
-      } else {
-        const textSignal = dataSignal.map((data) => {
-          return String(
-            applyFormula(childNode.value, {
-              data,
-              component: ctx.component,
-              formulaCache: ctx.formulaCache,
-              root: ctx.root,
-              package: ctx.package,
-              toddle: ctx.toddle,
-              env: ctx.env,
-            }),
-          )
-        })
-        textSignal.subscribe((value) => {
-          elem.textContent = value
-        })
-      }
+  // for script, style & SVG<text> tags we only render text child.
+  // this can be removed once we fix the editor to handle raw text nodes without wrapping <span>
+  const nodeTag = node.tag.toLocaleLowerCase()
+  if (nodeTag === 'script' || nodeTag === 'style') {
+    const textValues: Array<Signal<string> | string> = []
+    node.children
+      .map<NodeModel | undefined>((child) => ctx.component.nodes[child])
+      .filter((node) => node?.type === 'text')
+      .forEach((node) => {
+        if (node.value.type === 'value') {
+          textValues.push(String(node.value.value))
+        } else {
+          const textSignal = dataSignal.map((data) => {
+            return String(
+              applyFormula(node.value, {
+                data,
+                component: ctx.component,
+                formulaCache: ctx.formulaCache,
+                root: ctx.root,
+                package: ctx.package,
+                toddle: ctx.toddle,
+                env: ctx.env,
+              }),
+            )
+          })
+          textValues.push(textSignal)
+        }
+      })
+
+    // if all values are string, we can directly set textContent
+    if (textValues.every((value) => typeof value === 'string')) {
+      elem.textContent = textValues.join('')
     }
+
+    // for each signal, we subscribe and rewrite the entire textContent from all text nodes
+    textValues
+      .filter((value) => typeof value !== 'string')
+      .forEach((valueSignal) => {
+        valueSignal.subscribe(() => {
+          elem.textContent = textValues
+            .map((value) => (typeof value === 'string' ? value : value.get()))
+            .join('')
+        })
+      })
   } else {
     node.children.forEach((child, i) => {
       const childNodes = createNode({
@@ -195,8 +229,7 @@ export function createElement({
         path: path + '.' + i,
         dataSignal,
         ctx,
-        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-        isSvg: isSvg || tag === 'svg',
+        namespace,
         instance,
       })
       childNodes.forEach((childNode) => elem.appendChild(childNode))

@@ -1,9 +1,9 @@
 import { describe, expect, test } from '@jest/globals'
-import {
+import type {
   PageComponent,
   PageRoute,
 } from '@toddledev/core/dist/component/component.types'
-import { ProjectFiles } from '../ssr.types'
+import type { ProjectFiles } from '../ssr.types'
 import { matchPageForUrl } from './routing'
 
 describe('matchPageForUrl', () => {

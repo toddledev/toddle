@@ -1,4 +1,4 @@
-import { DragState } from '../types'
+import type { DragState } from '../types'
 import { DRAG_MOVE_CLASSNAME } from './dragMove'
 import { DRAG_REORDER_CLASSNAME } from './dragReorder'
 import { removeDropHighlight } from './dropHighlight'

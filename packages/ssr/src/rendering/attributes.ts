@@ -3,11 +3,11 @@ import type {
   ComponentData,
   ElementNodeModel,
 } from '@toddledev/core/dist/component/component.types'
-import {
-  applyFormula,
+import type {
   FormulaContext,
   ToddleEnv,
 } from '@toddledev/core/dist/formula/formula'
+import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import { isDefined, toBoolean } from '@toddledev/core/dist/utils/util'
 
 const REGEXP_QUOTE = /"/g

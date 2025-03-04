@@ -23,6 +23,8 @@ export default [
       'eslint.config.mjs',
       'bun.lock',
       'examples/**/*',
+      'packages/lib/actions.ts',
+      'packages/lib/formulas.ts',
     ],
   },
   ...compat.extends(
@@ -61,12 +63,12 @@ export default [
       '@typescript-eslint/no-confusing-non-null-assertion': 'error',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/restrict-template-expressions': 'warn',
+      '@typescript-eslint/consistent-type-imports': 'error',
       'no-unused-vars': 'off',
       'inclusive-language/use-inclusive-words': [
         'error',
         './lint/inclusive-words.json',
       ],
-
       '@typescript-eslint/no-unused-vars': [
         'error',
         {

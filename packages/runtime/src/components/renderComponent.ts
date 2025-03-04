@@ -1,18 +1,19 @@
-import {
+import type {
   Component,
   ComponentData,
 } from '@toddledev/core/dist/component/component.types'
-import { ToddleEnv } from '@toddledev/core/dist/formula/formula'
-import { Toddle } from '@toddledev/core/dist/types'
+import type { ToddleEnv } from '@toddledev/core/dist/formula/formula'
+import type { Toddle } from '@toddledev/core/dist/types'
 import deepEqual from 'fast-deep-equal'
 import { handleAction } from '../events/handleAction'
-import { Signal } from '../signal/signal'
-import {
+import type { Signal } from '../signal/signal'
+import type {
   ComponentChild,
   ComponentContext,
   FormulaCache,
   LocationSignal,
   PreviewShowSignal,
+  SupportedNamespaces,
 } from '../types'
 import { BatchQueue } from '../utils/BatchQueue'
 import { createNode } from './createNode'
@@ -41,6 +42,7 @@ interface RenderComponentProps {
   parentElement: Element | ShadowRoot
   instance: Record<string, string>
   toddle: Toddle<LocationSignal, PreviewShowSignal>
+  namespace?: SupportedNamespaces
   env: ToddleEnv
 }
 
@@ -63,8 +65,9 @@ export function renderComponent({
   parentElement,
   instance,
   toddle,
+  namespace,
   env,
-}: RenderComponentProps): Element[] {
+}: RenderComponentProps): ReadonlyArray<Element | Text> {
   const ctx: ComponentContext = {
     triggerEvent: onEvent,
     component,
@@ -88,6 +91,7 @@ export function renderComponent({
     dataSignal,
     ctx,
     parentElement,
+    namespace,
     instance,
   })
   BATCH_QUEUE.add(() => {

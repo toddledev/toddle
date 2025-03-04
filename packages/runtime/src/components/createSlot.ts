@@ -1,5 +1,6 @@
-import { SlotNodeModel } from '@toddledev/core/dist/component/component.types'
-import { NodeRenderer, createNode } from './createNode'
+import type { SlotNodeModel } from '@toddledev/core/dist/component/component.types'
+import type { NodeRenderer } from './createNode'
+import { createNode } from './createNode'
 
 export function createSlot({
   path,
@@ -8,9 +9,10 @@ export function createSlot({
   ctx,
   parentElement,
   instance,
-}: NodeRenderer<SlotNodeModel>): Element[] {
+  namespace,
+}: NodeRenderer<SlotNodeModel>): ReadonlyArray<Element | Text> {
   const slotName = node.name ?? 'default'
-  let children: Element[] = []
+  let children: Array<Element | Text> = []
   // Is slotted content provided?
   if (ctx.children[slotName]) {
     children = ctx.children[slotName].flatMap((child) => {
@@ -27,6 +29,7 @@ export function createSlot({
           providers: ctx.providers,
         },
         instance,
+        namespace,
       })
     })
   } else {
@@ -39,6 +42,7 @@ export function createSlot({
         ctx,
         parentElement,
         instance,
+        namespace,
       })
     })
   }

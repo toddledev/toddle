@@ -3,8 +3,8 @@
     "alwaysStrict": true,
     "esModuleInterop": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "noEmit": true,
     "preserveConstEnums": true,
     "sourceMap": true,
@@ -13,6 +13,6 @@
     "target": "ESNext",
     "types": []
   },
-  "include": ["actions", "formulas"],
+  "include": ["actions", "formulas", "./actions.ts", "./formulas.ts"],
   "exclude": ["node_modules", "dist"]
 }

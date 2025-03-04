@@ -1,5 +1,5 @@
-import { EventModel } from '../component/component.types'
-import { Formula } from '../formula/formula'
+import type { EventModel } from '../component/component.types'
+import type { Formula } from '../formula/formula'
 
 export type ComponentAPI = LegacyComponentAPI | ApiRequest
 
@@ -61,8 +61,8 @@ export interface ApiRequest extends ApiBase {
   headers?: Record<string, { formula: Formula; enabled?: Formula | null }>
   method?: ApiMethod
   body?: Formula
-  // inputs for an API request - the server will only accept listed arguments
-  inputs: Record<string, { formula: Formula }>
+  // inputs for an API request
+  inputs: Record<string, { formula: Formula | null }>
   service?: string | null
   servicePath?: string | null
   server?: {

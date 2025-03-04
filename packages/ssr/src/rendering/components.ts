@@ -1,15 +1,18 @@
-import { ApiStatus, LegacyApiStatus } from '@toddledev/core/dist/api/apiTypes'
-import {
+import type {
+  ApiStatus,
+  LegacyApiStatus,
+} from '@toddledev/core/dist/api/apiTypes'
+import type {
   Component,
   ComponentData,
   NodeModel,
 } from '@toddledev/core/dist/component/component.types'
 import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
-import {
-  applyFormula,
+import type {
   FormulaContext,
   ToddleServerEnv,
 } from '@toddledev/core/dist/formula/formula'
+import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import {
   getClassName,
   toValidClassName,
@@ -18,8 +21,8 @@ import { mapValues } from '@toddledev/core/dist/utils/collections'
 import { isDefined, toBoolean } from '@toddledev/core/dist/utils/util'
 import { escapeAttrValue } from 'xss'
 import { VOID_HTML_ELEMENTS } from '../const'
-import { ProjectFiles } from '../ssr.types'
-import { ApiCache, ApiEvaluator } from './api'
+import type { ProjectFiles } from '../ssr.types'
+import type { ApiCache, ApiEvaluator } from './api'
 import { getNodeAttrs, toEncodedText } from './attributes'
 
 const renderComponent = async ({
