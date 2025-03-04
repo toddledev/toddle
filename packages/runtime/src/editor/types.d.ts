@@ -20,6 +20,7 @@ export type DragState = {
   isTransitioning: boolean
   selectedInsertAreaIndex?: number
   insertAreas?: Array<InsertArea>
+  destroying: boolean
 }
 
 export type InsertArea = {

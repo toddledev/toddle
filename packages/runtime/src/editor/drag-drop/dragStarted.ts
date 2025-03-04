@@ -18,13 +18,28 @@ export function dragStarted({
   initialContainer?: HTMLElement
   initialNextSibling?: Element | null
 }) {
-  // Hide all subsequent repeated nodes of the dragged element while dragging
-  repeatedNodes.forEach((node) => {
-    node.remove()
-  })
+  // Move repeat nodes as a stack below the dragged element
+  repeatedNodes
+    .map<[HTMLElement, DOMRect]>((node) => [node, node.getBoundingClientRect()])
+    .forEach(([node, rect], i) => {
+      node.classList.add('drag-repeat-node')
+      node.style.setProperty('--drag-repeat-node-width', `${rect.width}px`)
+      node.style.setProperty('--drag-repeat-node-height', `${rect.height}px`)
+      node.style.setProperty(
+        '--drag-repeat-node-translate',
+        `${rect.left}px ${rect.top}px`,
+      )
+      node.style.setProperty(
+        '--drag-repeat-node-rotate',
+        `${Math.random() * 9 - 4.5}deg`,
+      )
+      node.style.setProperty('--drag-repeat-node-opacity', i < 4 ? '1' : '0')
+    })
+
   initialNextSibling ??= element.nextElementSibling
 
   const dragState: DragState = {
+    destroying: false,
     elementType: elementIsComponent(element) ? 'component' : 'element',
     element,
     offset: lastCursorPosition,
@@ -58,7 +73,8 @@ export function dragStarted({
       sibling.getAttribute('data-id') &&
       // Only first item of repeated nodes should be considered
       !sibling.getAttribute('data-id')?.endsWith(')') &&
-      !sibling.hasAttribute('data-component')
+      !sibling.hasAttribute('data-component') &&
+      repeatedNodes.every((node) => node !== sibling)
     ) {
       dragState?.initialContainer.insertBefore(element, sibling)
       dragState?.reorderPermutations.push({
@@ -77,6 +93,27 @@ export function dragStarted({
   }
   // Restore the initial position of the draggedElement
   dragState.initialContainer.insertBefore(element, dragState.initialNextSibling)
+  ;(function followRepeatedNodes() {
+    if (dragState.destroying || !dragState.element.isConnected) {
+      return
+    }
+
+    const followRect = dragState.element.getBoundingClientRect()
+    dragState.repeatedNodes.forEach((node, i) => {
+      // Calculate rect without rotation as it expands the rect and makes it difficult to calculate the correct position
+      node.style.setProperty('rotate', '0deg')
+      const fromRect = node.getBoundingClientRect()
+      node.style.removeProperty('rotate')
+      const toX = followRect.left + followRect.width / 2 - fromRect.width / 2
+      const toY = followRect.top + followRect.height / 2 - fromRect.height / 2
+      const interpolation = 0.4 / (i + 1)
+      const x = fromRect.left + (toX - fromRect.left) * interpolation
+      const y = fromRect.top + (toY - fromRect.top) * interpolation
+      node.style.setProperty('--drag-repeat-node-translate', `${x}px ${y}px`)
+    })
+
+    requestAnimationFrame(followRepeatedNodes)
+  })()
 
   // Highlight container
   element.classList.add(DRAG_REORDER_CLASSNAME)

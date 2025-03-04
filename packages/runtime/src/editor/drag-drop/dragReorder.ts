@@ -23,6 +23,9 @@ export function dragReorder(dragState: DragState | null) {
       dragState.element,
       dragState.initialNextSibling,
     )
+    dragState.repeatedNodes.forEach((node, i) => {
+      node.style.setProperty('--drag-repeat-node-opacity', i < 4 ? '1' : '0')
+    })
     const nextRect = dragState.element.getBoundingClientRect()
     dragState.offset.x += nextRect.left - prevRect.left
     dragState.offset.y += nextRect.top - prevRect.top

@@ -568,7 +568,7 @@ export const createRoot = (
           return
         }
         case 'mousemove':
-          if (dragState) {
+          if (dragState && !dragState.destroying) {
             const { x, y } = message.data
             dragState.lastCursorPosition = { x, y }
             const draggingInsideContainer = rectHasPoint(
@@ -808,17 +808,24 @@ export const createRoot = (
                 (nextSibling !== dragState?.initialNextSibling ||
                   dragState?.copy)
               ) {
-                window.parent?.postMessage(
-                  {
-                    type: 'nodeMoved',
-                    copy: Boolean(dragState?.copy),
-                    parent: parentDataId,
-                    index: !isNaN(nextSiblingId)
-                      ? nextSiblingId
-                      : component?.nodes[parentNodeId]?.children?.length,
-                  },
-                  '*',
-                )
+                void dragEnded(dragState, false).then(() => {
+                  window.parent?.postMessage(
+                    {
+                      type: 'nodeMoved',
+                      copy: Boolean(dragState?.copy),
+                      parent: parentDataId,
+                      index: !isNaN(nextSiblingId)
+                        ? nextSiblingId
+                        : component?.nodes[parentNodeId]?.children?.length,
+                    },
+                    '*',
+                  )
+                  dragState = null
+                })
+              } else {
+                void dragEnded(dragState, true).then(() => {
+                  dragState = null
+                })
               }
               break
             case 'insert':
@@ -827,52 +834,51 @@ export const createRoot = (
                   dragState?.selectedInsertAreaIndex ?? -1
                 ]
               if (selectedPermutation && !message.data.canceled) {
-                window.parent?.postMessage(
-                  {
-                    type: 'nodeMoved',
-                    copy: Boolean(dragState?.copy),
-                    parent: selectedPermutation?.parent.getAttribute('data-id'),
-                    index: selectedPermutation?.index,
-                  },
-                  '*',
-                )
+                void dragEnded(dragState, false).then(() => {
+                  window.parent?.postMessage(
+                    {
+                      type: 'nodeMoved',
+                      copy: Boolean(dragState?.copy),
+                      parent:
+                        selectedPermutation?.parent.getAttribute('data-id'),
+                      index: selectedPermutation?.index,
+                    },
+                    '*',
+                  )
+                  dragState = null
+                })
+              } else {
+                void dragEnded(dragState, true).then(() => {
+                  dragState = null
+                })
               }
               break
           }
-          if (message.data.canceled) {
-            dragState?.initialContainer.insertBefore(
-              dragState?.element,
-              dragState?.initialNextSibling,
-            )
-          }
-          dragEnded(dragState)
-          window.parent?.postMessage(
-            {
-              type: 'selectionRect',
-              rect: getRectData(dragState?.element),
-            },
-            '*',
-          )
-
-          dragState = null
           break
         case 'keydown':
         case 'keyup':
           // If the `altKey` is pressed/released and the user is currently dragging, then restart the drag with/without a copy.
-          if (dragState && message.data.altKey !== altKey) {
+          if (
+            dragState &&
+            !dragState.destroying &&
+            message.data.altKey !== altKey
+          ) {
+            const asCopy = message.data.altKey
             const prevRect = dragState.element.getBoundingClientRect()
-            dragEnded(dragState)
-            dragState = dragStarted({
-              element: dragState.element,
-              lastCursorPosition: dragState.lastCursorPosition,
-              repeatedNodes: dragState.repeatedNodes,
-              asCopy: message.data.altKey,
-              initialContainer: dragState.initialContainer,
-              initialNextSibling: dragState.initialNextSibling,
+            void dragEnded(dragState, true).then(() => {
+              if (!dragState) return
+              dragState = dragStarted({
+                element: dragState.element,
+                lastCursorPosition: dragState.lastCursorPosition,
+                repeatedNodes: dragState.repeatedNodes,
+                asCopy,
+                initialContainer: dragState.initialContainer,
+                initialNextSibling: dragState.initialNextSibling,
+              })
+              const nextRect = dragState.element.getBoundingClientRect()
+              dragState.offset.x += nextRect.left - prevRect.left
+              dragState.offset.y += nextRect.top - prevRect.top
             })
-            const nextRect = dragState.element.getBoundingClientRect()
-            dragState.offset.x += nextRect.left - prevRect.left
-            dragState.offset.y += nextRect.top - prevRect.top
           }
           altKey = message.data.altKey
           metaKey = message.data.metaKey
@@ -1495,7 +1501,7 @@ export function getDOMNodeFromNodeId(
   )
 }
 
-function getRectData(selectedNode: Element | null | undefined) {
+export function getRectData(selectedNode: Element | null | undefined) {
   if (!selectedNode) {
     return null
   }
