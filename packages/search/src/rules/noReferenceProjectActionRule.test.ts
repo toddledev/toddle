@@ -91,4 +91,37 @@ describe('noReferenceProjectAction', () => {
 
     expect(problems).toEqual([])
   })
+
+  describe('noReferenceProjectAction', () => {
+    test('should not detect exported unused global actions', () => {
+      const problems = Array.from(
+        searchProject({
+          files: {
+            actions: {
+              'my-action': {
+                name: 'my-action',
+                arguments: [],
+                handler: '() => console.log("test")',
+                variableArguments: false,
+                exported: true,
+              },
+            },
+            components: {
+              test: {
+                name: 'test',
+                nodes: {},
+                formulas: {},
+                apis: {},
+                attributes: {},
+                variables: {},
+              },
+            },
+          },
+          rules: [noReferenceProjectActionRule],
+        }),
+      )
+
+      expect(problems).toHaveLength(0)
+    })
+  })
 })

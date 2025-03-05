@@ -10,7 +10,7 @@ export const noReferenceProjectFormulaRule: Rule<void> = {
   level: 'warning',
   category: 'No References',
   visit: (report, { path, files, value, nodeType, memo }) => {
-    if (nodeType !== 'project-formula') {
+    if (nodeType !== 'project-formula' || value.exported === true) {
       return
     }
 
