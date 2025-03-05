@@ -43,6 +43,9 @@ describe('unknownTriggerEventRule', () => {
                   dummyEvent: {
                     name: 'Name',
                   },
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               ],
             },
@@ -96,6 +99,9 @@ describe('unknownTriggerEventRule', () => {
                   // eslint-disable-next-line inclusive-language/use-inclusive-words
                   dummyEvent: {
                     name: 'Name',
+                  },
+                  '@toddle/metadata': {
+                    comment: null,
                   },
                 },
               ],

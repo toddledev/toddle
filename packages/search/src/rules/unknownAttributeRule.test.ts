@@ -75,6 +75,9 @@ describe('unknownAttribute', () => {
                 known: {
                   name: 'known',
                   testValue: { type: 'value', value: null },
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
             },

@@ -1,5 +1,6 @@
 import type { EventModel } from '../component/component.types'
 import type { Formula } from '../formula/formula'
+import type { ToddleMetadata } from '../types'
 
 export type ComponentAPI = LegacyComponentAPI | ApiRequest
 
@@ -43,7 +44,7 @@ export enum ApiMethod {
 
 export type RedirectStatusCode = 300 | 301 | 302 | 303 | 304 | 307 | 308
 
-export interface ApiBase {
+export interface ApiBase extends ToddleMetadata {
   url?: Formula
   path?: Record<string, { formula: Formula; index: number }>
   queryParams?: Record<

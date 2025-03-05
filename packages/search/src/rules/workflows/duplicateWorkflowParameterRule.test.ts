@@ -33,6 +33,9 @@ describe('duplicateWorkflowParameterRule', () => {
                     },
                   ],
                   actions: [],
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
             },
@@ -85,6 +88,9 @@ describe('duplicateWorkflowParameterRule', () => {
                     },
                   ],
                   actions: [],
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
             },

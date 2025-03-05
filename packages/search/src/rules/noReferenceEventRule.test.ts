@@ -43,6 +43,9 @@ describe('noReferenceEventRule', () => {
                   dummyEvent: {
                     name: 'Name',
                   },
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               ],
             },
@@ -118,12 +121,18 @@ describe('noReferenceEventRule', () => {
                   dummyEvent: {
                     name: 'Name',
                   },
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
                 {
                   name: 'used-event',
                   // eslint-disable-next-line inclusive-language/use-inclusive-words
                   dummyEvent: {
                     name: 'Name',
+                  },
+                  '@toddle/metadata': {
+                    comment: null,
                   },
                 },
               ],
