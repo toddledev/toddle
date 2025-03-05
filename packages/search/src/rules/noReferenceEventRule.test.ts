@@ -79,6 +79,26 @@ describe('noReferenceEventRule', () => {
                           event: 'known-event',
                           data: valueFormula(null),
                         },
+                        {
+                          name: 'TriggerEvent',
+                          events: {},
+                          arguments: [
+                            {
+                              name: 'name',
+                              formula: {
+                                type: 'value',
+                                value: 'used-event',
+                              },
+                            },
+                            {
+                              name: 'data',
+                              formula: {
+                                type: 'value',
+                                value: 'TestValue',
+                              },
+                            },
+                          ],
+                        },
                       ],
                     },
                   },
@@ -99,6 +119,13 @@ describe('noReferenceEventRule', () => {
                     name: 'Name',
                   },
                 },
+                {
+                  name: 'used-event',
+                  // eslint-disable-next-line inclusive-language/use-inclusive-words
+                  dummyEvent: {
+                    name: 'Name',
+                  },
+                },
               ],
             },
           },
@@ -106,7 +133,6 @@ describe('noReferenceEventRule', () => {
         rules: [noReferenceEventRule],
       }),
     )
-
     expect(problems).toEqual([])
   })
 })

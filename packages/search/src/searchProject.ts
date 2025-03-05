@@ -6,7 +6,7 @@ import type { ProjectFiles } from '@toddledev/ssr/dist/ssr.types'
 import { ToddleApiService } from '@toddledev/ssr/dist/ToddleApiService'
 import { ToddleRoute } from '@toddledev/ssr/dist/ToddleRoute'
 import type { ApplicationState, NodeType, Result, Rule } from './types'
-import { shouldSearchPath } from './util/shouldSearchPath'
+import { shouldSearchPath } from './util/helpers'
 
 /**
  * Search a project by applying rules to all nodes in the project and returning reported results.
