@@ -27,6 +27,9 @@ describe('noReferenceComponentFormulaRule', () => {
                   arguments: [],
                   memoize: false,
                   exposeInContext: true,
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
               apis: {},
@@ -34,6 +37,9 @@ describe('noReferenceComponentFormulaRule', () => {
               variables: {
                 'my-variable': {
                   initialValue: { type: 'value', value: 5 },
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
               route: {
@@ -82,6 +88,9 @@ describe('noReferenceComponentFormulaRule', () => {
                   arguments: [],
                   memoize: false,
                   exposeInContext: true,
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
                 'my-formula2': {
                   name: 'my-formula2',
@@ -93,6 +102,9 @@ describe('noReferenceComponentFormulaRule', () => {
                   arguments: [],
                   memoize: false,
                   exposeInContext: true,
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
               apis: {},
@@ -103,6 +115,9 @@ describe('noReferenceComponentFormulaRule', () => {
                     type: 'apply',
                     name: 'my-formula',
                     arguments: [],
+                  },
+                  '@toddle/metadata': {
+                    comment: null,
                   },
                 },
               },
@@ -157,6 +172,9 @@ describe('noReferenceComponentFormulaRule', () => {
                   arguments: [],
                   memoize: false,
                   exposeInContext: true,
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
               apis: {},
@@ -179,6 +197,9 @@ describe('noReferenceComponentFormulaRule', () => {
                   initialValue: {
                     type: 'path',
                     path: ['Contexts', 'page', 'my-formula'],
+                  },
+                  '@toddle/metadata': {
+                    comment: null,
                   },
                 },
               },
@@ -222,6 +243,9 @@ describe('noReferenceComponentFormulaRule', () => {
                   arguments: [],
                   memoize: false,
                   exposeInContext: true,
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
               apis: {},
@@ -287,6 +311,9 @@ describe('noReferenceComponentFormulaRule', () => {
                     ],
                   },
                   arguments: [],
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
               apis: {},

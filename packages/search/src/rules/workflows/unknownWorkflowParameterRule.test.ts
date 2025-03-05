@@ -42,6 +42,9 @@ describe('unknownWorkflowParameterRule', () => {
                       ],
                     },
                   ],
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
             },
@@ -95,6 +98,9 @@ describe('unknownWorkflowParameterRule', () => {
                       ],
                     },
                   ],
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
             },

@@ -25,6 +25,9 @@ describe('noReferenceComponentWorkflowRule', () => {
                   actions: [],
                   name: 'my-workflow',
                   parameters: [],
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
               apis: {},
@@ -87,6 +90,9 @@ describe('noReferenceComponentWorkflowRule', () => {
                   name: 'my-workflow',
                   parameters: [],
                   exposeInContext: true,
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
               apis: {},
@@ -121,6 +127,9 @@ describe('noReferenceComponentWorkflowRule', () => {
                   name: 'my-workflow',
                   parameters: [],
                   exposeInContext: true,
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
               apis: {},
@@ -179,6 +188,9 @@ describe('noReferenceComponentWorkflowRule', () => {
                   name: 'my-workflow',
                   parameters: [],
                   exposeInContext: true,
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
               apis: {},
@@ -235,6 +247,9 @@ describe('noReferenceComponentWorkflowRule', () => {
                   ],
                   name: 'my-workflow',
                   parameters: [],
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
               apis: {},

@@ -28,6 +28,9 @@ describe('unknownContextFormulaProviderRule', () => {
                     type: 'path',
                     path: ['Contexts', 'known', 'test'],
                   },
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
               contexts: {
@@ -65,6 +68,9 @@ describe('unknownContextFormulaProviderRule', () => {
                   exposeInContext: false,
                   formula: valueFormula(true),
                   arguments: [],
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
               apis: {},
@@ -82,6 +88,9 @@ describe('unknownContextFormulaProviderRule', () => {
                   initialValue: {
                     type: 'path',
                     path: ['Contexts', 'known', 'test'],
+                  },
+                  '@toddle/metadata': {
+                    comment: null,
                   },
                 },
               },
@@ -120,6 +129,9 @@ describe('unknownContextFormulaProviderRule', () => {
                   exposeInContext: true,
                   formula: valueFormula(true),
                   arguments: [],
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
               apis: {},
@@ -137,6 +149,9 @@ describe('unknownContextFormulaProviderRule', () => {
                   initialValue: {
                     type: 'path',
                     path: ['Contexts', 'known', 'test'],
+                  },
+                  '@toddle/metadata': {
+                    comment: null,
                   },
                 },
               },

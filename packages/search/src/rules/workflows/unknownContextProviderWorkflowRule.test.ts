@@ -62,6 +62,9 @@ describe('unknownContextProviderWorkflowRule', () => {
                   name: 'test',
                   parameters: [],
                   exposeInContext: false,
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
             },
@@ -111,6 +114,9 @@ describe('unknownContextProviderWorkflowRule', () => {
                   name: 'test',
                   parameters: [],
                   exposeInContext: true,
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
             },

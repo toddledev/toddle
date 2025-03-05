@@ -131,7 +131,7 @@ export interface ToddleInternals {
 }
 
 export interface ToddleMetadata {
-  '@toddle/metadata': {
+  '@toddle/metadata'?: {
     comment: string | null
   }
 }

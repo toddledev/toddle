@@ -70,6 +70,9 @@ describe('noReferenceProjectAction', () => {
                       arguments: [],
                     },
                   ],
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
               onLoad: {

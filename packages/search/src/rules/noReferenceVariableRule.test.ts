@@ -17,6 +17,9 @@ describe('noReferenceVariableRule', () => {
               variables: {
                 'my-variable': {
                   initialValue: { type: 'value', value: null },
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
             },
@@ -64,6 +67,9 @@ describe('noReferenceVariableRule', () => {
                       },
                     ],
                   },
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
               apis: {},
@@ -71,6 +77,9 @@ describe('noReferenceVariableRule', () => {
               variables: {
                 'my-variable': {
                   initialValue: { type: 'value', value: null },
+                  '@toddle/metadata': {
+                    comment: null,
+                  },
                 },
               },
             },
