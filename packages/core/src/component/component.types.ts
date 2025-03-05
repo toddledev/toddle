@@ -333,11 +333,11 @@ export interface ComponentEvent extends ToddleMetadata {
   dummyEvent: any
 }
 
-interface ComponentVariable extends ToddleMetadata {
+export interface ComponentVariable extends ToddleMetadata {
   initialValue: Formula
 }
 
-interface ComponentAttribute extends ToddleMetadata {
+export interface ComponentAttribute extends ToddleMetadata {
   name: string
   testValue: unknown
 }
