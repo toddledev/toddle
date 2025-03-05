@@ -248,4 +248,37 @@ describe('noReferenceFormulaRule', () => {
 
     expect(problems).toEqual([])
   })
+
+  test('should not detect unused exported global formulas', () => {
+    const problems = Array.from(
+      searchProject({
+        files: {
+          formulas: {
+            'my-formula': {
+              name: 'my-formula',
+              arguments: [],
+              formula: {
+                type: 'value',
+                value: 'value',
+              },
+              exported: true,
+            },
+          },
+          components: {
+            test: {
+              name: 'test',
+              nodes: {},
+              formulas: {},
+              apis: {},
+              attributes: {},
+              variables: {},
+            },
+          },
+        },
+        rules: [noReferenceProjectFormulaRule],
+      }),
+    )
+
+    expect(problems).toHaveLength(0)
+  })
 })
