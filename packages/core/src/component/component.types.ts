@@ -1,7 +1,7 @@
 import type { ApiStatus, ComponentAPI, LegacyApiStatus } from '../api/apiTypes'
 import type { Formula } from '../formula/formula'
 import type { StyleTokenCategory } from '../styling/theme'
-import type { RequireFields } from '../types'
+import type { RequireFields, ToddleMetadata } from '../types'
 
 interface ListItem {
   Item: unknown
@@ -161,8 +161,8 @@ export interface Component {
   // @deprecated - use route->path instead
   page?: string // page url /projects/:id - only for pages
   route?: PageRoute | null
-  attributes: Record<string, { name: string; testValue: unknown }>
-  variables: Record<string, { initialValue: Formula }>
+  attributes: Record<string, ComponentAttribute>
+  variables: Record<string, ComponentVariable>
   formulas?: Record<string, ComponentFormula>
   contexts?: Record<
     // `componentName` or `packageName/componentName` if the context comes from a different package than the component itself
@@ -179,7 +179,7 @@ export interface Component {
   exported?: boolean
 }
 
-export interface ComponentFormula {
+export interface ComponentFormula extends ToddleMetadata {
   name: string
   arguments: Array<{ name: string; testValue: any }>
   memoize?: boolean
@@ -187,7 +187,7 @@ export interface ComponentFormula {
   formula: Formula
 }
 
-export interface ComponentWorkflow {
+export interface ComponentWorkflow extends ToddleMetadata {
   name: string
   parameters: Array<{ name: string; testValue: any }>
   actions: ActionModel[]
@@ -327,8 +327,17 @@ export type ActionModel =
   | SetURLParameterAction
   | WorkflowActionModel
 
-export interface ComponentEvent {
+export interface ComponentEvent extends ToddleMetadata {
   name: string
   // eslint-disable-next-line inclusive-language/use-inclusive-words
   dummyEvent: any
+}
+
+interface ComponentVariable extends ToddleMetadata {
+  initialValue: Formula
+}
+
+interface ComponentAttribute extends ToddleMetadata {
+  name: string
+  testValue: unknown
 }

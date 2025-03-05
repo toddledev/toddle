@@ -130,6 +130,12 @@ export interface ToddleInternals {
   cookies: string[]
 }
 
+export interface ToddleMetadata {
+  '@toddle/metadata': {
+    comment: string | null
+  }
+}
+
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
   [P in K]-?: NonNullable<T[P]>
 }
