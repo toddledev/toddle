@@ -1,13 +1,20 @@
+import type { ApiRequest as CoreApiRequest } from '@toddledev/core/dist/api/apiTypes'
 import type {
+  ActionModel,
   Component,
   ComponentData,
 } from '@toddledev/core/dist/component/component.types'
-import type { ToddleEnv } from '@toddledev/core/dist/formula/formula'
+import type {
+  Formula,
+  ToddleEnv,
+  ValueOperationValue,
+} from '@toddledev/core/dist/formula/formula'
 import type {
   Toddle as NewToddle,
   Toddle,
   ToddleInternals,
 } from '@toddledev/core/dist/types'
+import type { ApiRequest } from './api/createAPI'
 import type { Signal } from './signal/signal'
 
 declare global {
@@ -75,11 +82,33 @@ export interface ComponentContext {
   env: ToddleEnv
 }
 
-export type ContextApi = {
-  fetch: Function
+export type ContextApi = ContextApiV1 | ContextApiV2
+
+export interface ContextApiV1 {
+  fetch: (api?: ApiRequest) => Promise<unknown>
   destroy: Function
-  update?: Function // for updating the dataSignal (v2 only)
-  triggerActions?: Function // for triggering actions explicitly. Useful when initializing apis (v2 only)
+}
+
+export interface ContextApiV2 {
+  fetch: (args: {
+    actionInputs?: Record<
+      string,
+      | ValueOperationValue
+      | {
+          name: string
+          formula?: Formula
+        }
+    >
+    actionModels?: {
+      onCompleted: ActionModel[]
+      onFailed: ActionModel[]
+      onMessage: ActionModel[]
+    }
+    componentData: ComponentData
+  }) => Promise<unknown>
+  destroy: Function
+  update: (newApi: CoreApiRequest, componentData: ComponentData) => void // for updating the dataSignal (v2 only)
+  triggerActions: (componentData: ComponentData) => void // for triggering actions explicitly. Useful when initializing apis (v2 only)
 }
 
 export type FormulaCache = Record<
