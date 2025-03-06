@@ -133,7 +133,7 @@ export interface ToddleInternals {
 export interface ToddleMetadata {
   '@toddle/metadata'?: {
     comment: string | null
-  }
+  } | null
 }
 
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
