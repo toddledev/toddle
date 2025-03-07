@@ -159,7 +159,7 @@ describe('noReferenceFormulaRule', () => {
                     ],
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -242,7 +242,7 @@ describe('noReferenceFormulaRule', () => {
                   },
                 },
                 '@toddle/metadata': {
-                  comment: null,
+                  comments: null,
                 },
               },
             },

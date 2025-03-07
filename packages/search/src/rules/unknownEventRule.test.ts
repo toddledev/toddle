@@ -70,7 +70,7 @@ describe('unknownEvent', () => {
                     name: 'Name',
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               ],
@@ -98,7 +98,7 @@ describe('unknownEvent', () => {
                         name: 'Name',
                       },
                       '@toddle/metadata': {
-                        comment: null,
+                        comments: null,
                       },
                     },
                   ],
@@ -191,7 +191,7 @@ describe('unknownEvent', () => {
                     name: 'Name',
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               ],
@@ -219,7 +219,7 @@ describe('unknownEvent', () => {
                         name: 'Name',
                       },
                       '@toddle/metadata': {
-                        comment: null,
+                        comments: null,
                       },
                     },
                   ],

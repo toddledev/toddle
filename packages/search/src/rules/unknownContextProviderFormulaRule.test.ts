@@ -29,7 +29,7 @@ describe('unknownContextFormulaProviderRule', () => {
                     path: ['Contexts', 'known', 'test'],
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -69,7 +69,7 @@ describe('unknownContextFormulaProviderRule', () => {
                   formula: valueFormula(true),
                   arguments: [],
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -90,7 +90,7 @@ describe('unknownContextFormulaProviderRule', () => {
                     path: ['Contexts', 'known', 'test'],
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -130,7 +130,7 @@ describe('unknownContextFormulaProviderRule', () => {
                   formula: valueFormula(true),
                   arguments: [],
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -151,7 +151,7 @@ describe('unknownContextFormulaProviderRule', () => {
                     path: ['Contexts', 'known', 'test'],
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },

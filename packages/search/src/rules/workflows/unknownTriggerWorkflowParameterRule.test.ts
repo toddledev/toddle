@@ -51,7 +51,7 @@ describe('unknownTriggerWorkflowParameterRule', () => {
                     },
                   ],
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -114,7 +114,7 @@ describe('unknownTriggerWorkflowParameterRule', () => {
                     },
                   ],
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -159,7 +159,7 @@ describe('unknownTriggerWorkflowParameterRule', () => {
                   ],
                   exposeInContext: true,
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -247,7 +247,7 @@ describe('unknownTriggerWorkflowParameterRule', () => {
                   ],
                   exposeInContext: true,
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -331,7 +331,7 @@ describe('unknownTriggerWorkflowParameterRule', () => {
                       ],
                       exposeInContext: true,
                       '@toddle/metadata': {
-                        comment: null,
+                        comments: null,
                       },
                     },
                   },
@@ -422,7 +422,7 @@ describe('unknownTriggerWorkflowParameterRule', () => {
                       ],
                       exposeInContext: true,
                       '@toddle/metadata': {
-                        comment: null,
+                        comments: null,
                       },
                     },
                   },

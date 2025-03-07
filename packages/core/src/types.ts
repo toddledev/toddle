@@ -130,9 +130,14 @@ export interface ToddleInternals {
   cookies: string[]
 }
 
+export interface Comment {
+  text: string
+  index: number
+}
+
 export interface ToddleMetadata {
   '@toddle/metadata'?: {
-    comment: string | null
+    comments: Record<string, Comment> | null
   } | null
 }
 

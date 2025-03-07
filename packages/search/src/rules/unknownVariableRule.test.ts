@@ -75,7 +75,7 @@ describe('unknownVariable', () => {
                 known: {
                   initialValue: { type: 'value', value: null },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },

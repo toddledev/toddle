@@ -26,7 +26,7 @@ describe('noContextConsumersRule', () => {
                   },
                   exposeInContext: true,
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -71,7 +71,7 @@ describe('noContextConsumersRule', () => {
                   name: 'test',
                   parameters: [],
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -150,7 +150,7 @@ describe('noContextConsumersRule', () => {
                   },
                   exposeInContext: true,
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -161,7 +161,7 @@ describe('noContextConsumersRule', () => {
                   name: 'test',
                   parameters: [],
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -208,7 +208,7 @@ describe('noContextConsumersRule', () => {
                   },
                   exposeInContext: true,
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -219,7 +219,7 @@ describe('noContextConsumersRule', () => {
                   name: 'test',
                   parameters: [],
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },

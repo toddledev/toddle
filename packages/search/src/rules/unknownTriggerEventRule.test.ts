@@ -44,7 +44,7 @@ describe('unknownTriggerEventRule', () => {
                     name: 'Name',
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               ],
@@ -101,7 +101,7 @@ describe('unknownTriggerEventRule', () => {
                     name: 'Name',
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               ],

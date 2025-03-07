@@ -63,7 +63,7 @@ describe('unknownContextProviderWorkflowRule', () => {
                   parameters: [],
                   exposeInContext: false,
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -115,7 +115,7 @@ describe('unknownContextProviderWorkflowRule', () => {
                   parameters: [],
                   exposeInContext: true,
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },

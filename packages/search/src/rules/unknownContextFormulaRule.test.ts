@@ -20,7 +20,7 @@ describe('unknownContextFormulaRule', () => {
                     path: ['Contexts', 'unknown', 'test'],
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
                 test2: {
@@ -29,7 +29,7 @@ describe('unknownContextFormulaRule', () => {
                     path: ['Contexts', 'known', 'unknown'],
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -70,7 +70,7 @@ describe('unknownContextFormulaRule', () => {
                     path: ['Contexts', 'known', 'test'],
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },

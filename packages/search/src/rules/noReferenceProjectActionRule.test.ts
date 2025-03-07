@@ -71,7 +71,7 @@ describe('noReferenceProjectAction', () => {
                     },
                   ],
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },

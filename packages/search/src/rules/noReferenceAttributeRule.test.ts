@@ -18,7 +18,7 @@ describe('noReferenceAttributeRule', () => {
                   name: 'my-attribute-name',
                   testValue: { type: 'value', value: null },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -65,7 +65,7 @@ describe('noReferenceAttributeRule', () => {
                     ],
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -75,7 +75,7 @@ describe('noReferenceAttributeRule', () => {
                   name: 'my-attribute',
                   testValue: { type: 'value', value: null },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -115,7 +115,7 @@ describe('noReferenceAttributeRule', () => {
                     ],
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },

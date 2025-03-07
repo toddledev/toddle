@@ -199,7 +199,7 @@ describe('legacyFormula', () => {
                     arguments: [],
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -310,7 +310,7 @@ describe('legacyFormula', () => {
                     value: null,
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },

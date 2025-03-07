@@ -85,7 +85,7 @@ describe('unknownApi', () => {
                   autoFetch: valueFormula(true),
                   inputs: {},
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -143,7 +143,7 @@ describe('unknownApi', () => {
                   name: 'known',
                   testValue: { type: 'value', value: null },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },

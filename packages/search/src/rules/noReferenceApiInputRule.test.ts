@@ -31,7 +31,7 @@ describe('noReferenceApiInputRule', () => {
                     path: ['Args', 'first'],
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -85,7 +85,7 @@ describe('noReferenceApiInputRule', () => {
                   autoFetch: valueFormula(true),
                   inputs: {},
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -141,7 +141,7 @@ describe('noReferenceApiInputRule', () => {
                   autoFetch: valueFormula(true),
                   inputs: {},
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },

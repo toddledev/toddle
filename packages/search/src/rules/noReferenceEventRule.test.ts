@@ -44,7 +44,7 @@ describe('noReferenceEventRule', () => {
                     name: 'Name',
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               ],
@@ -122,7 +122,7 @@ describe('noReferenceEventRule', () => {
                     name: 'Name',
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
                 {
@@ -132,7 +132,7 @@ describe('noReferenceEventRule', () => {
                     name: 'Name',
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               ],

@@ -36,7 +36,7 @@ describe('unknownCookie', () => {
                     },
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -89,7 +89,7 @@ describe('unknownCookie', () => {
                     },
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },

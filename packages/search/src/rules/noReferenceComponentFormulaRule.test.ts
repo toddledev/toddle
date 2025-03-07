@@ -28,7 +28,7 @@ describe('noReferenceComponentFormulaRule', () => {
                   memoize: false,
                   exposeInContext: true,
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -38,7 +38,7 @@ describe('noReferenceComponentFormulaRule', () => {
                 'my-variable': {
                   initialValue: { type: 'value', value: 5 },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -89,7 +89,7 @@ describe('noReferenceComponentFormulaRule', () => {
                   memoize: false,
                   exposeInContext: true,
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
                 'my-formula2': {
@@ -103,7 +103,7 @@ describe('noReferenceComponentFormulaRule', () => {
                   memoize: false,
                   exposeInContext: true,
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -117,7 +117,7 @@ describe('noReferenceComponentFormulaRule', () => {
                     arguments: [],
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -173,7 +173,7 @@ describe('noReferenceComponentFormulaRule', () => {
                   memoize: false,
                   exposeInContext: true,
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -199,7 +199,7 @@ describe('noReferenceComponentFormulaRule', () => {
                     path: ['Contexts', 'page', 'my-formula'],
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -244,7 +244,7 @@ describe('noReferenceComponentFormulaRule', () => {
                   memoize: false,
                   exposeInContext: true,
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
@@ -312,7 +312,7 @@ describe('noReferenceComponentFormulaRule', () => {
                   },
                   arguments: [],
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },

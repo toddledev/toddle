@@ -79,7 +79,7 @@ describe('unknownFormula', () => {
                     value: null,
                   },
                   '@toddle/metadata': {
-                    comment: null,
+                    comments: null,
                   },
                 },
               },
