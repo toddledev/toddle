@@ -25,6 +25,9 @@ describe('noContextConsumersRule', () => {
                     value: 1,
                   },
                   exposeInContext: true,
+                  '@toddle/metadata': {
+                    comments: null,
+                  },
                 },
               },
               apis: {},
@@ -67,6 +70,9 @@ describe('noContextConsumersRule', () => {
                   exposeInContext: true,
                   name: 'test',
                   parameters: [],
+                  '@toddle/metadata': {
+                    comments: null,
+                  },
                 },
               },
               apis: {},
@@ -143,6 +149,9 @@ describe('noContextConsumersRule', () => {
                     value: 1,
                   },
                   exposeInContext: true,
+                  '@toddle/metadata': {
+                    comments: null,
+                  },
                 },
               },
               workflows: {
@@ -151,6 +160,9 @@ describe('noContextConsumersRule', () => {
                   exposeInContext: true,
                   name: 'test',
                   parameters: [],
+                  '@toddle/metadata': {
+                    comments: null,
+                  },
                 },
               },
               apis: {},
@@ -195,6 +207,9 @@ describe('noContextConsumersRule', () => {
                     value: 1,
                   },
                   exposeInContext: true,
+                  '@toddle/metadata': {
+                    comments: null,
+                  },
                 },
               },
               workflows: {
@@ -203,6 +218,9 @@ describe('noContextConsumersRule', () => {
                   exposeInContext: true,
                   name: 'test',
                   parameters: [],
+                  '@toddle/metadata': {
+                    comments: null,
+                  },
                 },
               },
               apis: {},

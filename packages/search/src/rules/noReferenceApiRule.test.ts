@@ -30,6 +30,9 @@ describe('noReferenceApiRule', () => {
                   version: 2,
                   autoFetch: valueFormula(true),
                   inputs: {},
+                  '@toddle/metadata': {
+                    comments: null,
+                  },
                 },
               },
               attributes: {},
@@ -86,6 +89,9 @@ describe('noReferenceApiRule', () => {
                   version: 2,
                   autoFetch: valueFormula(true),
                   inputs: {},
+                  '@toddle/metadata': {
+                    comments: null,
+                  },
                 },
               },
               attributes: {},
@@ -139,6 +145,9 @@ describe('noReferenceApiRule', () => {
                   version: 2,
                   autoFetch: valueFormula(true),
                   inputs: {},
+                  '@toddle/metadata': {
+                    comments: null,
+                  },
                 },
               },
               attributes: {},

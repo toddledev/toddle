@@ -198,6 +198,9 @@ describe('legacyFormula', () => {
                     name: 'ADD',
                     arguments: [],
                   },
+                  '@toddle/metadata': {
+                    comments: null,
+                  },
                 },
               },
               apis: {},
@@ -305,6 +308,9 @@ describe('legacyFormula', () => {
                   formula: {
                     type: 'value',
                     value: null,
+                  },
+                  '@toddle/metadata': {
+                    comments: null,
                   },
                 },
               },

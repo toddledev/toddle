@@ -4,6 +4,7 @@ import type {
   FormulaHandler,
   FormulaLookup,
   Toddle,
+  ToddleMetadata,
 } from '../types'
 import { isDefined, toBoolean } from '../utils/util'
 import { isToddleFormula } from './formulaTypes'
@@ -12,7 +13,7 @@ import { isToddleFormula } from './formulaTypes'
 declare const document: Document | undefined
 type ShadowRoot = DocumentFragment
 
-export type PathOperation = {
+export interface PathOperation extends ToddleMetadata {
   type: 'path'
   path: string[]
 }
@@ -23,7 +24,7 @@ type FunctionArgument = {
   formula: Formula
 }
 
-export type FunctionOperation = {
+export interface FunctionOperation extends ToddleMetadata {
   type: 'function'
   name: string
   display_name?: string | null
@@ -32,45 +33,45 @@ export type FunctionOperation = {
   variableArguments?: boolean
 }
 
-export type RecordOperation = {
+export interface RecordOperation extends ToddleMetadata {
   type: 'record'
   entries: FunctionArgument[]
 }
 
-export type ObjectOperation = {
+export interface ObjectOperation extends ToddleMetadata {
   type: 'object'
   arguments?: FunctionArgument[]
 }
 
-export type ArrayOperation = {
+export interface ArrayOperation extends ToddleMetadata {
   type: 'array'
   arguments: Array<{ formula: Formula }>
 }
 
-export type OrOperation = {
+export interface OrOperation extends ToddleMetadata {
   type: 'or'
   arguments: Array<{ formula: Formula }>
 }
 
-export type AndOperation = {
+export interface AndOperation extends ToddleMetadata {
   type: 'and'
   arguments: Array<{ formula: Formula }>
 }
 
-export type ApplyOperation = {
+export interface ApplyOperation extends ToddleMetadata {
   type: 'apply'
   name: string
   arguments: FunctionArgument[]
 }
 
-export type ValueOperation = {
+export interface ValueOperation extends ToddleMetadata {
   type: 'value'
-  value: string | number | boolean | null | object
+  value: ValueOperationValue
 }
 
 export type ValueOperationValue = string | number | boolean | null | object
 
-export type SwitchOperation = {
+export interface SwitchOperation extends ToddleMetadata {
   type: 'switch'
   cases: Array<{
     condition: Formula

@@ -23,6 +23,9 @@ describe('unknownApiInput', () => {
                     type: 'path',
                     path: ['Args', 'unknown-input'],
                   },
+                  '@toddle/metadata': {
+                    comments: null,
+                  },
                 },
               },
               attributes: {},
@@ -62,6 +65,9 @@ describe('unknownApiInput', () => {
                   body: {
                     type: 'path',
                     path: ['Args', 'known-input'],
+                  },
+                  '@toddle/metadata': {
+                    comments: null,
                   },
                 },
               },
