@@ -132,12 +132,11 @@ export interface ToddleInternals {
 
 export interface Comment {
   text: string
-  index: number
 }
 
 export interface ToddleMetadata {
   '@toddle/metadata'?: {
-    comments: Record<string, Comment> | null
+    comments: Record<string, Comment & { index: number }> | null
   } | null
 }
 
