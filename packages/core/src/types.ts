@@ -130,6 +130,16 @@ export interface ToddleInternals {
   cookies: string[]
 }
 
+export interface Comment {
+  text: string
+}
+
+export interface ToddleMetadata {
+  '@toddle/metadata'?: {
+    comments: Record<string, Comment & { index: number }> | null
+  } | null
+}
+
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & {
   [P in K]-?: NonNullable<T[P]>
 }

@@ -165,6 +165,10 @@ export class ToddleApiV2<Handler> implements ApiRequest {
     return this.api.timeout
   }
 
+  get '@toddle/metadata'() {
+    return this.api['@toddle/metadata']
+  }
+
   *formulasInApi(): Generator<[(string | number)[], Formula]> {
     const api = this.api
     const apiKey = this.key

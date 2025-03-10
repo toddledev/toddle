@@ -158,6 +158,9 @@ describe('noReferenceFormulaRule', () => {
                       },
                     ],
                   },
+                  '@toddle/metadata': {
+                    comments: null,
+                  },
                 },
               },
               apis: {},
@@ -237,6 +240,9 @@ describe('noReferenceFormulaRule', () => {
                     },
                     index: 0,
                   },
+                },
+                '@toddle/metadata': {
+                  comments: null,
                 },
               },
             },

@@ -69,6 +69,9 @@ describe('unknownEvent', () => {
                   dummyEvent: {
                     name: 'Name',
                   },
+                  '@toddle/metadata': {
+                    comments: null,
+                  },
                 },
               ],
             },
@@ -93,6 +96,9 @@ describe('unknownEvent', () => {
                       // eslint-disable-next-line inclusive-language/use-inclusive-words
                       dummyEvent: {
                         name: 'Name',
+                      },
+                      '@toddle/metadata': {
+                        comments: null,
                       },
                     },
                   ],
@@ -184,6 +190,9 @@ describe('unknownEvent', () => {
                   dummyEvent: {
                     name: 'Name',
                   },
+                  '@toddle/metadata': {
+                    comments: null,
+                  },
                 },
               ],
             },
@@ -208,6 +217,9 @@ describe('unknownEvent', () => {
                       // eslint-disable-next-line inclusive-language/use-inclusive-words
                       dummyEvent: {
                         name: 'Name',
+                      },
+                      '@toddle/metadata': {
+                        comments: null,
                       },
                     },
                   ],
