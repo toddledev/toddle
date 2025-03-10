@@ -1,8 +1,9 @@
 name: Deploy Worker
 on:
-  push: # Suggested branch config below
-    # branches:
-    #   - main
+  # Suggested branch config below if you want to deploy on push to main
+  # push:
+  # branches:
+  #   - main
   repository_dispatch:
 jobs:
   deploy:
