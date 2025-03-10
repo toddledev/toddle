@@ -27,7 +27,6 @@ app.use(async (c, next) => {
     const path = `./project.json`
     try {
       const content = await import(path)
-      console.log('content', typeof content.default)
       project = JSON.parse(content.default) as {
         files: ProjectFiles
         project: ToddleProject
@@ -42,7 +41,7 @@ app.use(async (c, next) => {
       return c.text('Project not found', { status: 404 })
     }
   }
-  c.set('project', project as { files: ProjectFiles; project: ToddleProject })
+  c.set('project', project)
   return next()
 })
 
