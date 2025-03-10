@@ -33,8 +33,8 @@ export const stylesheetHandler = async (
     includeRoot: true,
   })
 
-  // Currently, styles are inlined, but we want to serve these from a separate endpoint
   const styles = createStylesheet(page, includedComponents, theme, {
+    // The reset stylesheet is loaded separately
     includeResetStyle: false,
     // Font faces are created from a stylesheet referenced in the head
     createFontFaces: false,
