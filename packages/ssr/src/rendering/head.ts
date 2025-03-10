@@ -26,8 +26,10 @@ export const getHeadItems = ({
   cacheBuster,
   context,
   cssBasePath = '/.toddle/fonts/stylesheet/css2',
-  files,
   page,
+  resetStylesheetPath = '/_static/reset.css',
+  pageStylesheetPath = `/.toddle/stylesheet/${page.name}.css`,
+  files,
   project,
   theme,
   url,
@@ -38,6 +40,8 @@ export const getHeadItems = ({
   cssBasePath?: string
   files: ProjectFiles
   page: ToddleComponent<string>
+  resetStylesheetPath?: string
+  pageStylesheetPath?: string
   project: ToddleProject
   theme: OldTheme | Theme
   url: URL
@@ -83,7 +87,6 @@ export const getHeadItems = ({
     }
   }
 
-  const stylesheetUrl = urlWithCacheBuster('/_static/reset.css', cacheBuster)
   const charset = getCharset({ pageInfo, formulaContext: context })
   const descriptionItems: [HeadItemType, string][] = []
   if (typeof description === 'string') {
@@ -102,8 +105,11 @@ export const getHeadItems = ({
   const headItems = new Map<HeadItemType, string>([
     [
       'link:reset',
-      // The reset stylesheet should be loaded asap to avoid any flickering
-      `<link rel="stylesheet" fetchpriority="high" href="${escapeAttrValue(stylesheetUrl)}" />`,
+      `<link rel="stylesheet" fetchpriority="high" href="${escapeAttrValue(urlWithCacheBuster(resetStylesheetPath, cacheBuster))}" />`,
+    ],
+    [
+      'link:page',
+      `<link rel="stylesheet" fetchpriority="high" href="${escapeAttrValue(urlWithCacheBuster(pageStylesheetPath, cacheBuster))}" />`,
     ],
     ...preloadFonts,
     // Initialize default head items (meta + links)
@@ -338,7 +344,9 @@ export const defaultHeadOrdering: HeadItemType[] = [
   'meta:apple-mobile-web-app-title',
   'meta:msapplication-tilecolor',
   'meta:og:locale',
+  // The stylesheets should be loaded asap to avoid any flickering
   'link:reset',
+  'link:page',
   // Everything else comes after these predefined tags
 ]
 
