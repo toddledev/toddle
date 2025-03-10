@@ -1,0 +1,20 @@
+{
+  "name": "toddle-on-vercel",
+  "type": "module",
+  "scripts": {
+    "predeploy": "bun scripts/syncStaticAssets.js",
+    "deploy": "vercel",
+    "prestart": "bun scripts/syncStaticAssets.js",
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "@toddledev/core": "0.0.4-alpha.2",
+    "@toddledev/std-lib": "0.0.4-alpha.2",
+    "@toddledev/ssr": "0.0.4-alpha.2",
+    "@toddledev/runtime": "0.0.4-alpha.2",
+    "hono": "4.7.2"
+  },
+  "devDependencies": {
+    "vercel": "41.2.2"
+  }
+}
