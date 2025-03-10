@@ -1,0 +1,26 @@
+name: 'Test Cloudflare example'
+
+on:
+  push:
+    branches-ignore:
+      - main
+    paths-ignore:
+      - '.vscode/**'
+      - '**/*/README.md'
+
+jobs:
+  tsc-cloudflare-example:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout root
+        uses: actions/checkout@v4
+      - name: Install bun
+        uses: oven-sh/setup-bun@v1
+      - name: Install example dependencies
+        run: |
+          cd examples/cloudflare-worker
+          bun install --frozen-lockfile
+      - name: TSC Cloudflare Example
+        run: |
+          cd examples/cloudflare-worker
+          bun run typecheck
