@@ -2,6 +2,7 @@
 // This script is executed by the build process
 const fs = require('fs')
 import { RESET_STYLES } from '@toddledev/core/dist/styling/theme.const'
+fs.mkdirSync(`${__dirname}/../assets/_static`, { recursive: true })
 ;[
   'esm-page.main.js',
   'esm-page.main.js.map',
