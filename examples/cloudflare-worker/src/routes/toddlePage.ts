@@ -1,6 +1,5 @@
 import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
 import { type ToddleServerEnv } from '@toddledev/core/dist/formula/formula'
-import { createStylesheet } from '@toddledev/core/dist/styling/style.css'
 import { theme as defaultTheme } from '@toddledev/core/dist/styling/theme.const'
 import type { ToddleInternals } from '@toddledev/core/dist/types'
 import { isDefined } from '@toddledev/core/dist/utils/util'
@@ -69,12 +68,6 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
     includeRoot: true,
   })
 
-  // Currently, styles are inlined, but we want to serve these from a separate endpoint
-  const styles = createStylesheet(page, includedComponents, theme, {
-    includeResetStyle: false,
-    // Font faces are created from a stylesheet referenced in the head
-    createFontFaces: false,
-  })
   const toddleComponent = new ToddleComponent<string>({
     component: page,
     getComponent: (name, packageName) => {
@@ -176,11 +169,7 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
     html`<!doctype html>
       <html lang="${language}">
         <head>
-          ${raw(head)}
-          <style>
-            ${raw(styles)}
-          </style>
-          ${raw(codeImport)}
+          ${raw(head)} ${raw(codeImport)}
         </head>
         <body>
           <div id="App">${raw(body)}</div>
