@@ -1,0 +1,25 @@
+name: Deploy Worker
+on:
+  # Suggested branch config below if you want to deploy on push to main
+  # push:
+  # branches:
+  #   - main
+  repository_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install bun
+        uses: oven-sh/setup-bun@v1
+      - name: Prepare deploy
+        run: |
+          cd examples/cloudflare-worker
+          bun i
+          bun scripts/syncStaticAssets.js
+      - name: Build & Deploy Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          workingDirectory: 'examples/cloudflare-worker'
