@@ -18,8 +18,9 @@ jobs:
           bun i
           bun run build
       - name: Deploy Worker
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          workingDirectory: 'examples/cloudflare-worker'
+        run: |
+          cd examples/cloudflare-worker
+          bun run deploy
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID}}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
