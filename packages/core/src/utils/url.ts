@@ -16,7 +16,7 @@ export const validateUrl = (url?: string | null, base?: string) => {
     // Creating a new URL object will not correctly encode the search params
     // So we need to iterate over them to make sure they are encoded as that happens when setting them explicitly
     const searchCopy = new URLSearchParams(urlObject.searchParams)
-    urlObject.searchParams.forEach((value, key) => {
+    searchCopy.forEach((value, key) => {
       urlObject.searchParams.delete(key, value)
     })
     searchCopy.forEach((value, key) => {
