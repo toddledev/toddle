@@ -44,6 +44,7 @@ The dependencies between the packages are as follows:
 
 - `core` is a dependency for all other packages
 - `ssr` is a dependency for `search`
+- `std-lib` is a dependency for `runtime` and `ssr`
 
 ## Releases
 
