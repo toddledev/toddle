@@ -9,13 +9,13 @@
     "watch": "tsc --noEmit -w"
   },
   "dependencies": {
-    "@toddledev/core": "0.0.4-alpha.5",
-    "@toddledev/ssr": "0.0.4-alpha.5",
+    "@toddledev/core": "0.0.5-alpha.1",
+    "@toddledev/ssr": "0.0.5-alpha.1",
     "hono": "4.6.16"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20250303.0",
-    "@toddledev/runtime": "0.0.4-alpha.5",
+    "@toddledev/runtime": "0.0.5-alpha.1",
     "wrangler": "3.114.0",
     "typescript": "5.8.2"
   }

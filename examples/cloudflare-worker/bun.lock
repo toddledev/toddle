@@ -3,13 +3,13 @@
   "workspaces": {
     "": {
       "dependencies": {
-        "@toddledev/core": "0.0.4-alpha.5",
-        "@toddledev/ssr": "0.0.4-alpha.5",
+        "@toddledev/core": "0.0.5-alpha.1",
+        "@toddledev/ssr": "0.0.5-alpha.1",
         "hono": "4.6.16",
       },
       "devDependencies": {
         "@cloudflare/workers-types": "4.20250303.0",
-        "@toddledev/runtime": "0.0.4-alpha.5",
+        "@toddledev/runtime": "0.0.5-alpha.1",
         "typescript": "5.8.2",
         "wrangler": "3.114.0",
       },
@@ -130,11 +130,13 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.9", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.0.3", "@jridgewell/sourcemap-codec": "^1.4.10" } }, "sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ=="],
 
-    "@toddledev/core": ["@toddledev/core@0.0.4-alpha.5", "", {}, "sha512-IlO64T06i40Wxvs0b79kGnJw6s7w72TmFAHylj4VndF0TsIRvrXd3UPlm8ZEHfvZ5shI8OWjc7WrnOm3WkRkIw=="],
+    "@toddledev/core": ["@toddledev/core@0.0.5-alpha.1", "", {}, "sha512-MilXH2mjZuQ8uy8F4edVmYkfAf9s0EZO32dnb2g9rsbyqJDEzA2U2RdWsbl8KItbkxafa+0Hp9E6zTHj4atbHA=="],
 
-    "@toddledev/runtime": ["@toddledev/runtime@0.0.4-alpha.5", "", { "dependencies": { "@toddledev/core": "0.0.4-alpha.5", "fast-deep-equal": "3.1.3", "path-to-regexp": "6.3.0" } }, "sha512-IWPWQo9h5MUSJCleI31pHo98/NGFVKdYvD9K08+OgT7V4KwAmcw/tdUGYtjcxUkUqt46Whf8BqmM3/XZzXV3Ng=="],
+    "@toddledev/runtime": ["@toddledev/runtime@0.0.5-alpha.1", "", { "dependencies": { "@toddledev/core": "0.0.5-alpha.1", "@toddledev/std-lib": "0.0.5-alpha.1", "fast-deep-equal": "3.1.3", "path-to-regexp": "6.3.0" } }, "sha512-V5ubdg0LDIFrFlU9AYGVqWNtnkyh06KSazcw/0aGjBP0mWAR9YRZqXIgl1qj9BvfyyRbXW/6isYsXZ4xgkdp7A=="],
 
-    "@toddledev/ssr": ["@toddledev/ssr@0.0.4-alpha.5", "", { "dependencies": { "@toddledev/core": "0.0.4-alpha.5", "cookie": "1.0.2", "xss": "1.0.15" } }, "sha512-NJhRCaQ4mWSji/+VqTqd40J37mK0/VJ6ipz+VAhU8LevcAICjzh48SSnTyjvNNShuu+9op0phnC5PNi43oRTVA=="],
+    "@toddledev/ssr": ["@toddledev/ssr@0.0.5-alpha.1", "", { "dependencies": { "@toddledev/core": "0.0.5-alpha.1", "@toddledev/std-lib": "0.0.5-alpha.1", "cookie": "1.0.2", "xss": "1.0.15" } }, "sha512-STNmrJImxXCq2ahKzSM4wMHx2AvDQ6qhzeYWVMkFdUcwB8QKg33U1J7hBh5JiU1kEEOIG0XykqSl7x7895qvpw=="],
+
+    "@toddledev/std-lib": ["@toddledev/std-lib@0.0.5-alpha.1", "", { "dependencies": { "@toddledev/core": "0.0.5-alpha.1", "fast-deep-equal": "3.1.3" } }, "sha512-FAIdE+m3e/xfPi68GF9vxCxqVaVQv1oCAi0zcZlkv4FLlxpawS27V/6RQ/gdB2s+ZtVyUvE0kL7NJRdelJvV3g=="],
 
     "acorn": ["acorn@8.14.0", "", { "bin": { "acorn": "bin/acorn" } }, "sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA=="],
 
