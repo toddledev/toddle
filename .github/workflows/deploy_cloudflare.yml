@@ -16,8 +16,8 @@ jobs:
         run: |
           cd examples/cloudflare-worker
           bun i
-          bun scripts/syncStaticAssets.js
-      - name: Build & Deploy Worker
+          bun run build
+      - name: Deploy Worker
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CF_API_TOKEN }}
