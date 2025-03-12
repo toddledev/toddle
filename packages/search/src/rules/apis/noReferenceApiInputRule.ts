@@ -1,5 +1,5 @@
 import { ToddleApiV2 } from '@toddledev/core/dist/api/ToddleApiV2'
-import type { Rule } from '../types'
+import type { Rule } from '../../types'
 
 export const noReferenceApiInputRule: Rule<{ inputName: string }> = {
   code: 'no-reference api input',
