@@ -1,0 +1,16 @@
+{
+  "name": "Logarithm",
+  "description": "Return the logarithm of a number",
+  "arguments": [
+    {
+      "name": "Number",
+      "formula": { "type": "value", "value": 1 },
+      "description": "A number greater than or equal to 0",
+      "type": { "type": "Number" }
+    }
+  ],
+  "output": {
+    "type": { "type": "Number" },
+    "description": "The natural logarithm of the number"
+  }
+}
