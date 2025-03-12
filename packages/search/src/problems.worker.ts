@@ -102,7 +102,10 @@ const RULES = [
   // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/legend#technical_summary
   createRequiredDirectParentRule(['fieldset'], ['legend']),
   // https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl#technical_summary
-  createRequiredDirectChildRule(['dl'], ['dd', 'dt', 'script', 'template']),
+  createRequiredDirectChildRule(
+    ['dl'],
+    ['dd', 'dt', 'div', 'script', 'template'],
+  ),
   duplicateEventTriggerRule,
   duplicateUrlParameterRule,
   duplicateWorkflowParameterRule,
