@@ -1,5 +1,5 @@
 import type { ApiRequest } from '@toddledev/core/dist/api/apiTypes'
-import type { Rule } from '../types'
+import type { Rule } from '../../types'
 
 export const unknownApiInputRule: Rule<{
   name: string

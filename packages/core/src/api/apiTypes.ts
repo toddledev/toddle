@@ -44,6 +44,14 @@ export enum ApiMethod {
 
 export type RedirectStatusCode = 300 | 301 | 302 | 303 | 304 | 307 | 308
 
+export type ApiParserMode =
+  | 'auto'
+  | 'text'
+  | 'json'
+  | 'event-stream'
+  | 'json-stream'
+  | 'blob'
+
 export interface ApiBase extends ToddleMetadata {
   url?: Formula
   path?: Record<string, { formula: Formula; index: number }>
@@ -86,13 +94,7 @@ export interface ApiRequest extends ApiBase {
     // parserMode is used to determine how the response should be handled
     // auto: The response will be handled based on the content type of the response
     // stream: The response will be handled as a stream
-    parserMode:
-      | 'auto'
-      | 'text'
-      | 'json'
-      | 'event-stream'
-      | 'json-stream'
-      | 'blob'
+    parserMode: ApiParserMode
   }
   // Shared logic for client/server 👇
   // The user could distinguish using an environment

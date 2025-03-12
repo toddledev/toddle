@@ -1,5 +1,5 @@
 import { valueFormula } from '@toddledev/core/dist/formula/formulaUtils'
-import { searchProject } from '../searchProject'
+import { searchProject } from '../../searchProject'
 import { unknownApiRule } from './unknownApiRule'
 
 describe('unknownApi', () => {

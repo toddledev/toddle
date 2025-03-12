@@ -1,4 +1,4 @@
-import type { Rule } from '../types'
+import type { Rule } from '../../types'
 
 export const noReferenceApiRule: Rule<void> = {
   code: 'no-reference api',

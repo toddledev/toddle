@@ -26,6 +26,7 @@ type Code =
   | 'duplicate event trigger'
   | 'duplicate url parameter'
   | 'duplicate workflow parameter'
+  | 'invalid api parser mode'
   | 'legacy action'
   | 'legacy formula'
   | 'no-console'
