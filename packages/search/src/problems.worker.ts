@@ -34,9 +34,10 @@ import { unknownFormulaRule } from './rules/unknownFormulaRule'
 import { unknownProjectActionRule } from './rules/unknownProjectActionRule'
 import { unknownProjectFormulaRule } from './rules/unknownProjectFormulaRule'
 import { unknownTriggerEventRule } from './rules/unknownTriggerEventRule'
-import { unknownUrlParameterRule } from './rules/unknownUrlParameterRule'
 import { unknownVariableRule } from './rules/unknownVariableRule'
 import { unknownVariableSetterRule } from './rules/unknownVariableSetterRule'
+import { unknownSetUrlParameterRule } from './rules/urlParameters/unknownSetUrlParameterRule'
+import { unknownUrlParameterRule } from './rules/urlParameters/unknownUrlParameterRule'
 import { duplicateWorkflowParameterRule } from './rules/workflows/duplicateWorkflowParameterRule'
 import { noReferenceComponentWorkflowRule } from './rules/workflows/noReferenceComponentWorkflowRule'
 import { unknownContextProviderWorkflowRule } from './rules/workflows/unknownContextProviderWorkflowRule'
@@ -139,6 +140,7 @@ const RULES = [
   unknownFormulaRule,
   unknownProjectActionRule,
   unknownProjectFormulaRule,
+  unknownSetUrlParameterRule,
   unknownTriggerEventRule,
   unknownTriggerWorkflowParameterRule,
   unknownUrlParameterRule,

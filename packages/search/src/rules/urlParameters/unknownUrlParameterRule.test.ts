@@ -1,4 +1,4 @@
-import { searchProject } from '../searchProject'
+import { searchProject } from '../../searchProject'
 import { unknownUrlParameterRule } from './unknownUrlParameterRule'
 
 describe('unknownUrlParameterRule', () => {
