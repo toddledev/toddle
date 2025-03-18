@@ -68,6 +68,7 @@ describe('duplicateRouteRule', () => {
     expect(problems).toHaveLength(4)
     expect(problems[0].code).toBe('duplicate route')
     expect(problems[0].details.name).toEqual('home')
+    expect(problems[0].details.type).toEqual('page')
     expect(problems[0].details.duplicates).toEqual([
       { name: 'home', type: 'route' },
       { name: 'oldBlog', type: 'route' },
@@ -120,6 +121,7 @@ describe('duplicateRouteRule', () => {
     expect(problems).toHaveLength(2)
     expect(problems[0].code).toBe('duplicate route')
     expect(problems[0].details.name).toEqual('home')
+    expect(problems[0].details.type).toEqual('page')
     expect(problems[0].details.duplicates).toEqual([
       { name: 'home2', type: 'page' },
     ])

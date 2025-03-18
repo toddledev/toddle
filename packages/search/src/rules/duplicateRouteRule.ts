@@ -4,6 +4,7 @@ import type { Rule } from '../types'
 
 export const duplicateRouteRule: Rule<{
   name: string
+  type: 'route' | 'page'
   duplicates: Array<{ name: string; type: 'route' | 'page' }>
 }> = {
   code: 'duplicate route',
@@ -60,6 +61,7 @@ export const duplicateRouteRule: Rule<{
       if (match && match.length > 1) {
         report([...path, 'source', 'path'], {
           name: args.routeName,
+          type: 'route',
           duplicates: match.filter(
             (m) => m.name !== args.routeName || m.type === 'page',
           ),
@@ -70,6 +72,7 @@ export const duplicateRouteRule: Rule<{
       if (match && match.length > 1) {
         report([...path, 'route', 'path'], {
           name: value.name,
+          type: 'page',
           duplicates: match.filter(
             (m) => m.name !== value.name || m.type === 'route',
           ),
