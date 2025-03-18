@@ -11,5 +11,5 @@ esbuild.build({
   write: true,
   outdir: 'dist',
   format: 'esm',
-  entryNames: '[dir]/esm-[name]',
+  entryNames: '[dir]/[name].esm',
 })
