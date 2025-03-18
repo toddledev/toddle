@@ -12,6 +12,7 @@ import type {
   FormulaHandler,
   FormulaHandlerV2,
   PluginActionV2,
+  RequireFields,
   Toddle,
 } from '@toddledev/core/dist/types'
 import { mapObject } from '@toddledev/core/dist/utils/collections'
@@ -20,14 +21,13 @@ import * as libActions from '@toddledev/std-lib/dist/actions'
 import * as libFormulas from '@toddledev/std-lib/dist/formulas'
 import fastDeepEqual from 'fast-deep-equal'
 import { compile, match } from 'path-to-regexp'
-import { isContextApiV2 } from './api/apiUtils'
 import { createLegacyAPI } from './api/createAPI'
 import { createAPI } from './api/createAPIv2'
 import { renderComponent } from './components/renderComponent'
 import { isContextProvider } from './context/isContextProvider'
 import { initLogState, registerComponentToLogState } from './debug/logState'
 import { signal } from './signal/signal'
-import type { ComponentContext, LocationSignal } from './types'
+import type { ComponentContext, ContextApi, LocationSignal } from './types'
 
 initLogState()
 
@@ -421,18 +421,17 @@ export const createRoot = (domNode: HTMLElement) => {
     if (isLegacyApi(api)) {
       ctx.apis[name] = createLegacyAPI(api, ctx)
     } else {
-      ctx.apis[name] = createAPI({
-        apiRequest: api,
-        ctx,
-        componentData: dataSignal.get(),
-      })
+      ctx.apis[name] = createAPI(api, ctx)
     }
   })
   // Trigger actions for all APIs after all of them are created.
   Object.values(ctx.apis)
-    .filter(isContextApiV2)
+    .filter(
+      (api): api is RequireFields<ContextApi, 'triggerActions'> =>
+        api.triggerActions !== undefined,
+    )
     .forEach((api) => {
-      api.triggerActions(dataSignal.get())
+      api.triggerActions()
     })
 
   let providers = ctx.providers
