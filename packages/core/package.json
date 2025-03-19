@@ -4,7 +4,7 @@
   "type": "module",
   "homepage": "https://github.com/toddledev/toddle",
   "devDependencies": {
-    "@types/react": "19.0.11"
+    "@types/react": "19.0.12"
   },
   "scripts": {
     "build": "tsc",
