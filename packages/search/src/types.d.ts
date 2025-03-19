@@ -26,6 +26,7 @@ type Code =
   | 'duplicate event trigger'
   | 'duplicate url parameter'
   | 'duplicate workflow parameter'
+  | 'duplicate route'
   | 'invalid api parser mode'
   | 'legacy action'
   | 'legacy formula'
@@ -156,6 +157,7 @@ type ProjectApiService = {
 type ProjectRoute = {
   nodeType: 'project-route'
   value: Route
+  routeName: string
 } & Base
 
 type ComponentNode = {

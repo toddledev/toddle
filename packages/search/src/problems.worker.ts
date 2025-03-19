@@ -7,6 +7,7 @@ import { createRequiredDirectParentRule } from './rules/createRequiredDirectPare
 import { createRequiredElementAttributeRule } from './rules/createRequiredElementAttributeRule'
 import { createRequiredMetaTagRule } from './rules/createRequiredMetaTagRule'
 import { duplicateEventTriggerRule } from './rules/duplicateEventTriggerRule'
+import { duplicateRouteRule } from './rules/duplicateRouteRule'
 import { duplicateUrlParameterRule } from './rules/duplicateUrlParameterRule'
 import { imageWithoutDimensionRule } from './rules/imageWithoutDimensionRule'
 import { legacyActionRule } from './rules/legacyActionRule'
@@ -108,6 +109,7 @@ const RULES = [
     ['dd', 'dt', 'div', 'script', 'template'],
   ),
   duplicateEventTriggerRule,
+  duplicateRouteRule,
   duplicateUrlParameterRule,
   duplicateWorkflowParameterRule,
   imageWithoutDimensionRule,

@@ -125,6 +125,7 @@ export function* searchProject({
         {
           nodeType: 'project-route',
           value: files.routes[key],
+          routeName: key,
           path: ['routes', key],
           rules,
           files,
