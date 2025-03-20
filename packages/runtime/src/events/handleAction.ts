@@ -84,18 +84,15 @@ export function handleAction(
       }
       case 'SetURLParameter': {
         ctx.toddle.locationSignal.update((current) => {
-          // We only evaluate the formula if the parameter is
-          // available in the page's route
-          const getValue = () =>
-            applyFormula(action.data, {
-              data,
-              component: ctx.component,
-              formulaCache: ctx.formulaCache,
-              root: ctx.root,
-              package: ctx.package,
-              toddle: ctx.toddle,
-              env: ctx.env,
-            })
+          const value = applyFormula(action.data, {
+            data,
+            component: ctx.component,
+            formulaCache: ctx.formulaCache,
+            root: ctx.root,
+            package: ctx.package,
+            toddle: ctx.toddle,
+            env: ctx.env,
+          })
           // historyMode was previously not declared explicitly, and we default
           // to push for state changes and replace for query changes
           let historyMode: SetURLParameterAction['historyMode'] | undefined
@@ -104,7 +101,6 @@ export function handleAction(
           // that would technically be a breaking change
           if (current.route?.path.some((p) => p.name === action.parameter)) {
             historyMode = 'push'
-            const value = getValue()
             newLocation = {
               ...current,
               params: {
@@ -118,7 +114,6 @@ export function handleAction(
           // else if (Object.values(current.route?.query ?? {}).some((q) => q.name === action.parameter))
           else {
             historyMode = 'replace'
-            const value = getValue()
             newLocation = {
               ...current,
               query: {
