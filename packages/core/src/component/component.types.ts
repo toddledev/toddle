@@ -303,6 +303,7 @@ export type SetURLParameterAction = {
   type: 'SetURLParameter'
   parameter: string
   data: Formula
+  historyMode?: 'replace' | 'push' | null
 }
 
 export type EventActionModel = {

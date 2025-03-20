@@ -20,7 +20,7 @@ import { isDefined } from '@toddledev/core/dist/utils/util'
 import * as libActions from '@toddledev/std-lib/dist/actions'
 import * as libFormulas from '@toddledev/std-lib/dist/formulas'
 import fastDeepEqual from 'fast-deep-equal'
-import { compile, match } from 'path-to-regexp'
+import { match } from 'path-to-regexp'
 import { createLegacyAPI } from './api/createAPI'
 import { createAPI } from './api/createAPIv2'
 import { renderComponent } from './components/renderComponent'
@@ -134,44 +134,6 @@ export const createRoot = (domNode: HTMLElement) => {
     throw new Error('Missing components')
   }
 
-  const urlSignal = window.toddle.locationSignal.map(
-    ({ query, page, route, params, hash }) => {
-      let path: string
-      if (route) {
-        const pathSegments: string[] = []
-        for (const segment of route.path) {
-          if (segment.type === 'static') {
-            pathSegments.push(segment.name)
-          } else {
-            const segmentValue = params[segment.name]
-            if (isDefined(segmentValue)) {
-              pathSegments.push(segmentValue)
-            } else {
-              // If a param is missing, we can't build the rest of the path
-              break
-            }
-          }
-        }
-        path = '/' + pathSegments.join('/')
-      } else {
-        path = compile(page as string, { encode: encodeURIComponent })(params)
-      }
-      const hashString = hash === undefined || hash === '' ? '' : '#' + hash
-      const queryString = Object.entries(query)
-        .filter(([_, q]) => q !== null)
-        .map(([key, value]) => {
-          return `${encodeURIComponent(
-            component?.route?.query[key]?.name ?? key,
-          )}=${encodeURIComponent(String(value))}`
-        })
-        .join('&')
-
-      return `${path}${hashString}${
-        queryString.length > 0 ? '?' + queryString : ''
-      }`
-    },
-  )
-
   window.addEventListener('popstate', () => {
     if (!component) {
       return
@@ -187,15 +149,6 @@ export const createRoot = (domNode: HTMLElement) => {
         hash,
       }
     })
-  })
-
-  urlSignal.subscribe((url) => {
-    const [path] = url.split('?')
-    if (path == window.location.pathname) {
-      window.history.replaceState({}, '', url)
-    } else {
-      window.history.pushState({}, '', url)
-    }
   })
 
   const routeSignal = window.toddle.locationSignal.map(({ query, params }) => {

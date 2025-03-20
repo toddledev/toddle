@@ -1,11 +1,13 @@
 import type {
   ActionModel,
   ComponentData,
+  SetURLParameterAction,
 } from '@toddledev/core/dist/component/component.types'
 import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import { mapValues, omitKeys } from '@toddledev/core/dist/utils/collections'
 import { isDefined, toBoolean } from '@toddledev/core/dist/utils/util'
-import type { ComponentContext } from '../types'
+import type { ComponentContext, Location } from '../types'
+import { getLocationUrl } from '../utils/url'
 
 // eslint-disable-next-line max-params
 export function handleAction(
@@ -82,25 +84,42 @@ export function handleAction(
       }
       case 'SetURLParameter': {
         ctx.toddle.locationSignal.update((current) => {
-          const value = applyFormula(action.data, {
-            data,
-            component: ctx.component,
-            formulaCache: ctx.formulaCache,
-            root: ctx.root,
-            package: ctx.package,
-            toddle: ctx.toddle,
-            env: ctx.env,
-          })
+          // We only evaluate the formula if the parameter is
+          // available in the page's route
+          const getValue = () =>
+            applyFormula(action.data, {
+              data,
+              component: ctx.component,
+              formulaCache: ctx.formulaCache,
+              root: ctx.root,
+              package: ctx.package,
+              toddle: ctx.toddle,
+              env: ctx.env,
+            })
+          // historyMode was previously not declared explicitly, and we default
+          // to push for state changes and replace for query changes
+          let historyMode: SetURLParameterAction['historyMode'] | undefined
+          let newLocation: Location | undefined
+          // We should only match on p.type === 'param', but
+          // that would technically be a breaking change
           if (current.route?.path.some((p) => p.name === action.parameter)) {
-            return {
+            historyMode = 'push'
+            const value = getValue()
+            newLocation = {
               ...current,
               params: {
                 ...omitKeys(current.params, [action.parameter]),
                 [action.parameter]: value,
               },
             }
-          } else {
-            return {
+          }
+          // We should check if the query parameter exists in the route
+          // but that would technically be a breaking change
+          // else if (Object.values(current.route?.query ?? {}).some((q) => q.name === action.parameter))
+          else {
+            historyMode = 'replace'
+            const value = getValue()
+            newLocation = {
               ...current,
               query: {
                 ...omitKeys(current.query, [action.parameter]),
@@ -108,6 +127,25 @@ export function handleAction(
               },
             }
           }
+          if (!historyMode) {
+            // No path/query parameter matched
+            return current
+          }
+
+          const currentUrl = getLocationUrl(current)
+          const historyUrl = getLocationUrl(newLocation)
+          if (historyUrl !== currentUrl) {
+            // Default to the historyMode from the action, and fallback
+            // to the default (push for path change, replace for query change)
+            historyMode = action.historyMode ?? historyMode
+            // Update the window's history state
+            if (historyMode === 'push') {
+              window.history.pushState({}, '', historyUrl)
+            } else {
+              window.history.replaceState({}, '', historyUrl)
+            }
+          }
+          return newLocation
         })
         break
       }
