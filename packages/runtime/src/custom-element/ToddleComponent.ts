@@ -8,15 +8,16 @@ import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import { createStylesheet } from '@toddledev/core/dist/styling/style.css'
 import type { Theme } from '@toddledev/core/dist/styling/theme'
 import { theme as defaultTheme } from '@toddledev/core/dist/styling/theme.const'
-import type { RequireFields, Toddle } from '@toddledev/core/dist/types'
+import type { Toddle } from '@toddledev/core/dist/types'
 import { mapObject } from '@toddledev/core/dist/utils/collections'
+import { isContextApiV2 } from '../api/apiUtils'
 import { createLegacyAPI } from '../api/createAPI'
 import { createAPI } from '../api/createAPIv2'
 import { renderComponent } from '../components/renderComponent'
 import { isContextProvider } from '../context/isContextProvider'
 import type { Signal } from '../signal/signal'
 import { signal } from '../signal/signal'
-import type { ComponentContext, ContextApi, LocationSignal } from '../types'
+import type { ComponentContext, LocationSignal } from '../types'
 
 /**
  * Base class for all toddle components
@@ -97,17 +98,18 @@ export class ToddleComponent extends HTMLElement {
         if (isLegacyApi(api)) {
           this.#ctx.apis[name] = createLegacyAPI(api, this.#ctx)
         } else {
-          this.#ctx.apis[name] = createAPI(api, this.#ctx)
+          this.#ctx.apis[name] = createAPI({
+            apiRequest: api,
+            ctx: this.#ctx,
+            componentData: this.#signal.get(),
+          })
         }
       },
     )
     Object.values(this.#ctx.apis)
-      .filter(
-        (api): api is RequireFields<ContextApi, 'triggerActions'> =>
-          api.triggerActions !== undefined,
-      )
+      .filter(isContextApiV2)
       .forEach((api) => {
-        api.triggerActions()
+        api.triggerActions(this.#signal.get())
       })
 
     let providers = this.#ctx.providers
