@@ -244,9 +244,11 @@ export function handleAction(
               subEvent.actions.forEach((action) =>
                 handleAction(
                   action,
-                  eventData
-                    ? { ...data, ...ctx.dataSignal.get(), Event: eventData }
-                    : { ...data, ...ctx.dataSignal.get() },
+                  {
+                    ...data,
+                    ...ctx.dataSignal.get(),
+                    Event: eventData ?? null,
+                  },
                   ctx,
                   eventData ?? event,
                 ),
