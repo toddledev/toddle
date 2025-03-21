@@ -18,14 +18,13 @@ import {
   isJsonStreamHeader,
   isTextHeader,
 } from '@toddledev/core/dist/api/headers'
-import type { ActionModel } from '@toddledev/core/dist/component/component.types'
+import type { ComponentData } from '@toddledev/core/dist/component/component.types'
 import type {
   Formula,
   FormulaContext,
-  ValueOperationValue,
 } from '@toddledev/core/dist/formula/formula'
 import { applyFormula } from '@toddledev/core/dist/formula/formula'
-import type { NestedOmit, RequireFields } from '@toddledev/core/dist/types'
+import type { NestedOmit } from '@toddledev/core/dist/types'
 import {
   omitPaths,
   sortObjectEntries,
@@ -33,20 +32,25 @@ import {
 import { PROXY_URL_HEADER, validateUrl } from '@toddledev/core/dist/utils/url'
 import { handleAction } from '../events/handleAction'
 import type { Signal } from '../signal/signal'
-import type { ComponentContext, ContextApi } from '../types'
+import type { ComponentContext, ContextApiV2 } from '../types'
 
 /**
  * Set up an api v2 for a component.
  */
-export function createAPI(
-  apiRequest: ApiRequest,
-  ctx: ComponentContext,
-): RequireFields<ContextApi, 'update' | 'triggerActions'> {
+export function createAPI({
+  apiRequest,
+  componentData: initialComponentData,
+  ctx,
+}: {
+  apiRequest: ApiRequest
+  componentData: ComponentData
+  ctx: ComponentContext
+}): ContextApiV2 {
   // If `__toddle` isn't found it is in a web component context. We behave as if the page isn't loaded.
   let timer: any = null
   let api = { ...apiRequest }
 
-  function constructRequest(api: ApiRequest) {
+  function constructRequest(api: ApiRequest, componentData: ComponentData) {
     // Get baseUrl and validate it. (It wont be in web component context)
     let baseUrl: string | undefined = window.origin
     try {
@@ -57,14 +61,17 @@ export function createAPI(
 
     return createApiRequest({
       api,
-      formulaContext: getFormulaContext(api),
+      formulaContext: getFormulaContext(api, componentData),
       baseUrl,
       defaultHeaders: undefined,
     })
   }
 
   // Create the formula context for the api
-  function getFormulaContext(api: ApiRequest): FormulaContext {
+  function getFormulaContext(
+    api: ApiRequest,
+    componentData: ComponentData | undefined,
+  ): FormulaContext {
     // Use the general formula context to evaluate the arguments of the api
     const formulaContext = {
       data: ctx.dataSignal.get(),
@@ -86,6 +93,7 @@ export function createAPI(
 
     const data = {
       ...formulaContext.data,
+      ...componentData,
       ApiInputs: {
         ...evaluatedInputs,
       },
@@ -102,15 +110,16 @@ export function createAPI(
     }
   }
 
-  function handleRedirectRules(api: ApiRequest) {
+  function handleRedirectRules(api: ApiRequest, componentData: ComponentData) {
     for (const [ruleName, rule] of sortObjectEntries(
       api.redirectRules ?? {},
       ([_, rule]) => rule.index,
     )) {
+      const formulaContext = getFormulaContext(api, componentData)
       const location = applyFormula(rule.formula, {
-        ...getFormulaContext(api),
+        ...formulaContext,
         data: {
-          ...getFormulaContext(api).data,
+          ...formulaContext.data,
           Apis: {
             [api.name]: ctx.dataSignal.get().Apis?.[api.name] as ApiStatus,
           },
@@ -134,15 +143,22 @@ export function createAPI(
     }
   }
 
-  function triggerActions(
-    eventName: 'message' | 'success' | 'failed',
-    api: ApiRequest,
+  function triggerActions({
+    eventName,
+    api,
+    data,
+    componentData,
+  }: {
+    eventName: 'message' | 'success' | 'failed'
+    api: ApiRequest
     data: {
       body: unknown
       status?: number
       headers?: Record<string, string>
-    },
-  ) {
+    }
+    componentData: ComponentData
+  }) {
+    const formulaContext = getFormulaContext(api, componentData)
     switch (eventName) {
       case 'message': {
         const event = createApiEvent('message', data.body)
@@ -150,8 +166,7 @@ export function createAPI(
           handleAction(
             action,
             {
-              ...getFormulaContext(api).data,
-              ...ctx.dataSignal.get(),
+              ...formulaContext.data,
               Event: event,
             },
             ctx,
@@ -166,8 +181,7 @@ export function createAPI(
           handleAction(
             action,
             {
-              ...getFormulaContext(api).data,
-              ...ctx.dataSignal.get(),
+              ...formulaContext.data,
               Event: event,
             },
             ctx,
@@ -185,8 +199,7 @@ export function createAPI(
           handleAction(
             action,
             {
-              ...getFormulaContext(api).data,
-              ...ctx.dataSignal.get(),
+              ...formulaContext.data,
               Event: event,
             },
             ctx,
@@ -198,15 +211,21 @@ export function createAPI(
     }
   }
 
-  function apiSuccess(
-    api: ApiRequest,
+  function apiSuccess({
+    api,
+    componentData,
+    data,
+    performance,
+  }: {
+    api: ApiRequest
+    componentData: ComponentData
     data: {
       body: unknown
       status?: number
       headers?: Record<string, string>
-    },
-    performance: ApiPerformance,
-  ) {
+    }
+    performance: ApiPerformance
+  }) {
     const latestRequestStart =
       ctx.dataSignal.get().Apis?.[api.name]?.response?.performance?.requestStart
     if (
@@ -232,7 +251,7 @@ export function createAPI(
         },
       },
     })
-    const appliedRedirectRule = handleRedirectRules(api)
+    const appliedRedirectRule = handleRedirectRules(api, componentData)
     if (appliedRedirectRule) {
       ctx.dataSignal.set({
         ...ctx.dataSignal.get(),
@@ -256,15 +275,21 @@ export function createAPI(
     }
   }
 
-  function apiError(
-    api: ApiRequest,
+  function apiError({
+    api,
+    componentData,
+    data,
+    performance,
+  }: {
+    api: ApiRequest
+    componentData: ComponentData
     data: {
       body: unknown
       status?: number
       headers?: Record<string, string>
-    },
-    performance: ApiPerformance,
-  ) {
+    }
+    performance: ApiPerformance
+  }) {
     const latestRequestStart =
       ctx.dataSignal.get().Apis?.[api.name]?.response?.performance?.requestStart
     if (
@@ -289,7 +314,7 @@ export function createAPI(
         },
       },
     })
-    const appliedRedirectRule = handleRedirectRules(api)
+    const appliedRedirectRule = handleRedirectRules(api, componentData)
     if (appliedRedirectRule) {
       ctx.dataSignal.set({
         ...ctx.dataSignal.get(),
@@ -314,11 +339,17 @@ export function createAPI(
   }
 
   // Execute the request - potentially to the cloudflare Query proxy
-  async function execute(
-    api: ApiRequest,
-    url: URL,
-    requestSettings: ToddleRequestInit,
-  ) {
+  async function execute({
+    api,
+    url,
+    requestSettings,
+    componentData,
+  }: {
+    api: ApiRequest
+    url: URL
+    requestSettings: ToddleRequestInit
+    componentData: ComponentData
+  }) {
     const run = async () => {
       const performance: ApiPerformance = {
         requestStart: Date.now(),
@@ -342,7 +373,7 @@ export function createAPI(
         const proxy = api.server?.proxy
           ? (applyFormula(
               api.server.proxy.enabled.formula,
-              getFormulaContext(api),
+              getFormulaContext(api, componentData),
             ) ?? false)
           : false
 
@@ -364,14 +395,24 @@ export function createAPI(
         }
 
         performance.responseStart = Date.now()
-        await handleResponse(api, response, performance)
+        await handleResponse({ api, componentData, res: response, performance })
         return
       } catch (error: any) {
         const body = error.cause
           ? { message: error.message, data: error.cause }
           : error.message
-        apiError(api, { body }, { ...performance, responseEnd: Date.now() })
-        triggerActions('failed', api, { body })
+        apiError({
+          api,
+          componentData,
+          data: { body },
+          performance: { ...performance, responseEnd: Date.now() },
+        })
+        triggerActions({
+          eventName: 'failed',
+          api,
+          data: { body },
+          componentData,
+        })
         return Promise.reject(error)
       }
     }
@@ -386,7 +427,10 @@ export function createAPI(
           () => {
             run().then(resolve, reject)
           },
-          applyFormula(api.client?.debounce?.formula, getFormulaContext(api)),
+          applyFormula(
+            api.client?.debounce?.formula,
+            getFormulaContext(api, componentData),
+          ),
         )
       })
     }
@@ -394,11 +438,17 @@ export function createAPI(
     return run()
   }
 
-  function handleResponse(
-    api: ApiRequest,
-    res: Response,
-    performance: ApiPerformance,
-  ) {
+  function handleResponse({
+    api,
+    componentData,
+    res,
+    performance,
+  }: {
+    api: ApiRequest
+    componentData: ComponentData
+    res: Response
+    performance: ApiPerformance
+  }) {
     let parserMode = api.client?.parserMode ?? 'auto'
 
     if (parserMode === 'auto') {
@@ -420,25 +470,31 @@ export function createAPI(
 
     switch (parserMode) {
       case 'text':
-        return textStreamResponse(api, res, performance)
+        return textStreamResponse({ api, componentData, res, performance })
       case 'json':
-        return jsonResponse(api, res, performance)
+        return jsonResponse({ api, componentData, res, performance })
       case 'event-stream':
-        return eventStreamingResponse(api, res, performance)
+        return eventStreamingResponse({ api, componentData, res, performance })
       case 'json-stream':
-        return jsonStreamResponse(api, res, performance)
+        return jsonStreamResponse({ api, componentData, res, performance })
       case 'blob':
-        return blobResponse(api, res, performance)
+        return blobResponse({ api, componentData, res, performance })
       default:
-        return textStreamResponse(api, res, performance)
+        return textStreamResponse({ api, componentData, res, performance })
     }
   }
 
-  function textStreamResponse(
-    api: ApiRequest,
-    res: Response,
-    performance: ApiPerformance,
-  ) {
+  function textStreamResponse({
+    api,
+    res,
+    performance,
+    componentData,
+  }: {
+    api: ApiRequest
+    res: Response
+    performance: ApiPerformance
+    componentData: ComponentData
+  }) {
     return handleStreaming({
       api,
       res,
@@ -447,14 +503,21 @@ export function createAPI(
       useTextDecoder: true,
       parseChunk: (chunk) => chunk,
       parseChunksForData: (chunks) => chunks.join(''),
+      componentData,
     })
   }
 
-  function jsonStreamResponse(
-    api: ApiRequest,
-    res: Response,
-    performance: ApiPerformance,
-  ) {
+  function jsonStreamResponse({
+    api,
+    res,
+    performance,
+    componentData,
+  }: {
+    api: ApiRequest
+    res: Response
+    performance: ApiPerformance
+    componentData: ComponentData
+  }) {
     const parseChunk = (chunk: any) => {
       let parsedData = chunk
       try {
@@ -476,14 +539,21 @@ export function createAPI(
       parseChunk,
       parseChunksForData: (chunks) => [...chunks],
       delimiters: ['\r\n', '\n'],
+      componentData,
     })
   }
 
-  async function jsonResponse(
-    api: ApiRequest,
-    res: Response,
-    performance: ApiPerformance,
-  ) {
+  async function jsonResponse({
+    api,
+    componentData,
+    res,
+    performance,
+  }: {
+    api: ApiRequest
+    componentData: ComponentData
+    res: Response
+    performance: ApiPerformance
+  }) {
     const body = await res.json()
 
     const status: ApiStatus = {
@@ -495,14 +565,20 @@ export function createAPI(
         headers: Object.fromEntries(res.headers.entries()),
       },
     }
-    return endResponse(api, status, performance)
+    return endResponse({ api, apiStatus: status, componentData, performance })
   }
 
-  async function blobResponse(
-    api: ApiRequest,
-    res: Response,
-    performance: ApiPerformance,
-  ) {
+  async function blobResponse({
+    api,
+    componentData,
+    res,
+    performance,
+  }: {
+    api: ApiRequest
+    componentData: ComponentData
+    res: Response
+    performance: ApiPerformance
+  }) {
     const blob = await res.blob()
 
     const status: ApiStatus = {
@@ -514,14 +590,20 @@ export function createAPI(
         headers: Object.fromEntries(res.headers.entries()),
       },
     }
-    return endResponse(api, status, performance)
+    return endResponse({ api, apiStatus: status, componentData, performance })
   }
 
-  function eventStreamingResponse(
-    api: ApiRequest,
-    res: Response,
-    performance: ApiPerformance,
-  ) {
+  function eventStreamingResponse({
+    api,
+    res,
+    performance,
+    componentData,
+  }: {
+    api: ApiRequest
+    res: Response
+    performance: ApiPerformance
+    componentData: ComponentData
+  }) {
     const parseChunk = (chunk: string) => {
       const event = chunk.match(/event: (.*)/)?.[1] ?? 'message'
       const data = chunk.match(/data: (.*)/)?.[1] ?? ''
@@ -550,6 +632,7 @@ export function createAPI(
       parseChunk,
       parseChunksForData: (chunks) => [...chunks],
       delimiters: ['\n\n', '\r\n\r\n'],
+      componentData,
     })
   }
 
@@ -561,7 +644,8 @@ export function createAPI(
     useTextDecoder,
     parseChunk,
     parseChunksForData,
-    delimiters, // There can be various delimiters for the same stream. SSE might use both \n\n and \r\n\r\n
+    delimiters, // There can be various delimiters for the same stream. SSE might use both \n\n and \r\n\r\n,
+    componentData,
   }: {
     api: ApiRequest
     res: Response
@@ -571,6 +655,7 @@ export function createAPI(
     parseChunk: (chunk: any) => any
     parseChunksForData: (chunks: any[]) => any
     delimiters?: string[]
+    componentData: ComponentData
   }) {
     const chunks: {
       chunks: any[]
@@ -601,7 +686,12 @@ export function createAPI(
             },
           })
           if ((api.client?.onMessage?.actions ?? []).length > 0) {
-            triggerActions('message', api, { body: parsedChunk })
+            triggerActions({
+              eventName: 'message',
+              api,
+              data: { body: parsedChunk },
+              componentData,
+            })
           }
         }
       },
@@ -660,14 +750,20 @@ export function createAPI(
         cause: chunks.chunks.join(''),
       })
     }
-    return endResponse(api, status, performance)
+    return endResponse({ api, apiStatus: status, componentData, performance })
   }
 
-  function endResponse(
-    api: ApiRequest,
-    apiStatus: ApiStatus,
-    performance: ApiPerformance,
-  ) {
+  function endResponse({
+    api,
+    apiStatus,
+    componentData,
+    performance,
+  }: {
+    api: ApiRequest
+    apiStatus: ApiStatus
+    componentData: ComponentData
+    performance: ApiPerformance
+  }) {
     performance.responseEnd = Date.now()
 
     const data = {
@@ -688,7 +784,7 @@ export function createAPI(
         status: data.status,
         headers: data.headers,
       },
-      formulaContext: getFormulaContext(api),
+      formulaContext: getFormulaContext(api, componentData),
       errorFormula: api.isError,
       performance,
     })
@@ -698,11 +794,11 @@ export function createAPI(
         data.body = apiStatus.error
       }
 
-      apiError(api, data, performance)
-      triggerActions('failed', api, data)
+      apiError({ api, componentData, data, performance })
+      triggerActions({ eventName: 'failed', api, componentData, data })
     } else {
-      apiSuccess(api, data, performance)
-      triggerActions('success', api, data)
+      apiSuccess({ api, componentData, data, performance })
+      triggerActions({ eventName: 'success', api, componentData, data })
     }
   }
 
@@ -737,9 +833,9 @@ export function createAPI(
 
   // eslint-disable-next-line prefer-const
   payloadSignal = ctx.dataSignal.map((_) => {
-    const payloadContext = getFormulaContext(api)
+    const payloadContext = getFormulaContext(api, initialComponentData)
     return {
-      request: constructRequest(api),
+      request: constructRequest(api, initialComponentData),
       api: getApiForComparison(api),
       autoFetch: api.autoFetch
         ? applyFormula(api.autoFetch, payloadContext)
@@ -748,22 +844,28 @@ export function createAPI(
     }
   })
   payloadSignal.subscribe(async (_) => {
-    if (api.autoFetch && applyFormula(api.autoFetch, getFormulaContext(api))) {
+    if (
+      api.autoFetch &&
+      applyFormula(api.autoFetch, getFormulaContext(api, initialComponentData))
+    ) {
       // Ensure we only use caching if the page is currently loading
       if ((window?.__toddle?.isPageLoaded ?? false) === false) {
-        const { url, requestSettings } = constructRequest(api)
+        const { url, requestSettings } = constructRequest(
+          api,
+          initialComponentData,
+        )
         const cacheKey = requestHash(url, requestSettings)
         const cacheMatch = ctx.toddle.pageState.Apis?.[cacheKey] as ApiStatus
         if (cacheMatch) {
           if (cacheMatch.error) {
-            apiError(
+            apiError({
               api,
-              {
+              data: {
                 body: cacheMatch.error,
                 status: cacheMatch.response?.status,
                 headers: cacheMatch.response?.headers ?? undefined,
               },
-              {
+              performance: {
                 requestStart:
                   cacheMatch.response?.performance?.requestStart ?? null,
                 responseStart:
@@ -771,16 +873,17 @@ export function createAPI(
                 responseEnd:
                   cacheMatch.response?.performance?.responseEnd ?? null,
               },
-            )
+              componentData: initialComponentData,
+            })
           } else {
-            apiSuccess(
+            apiSuccess({
               api,
-              {
+              data: {
                 body: cacheMatch.data,
                 status: cacheMatch.response?.status,
                 headers: cacheMatch.response?.headers ?? undefined,
               },
-              {
+              performance: {
                 requestStart:
                   cacheMatch.response?.performance?.requestStart ?? null,
                 responseStart:
@@ -788,16 +891,30 @@ export function createAPI(
                 responseEnd:
                   cacheMatch.response?.performance?.responseEnd ?? null,
               },
-            )
+              componentData: initialComponentData,
+            })
           }
         } else {
           // Execute will set the initial status of the api in the dataSignal
-          await execute(api, url, requestSettings)
+          await execute({
+            api,
+            url,
+            requestSettings,
+            componentData: initialComponentData,
+          })
         }
       } else {
         // Execute will set the initial status of the api in the dataSignal
-        const { url, requestSettings } = constructRequest(api)
-        await execute(api, url, requestSettings)
+        const { url, requestSettings } = constructRequest(
+          api,
+          initialComponentData,
+        )
+        await execute({
+          api,
+          url,
+          requestSettings,
+          componentData: initialComponentData,
+        })
       }
     } else {
       ctx.dataSignal.update((data) => {
@@ -817,24 +934,7 @@ export function createAPI(
   })
 
   return {
-    fetch: ({
-      actionInputs,
-      actionModels,
-    }: {
-      actionInputs?: Record<
-        string,
-        | ValueOperationValue
-        | {
-            name: string
-            formula?: Formula
-          }
-      >
-      actionModels?: {
-        onCompleted: ActionModel[]
-        onFailed: ActionModel[]
-        onMessage: ActionModel[]
-      }
-    }) => {
+    fetch: ({ actionInputs, actionModels, componentData }) => {
       // Inputs might already be evaluated. If they are we add them as a value formula to be evaluated later.
       const inputs = Object.entries(actionInputs ?? {}).reduce<
         Record<
@@ -886,18 +986,26 @@ export function createAPI(
         },
       }
 
-      const { url, requestSettings } = constructRequest(apiWithInputsAndActions)
+      const { url, requestSettings } = constructRequest(
+        apiWithInputsAndActions,
+        componentData,
+      )
 
-      return execute(apiWithInputsAndActions, url, requestSettings)
+      return execute({
+        api: apiWithInputsAndActions,
+        url,
+        requestSettings,
+        componentData,
+      })
     },
-    update: (newApi: ApiRequest) => {
+    update: (newApi, componentData) => {
       api = newApi
-      const updateContext = getFormulaContext(api)
+      const updateContext = getFormulaContext(api, componentData)
       const autoFetch =
         api.autoFetch && applyFormula(api.autoFetch, updateContext)
       if (autoFetch) {
         payloadSignal?.set({
-          request: constructRequest(newApi),
+          request: constructRequest(newApi, componentData),
           api: getApiForComparison(newApi),
           autoFetch,
           proxy: applyFormula(
@@ -907,7 +1015,7 @@ export function createAPI(
         })
       }
     },
-    triggerActions: () => {
+    triggerActions: (componentData) => {
       const apiData = ctx.dataSignal.get().Apis?.[api.name]
       if (
         apiData === undefined ||
@@ -916,13 +1024,23 @@ export function createAPI(
         return
       }
       if (apiData.error) {
-        triggerActions('failed', api, {
-          body: apiData.error,
-          status: apiData.response?.status,
+        triggerActions({
+          eventName: 'failed',
+          api,
+          data: {
+            body: apiData.error,
+            status: apiData.response?.status,
+          },
+          componentData,
         })
       } else {
-        triggerActions('success', api, {
-          body: apiData.data,
+        triggerActions({
+          eventName: 'success',
+          api,
+          data: {
+            body: apiData.data,
+          },
+          componentData,
         })
       }
     },
