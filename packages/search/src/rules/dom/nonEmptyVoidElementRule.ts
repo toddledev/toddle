@@ -2,8 +2,8 @@ import type { Rule } from '../../types'
 
 import { VOID_HTML_ELEMENTS } from '@toddledev/ssr/dist/const'
 /**
- * Lighthouse reports a similar issue:
- * https://web.dev/articles/optimize-cls?utm_source=lighthouse&utm_medium=devtools#images_without_dimensions
+ * See full list here
+ * https://developer.mozilla.org/en-US/docs/Glossary/Void_element
  */
 export const nonEmptyVoidElementRule: Rule<{ tag: string }> = {
   code: 'non-empty void element',
