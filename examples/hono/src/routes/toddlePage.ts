@@ -136,7 +136,7 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
     ])
     codeImport = `
             <script type="module">
-              import { initGlobalObject, createRoot } from '/_static/esm-page.main.js';
+              import { initGlobalObject, createRoot } from '/_static/page.main.esm.js';
               import { loadCustomCode, formulas, actions } from '/.toddle/custom-code.js?${customCodeSearchParams.toString()}';
 
               window.__toddle = ${JSON.stringify(toddleInternals).replaceAll(
@@ -152,7 +152,7 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
   } else {
     codeImport = `
         <script type="module">
-          import { initGlobalObject, createRoot } from '/_static/esm-page.main.js';
+          import { initGlobalObject, createRoot } from '/_static/page.main.esm.js';
 
           window.__toddle = ${JSON.stringify(toddleInternals).replaceAll(
             '</script>',
