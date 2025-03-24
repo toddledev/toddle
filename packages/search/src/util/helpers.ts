@@ -1,4 +1,6 @@
 import type { ActionModel } from '@toddledev/core/dist/component/component.types'
+import { Formula } from '@toddledev/core/dist/formula/formula'
+import { ProjectFiles } from '@toddledev/ssr/dist/ssr.types'
 
 export function shouldSearchPath(
   path: (string | number)[],
@@ -42,3 +44,18 @@ const LEGACY_CUSTOM_ACTIONS = new Set([
   'GoToURL',
   'TriggerEvent',
 ])
+
+export const isFormulaStatic = ({
+  formula,
+  files,
+  visitedFormulas,
+}: {
+  formula: Formula
+  files: ProjectFiles
+  visitedFormulas: Set<string>
+}) => {
+  if (formula.type === 'value') {
+    return true
+  }
+  return false
+}

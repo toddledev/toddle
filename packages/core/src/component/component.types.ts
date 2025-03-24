@@ -299,12 +299,22 @@ export type FetchActionModel = {
   onMessage?: { actions: ActionModel[] }
 }
 
-export type SetURLParameterAction = {
+interface SetSingleUrlParameterAction {
   type: 'SetURLParameter'
   parameter: string
   data: Formula
   historyMode?: 'replace' | 'push' | null
 }
+
+interface SetMultiUrlParameterAction {
+  type: 'SetURLParameter'
+  parameters: Record<string, { formula: Formula }>
+  historyMode?: 'replace' | 'push' | null
+}
+
+export type SetURLParameterAction =
+  | SetSingleUrlParameterAction
+  | SetMultiUrlParameterAction
 
 export type EventActionModel = {
   type: 'TriggerEvent'
