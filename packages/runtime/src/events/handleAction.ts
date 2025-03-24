@@ -118,8 +118,7 @@ export function handleAction(
             for (const [parameter, formula] of Object.entries(
               action.parameters,
             )) {
-              const value =
-                applyFormula(formula.formula, urlParameterCtx) ?? null
+              const value = applyFormula(formula, urlParameterCtx) ?? null
               if (isPathParameter(parameter)) {
                 historyMode = 'push'
                 pathUpdates[parameter] = value

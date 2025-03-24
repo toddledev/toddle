@@ -308,7 +308,7 @@ interface SetSingleUrlParameterAction {
 
 interface SetMultiUrlParameterAction {
   type: 'SetURLParameter'
-  parameters: Record<string, { formula: Formula }>
+  parameters: Record<string, Formula>
   historyMode?: 'replace' | 'push' | null
 }
 

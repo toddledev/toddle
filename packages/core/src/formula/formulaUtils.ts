@@ -248,9 +248,9 @@ export function* getFormulasInAction<Handler>({
         })
       } else {
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-        for (const [key, a] of Object.entries(action.parameters ?? {})) {
+        for (const [key, formula] of Object.entries(action.parameters ?? {})) {
           yield* getFormulasInFormula({
-            formula: a.formula,
+            formula,
             globalFormulas,
             path: [...path, 'parameters', key, 'formula'],
             visitedFormulas,
