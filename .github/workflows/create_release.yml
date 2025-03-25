@@ -17,8 +17,6 @@ jobs:
     steps:
       - name: Debug
         run: echo ${{ inputs.version }}
-      - name: Checkout
-        uses: actions/checkout@v4
       - name: Create release
         run: |
           gh api \
@@ -27,3 +25,20 @@ jobs:
             -H "X-GitHub-Api-Version: 2022-11-28" \
             /repos/toddledev/toddle/releases \
             -f "tag_name=${{ inputs.version }}" -f "target_commitish=main" -f "name=${{ inputs.version }}" -f "body=Release ${{ inputs.version }}" -F "draft=false" -F "prerelease=false" -F "generate_release_notes=true"
+  upload_assets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install bun
+        uses: oven-sh/setup-bun@v1
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Build
+        run: bun run build
+      - name: Prepare assets
+        run: bun bin/prepareReleaseAssets.ts
+      - name: Upload
+        run: gh release upload ${{ inputs.version }} ./dist/
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
