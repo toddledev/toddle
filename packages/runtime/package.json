@@ -10,8 +10,7 @@
     "path-to-regexp": "6.3.0"
   },
   "devDependencies": {
-    "@happy-dom/global-registrator": "17.4.4",
-    "esbuild": "0.25.1"
+    "@happy-dom/global-registrator": "17.4.4"
   },
   "scripts": {
     "build": "tsc && bun scripts/build.js",
