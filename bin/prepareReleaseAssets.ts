@@ -1,16 +1,6 @@
-// 'packages/runtime/src/custom-components/components.ts',
-// 'packages/search/src/problems.worker.ts',
-// 'packages/search/src/search.worker.ts',
-// 'packages/runtime/src/page.main.ts',
-// 'packages/runtime/src/editor-preview.main.ts',
-// 'packages/runtime/src/custom-element.main.ts',
-// 'packages/core/src/component/ToddleComponent.ts',
-// 'packages/core/src/formula/ToddleFormula.ts',
-// 'packages/core/src/api/api.ts',
-// createTempFileFromValue('reset.css', RESET_STYLES),
-
 import { RESET_STYLES } from '@toddledev/core/dist/styling/theme.const'
-import { build, BuildOptions } from 'esbuild'
+import type { BuildOptions } from 'esbuild'
+import { build } from 'esbuild'
 import { mkdirSync, rmSync, writeFileSync } from 'fs'
 
 const bundleFiles = (
