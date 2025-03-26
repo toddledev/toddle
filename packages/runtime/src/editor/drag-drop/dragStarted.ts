@@ -33,7 +33,7 @@ export function dragStarted({
         '--drag-repeat-node-rotate',
         `${Math.random() * 9 - 4.5}deg`,
       )
-      node.style.setProperty('--drag-repeat-node-opacity', i < 4 ? '1' : '0')
+      node.style.setProperty('--drag-repeat-node-opacity', i < 3 ? '1' : '0')
     })
 
   initialNextSibling ??= element.nextElementSibling

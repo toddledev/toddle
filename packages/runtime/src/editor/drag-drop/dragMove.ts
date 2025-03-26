@@ -43,7 +43,7 @@ export function dragMove(dragState: DragState | null, exclude: HTMLElement[]) {
     dragState.element.style.setProperty('translate', translate)
   }
   dragState.repeatedNodes.forEach((node, i) => {
-    node.style.setProperty('--drag-repeat-node-opacity', i < 4 ? '0.2' : '0')
+    node.style.setProperty('--drag-repeat-node-opacity', i < 3 ? '0.2' : '0')
   })
 
   const lines = dragState.insertAreas?.map((line) => {
