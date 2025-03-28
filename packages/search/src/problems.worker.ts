@@ -9,6 +9,7 @@ import { unknownApiRule } from './rules/apis/unknownApiRule'
 import { noReferenceAttributeRule } from './rules/attributes/noReferenceAttributeRule'
 import { unknownAttributeRule } from './rules/attributes/unknownAttributeRule'
 import { noReferenceComponentRule } from './rules/components/noReferenceComponentRule'
+import { unknownComponentRule } from './rules/components/unknownComponentRule'
 import { noContextConsumersRule } from './rules/context/noContextConsumersRule'
 import { unknownContextFormulaRule } from './rules/context/unknownContextFormulaRule'
 import { unknownContextProviderFormulaRule } from './rules/context/unknownContextProviderFormulaRule'
@@ -135,6 +136,7 @@ const RULES = [
   unknownApiRule,
   unknownAttributeRule,
   unknownClassnameRule,
+  unknownComponentRule,
   unknownComponentSlotRule,
   unknownContextFormulaRule,
   unknownContextProviderFormulaRule,
