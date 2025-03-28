@@ -13,22 +13,28 @@ export const unknownSetUrlParameterRule: Rule<{
     ) {
       return
     }
-    const parameterName = args.value.parameter
-    const component = args.component
-    if (
+    const isValidParameter = (parameterName: string) =>
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      component.route?.path?.some(
+      args.component.route?.path?.some(
         (p) =>
           p.name === parameterName &&
           // It's only valid to set non-static path parameters
           p.type === 'param',
       ) ||
-      Object.values(component.route?.query ?? {}).some(
+      Object.values(args.component.route?.query ?? {}).some(
         (q) => q.name === parameterName,
       )
-    ) {
-      return
+    if ('parameter' in args.value) {
+      const parameterName = args.value.parameter
+      if (!isValidParameter(parameterName)) {
+        report(args.path, { name: parameterName })
+      }
+    } else {
+      for (const key of Object.keys(args.value.parameters ?? {})) {
+        if (!isValidParameter(key)) {
+          report([...args.path, 'parameters', key], { name: key })
+        }
+      }
     }
-    report(args.path, { name: parameterName })
   },
 }
