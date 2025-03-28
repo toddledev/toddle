@@ -3,6 +3,7 @@
 /* eslint-disable no-fallthrough */
 import { isLegacyApi } from '@toddledev/core/dist/api/api'
 import type {
+  AnimationKeyframe,
   Component,
   ComponentData,
   MetaEntry,
@@ -97,6 +98,29 @@ type ToddlePreviewEvent =
   | { type: 'drag-ended'; canceled?: true }
   | { type: 'keydown'; key: string; altKey: boolean; metaKey: boolean }
   | { type: 'keyup'; key: string; altKey: boolean; metaKey: boolean }
+  | {
+      type: 'get_computed_style'
+      styles: string[]
+    }
+  | {
+      type: 'set_timeline_keyframes'
+      keyframes: Record<string, AnimationKeyframe> | null
+    }
+  | {
+      type: 'set_timeline_time'
+      time: number | null
+      timingFunction:
+        | 'linear'
+        | 'ease'
+        | 'ease-in'
+        | 'ease-out'
+        | 'ease-in-out'
+        | 'step-start'
+        | 'step-end'
+        | string
+        | undefined
+      fillMode: 'none' | 'forwards' | 'backwards' | 'both' | undefined
+    }
 
 /**
  * Styles required for rendering the same exact text again somewhere else (on a overlay rect in the editor)
@@ -281,6 +305,12 @@ export const createRoot = (
   } | null = null
   let routeSignal: Signal<any> | null = null
   let dragState: DragState | null = null
+  let animationState: {
+    animatedElementId: string | null
+    time: number | null
+    timingFunction?: string
+    fillMode?: string
+  } | null = null
   let altKey = false
   let metaKey = false
 
@@ -883,6 +913,118 @@ export const createRoot = (
           altKey = message.data.altKey
           metaKey = message.data.metaKey
           break
+
+        case 'get_computed_style':
+          const selectedNode = getDOMNodeFromNodeId(selectedNodeId)
+          if (!selectedNode) {
+            return
+          }
+
+          const { styles } = message.data
+          const computedStyle = window.getComputedStyle(selectedNode)
+          window.parent?.postMessage(
+            {
+              type: 'computedStyle',
+              computedStyle: Object.fromEntries(
+                styles.map((style) => [
+                  style,
+                  computedStyle.getPropertyValue(style),
+                ]),
+              ),
+            },
+            '*',
+          )
+          break
+
+        case 'set_timeline_keyframes':
+          const { keyframes } = message.data
+          document.head.querySelector('[data-timeline-keyframes]')?.remove()
+          if (!keyframes) {
+            return
+          }
+
+          const styleElem = document.createElement('style')
+          styleElem.appendChild(
+            document.createTextNode(`
+              @keyframes preview_timeline {
+                ${Object.values(keyframes)
+                  .map(
+                    ({ key, value, position, easing }) =>
+                      `${position * 100}% { 
+                        ${key}: ${value};
+                        ${easing ? `animation-timing-function: ${easing};` : ''}
+                      }`,
+                  )
+                  .join('\n')}
+              }
+            `),
+          )
+          styleElem.setAttribute('data-timeline-keyframes', '')
+          document.head.appendChild(styleElem)
+          window.parent?.postMessage(
+            {
+              type: 'selectionRect',
+              rect: getRectData(
+                getDOMNodeFromNodeId(selectedNodeId) ?? document.body,
+              ),
+            },
+            '*',
+          )
+          break
+
+        case 'set_timeline_time':
+          const { time, timingFunction, fillMode } = message.data
+          const prevAnimatedElement = getDOMNodeFromNodeId(
+            animationState?.animatedElementId ?? '',
+          )
+          animationState = {
+            animatedElementId: time !== null ? selectedNodeId : null,
+            time,
+            timingFunction,
+            fillMode,
+          }
+
+          const animatedElement = getDOMNodeFromNodeId(
+            animationState.animatedElementId,
+          )
+          if (
+            prevAnimatedElement === null ||
+            prevAnimatedElement !== animatedElement
+          ) {
+            prevAnimatedElement?.classList.remove('editor-preview-timeline')
+          }
+
+          if (animatedElement && time !== null) {
+            animatedElement.classList.add('editor-preview-timeline')
+            document.body.style.setProperty(
+              '--editor-timeline-position',
+              `${time}s`,
+            )
+            document.body.style.setProperty(
+              '--editor-timeline-timing-function',
+              timingFunction ?? 'ease',
+            )
+            document.body.style.setProperty(
+              '--editor-timeline-fill-mode',
+              fillMode ?? 'none',
+            )
+          } else {
+            document.body.style.removeProperty('--editor-timeline-position')
+            document.body.style.removeProperty(
+              '--editor-timeline-timing-function',
+            )
+            document.body.style.removeProperty('--editor-timeline-fill-mode')
+            update()
+          }
+
+          window.parent?.postMessage(
+            {
+              type: 'selectionRect',
+              rect: getRectData(animatedElement),
+            },
+            '*',
+          )
+          break
       }
     },
   )
@@ -1262,6 +1404,11 @@ export const createRoot = (
         '*',
       )
     }
+
+    // Rerendering may clear editor-preview-only styles, so we need to reapply them
+    getDOMNodeFromNodeId(animationState?.animatedElementId)?.classList.add(
+      'editor-preview-timeline',
+    )
 
     ctx = newCtx
   }

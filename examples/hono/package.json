@@ -7,7 +7,7 @@
     "watch": "tsc --noEmit -w"
   },
   "dependencies": {
-    "hono": "4.6.16",
-    "@hono/node-server": "1.13.8"
+    "hono": "4.7.5",
+    "@hono/node-server": "1.14.0"
   }
 }

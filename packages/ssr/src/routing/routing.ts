@@ -2,6 +2,7 @@ import { getUrl } from '@toddledev/core/dist/api/api'
 import type {
   PageComponent,
   PageRoute,
+  RouteDeclaration,
 } from '@toddledev/core/dist/component/component.types'
 import { isDefined } from '@toddledev/core/dist/utils/util'
 import {
@@ -15,7 +16,7 @@ export const matchPageForUrl = ({
   components,
 }: {
   url: URL
-  components: ProjectFiles['components']
+  components: Partial<Record<string, { route?: RouteDeclaration | null }>>
 }) =>
   matchRoutes({
     url,
@@ -23,12 +24,12 @@ export const matchPageForUrl = ({
     getRoute: (route) => route.route,
   })
 
-export const matchRouteForUrl = ({
+export const matchRouteForUrl = <T extends { source: RouteDeclaration }>({
   url,
   routes,
 }: {
   url: URL
-  routes: ProjectFiles['routes']
+  routes?: Record<string, T>
 }) =>
   matchRoutes({
     url,
@@ -136,7 +137,9 @@ export const getRouteDestination = ({
 export const get404Page = (components: ProjectFiles['components']) =>
   getPages(components).find((page) => page.name === '404')
 
-const getPages = (components: ProjectFiles['components']) =>
+const getPages = (
+  components: Partial<Record<string, { route?: RouteDeclaration | null }>>,
+) =>
   Object.values(components).filter((c): c is PageComponent =>
     isDefined(c!.route),
   )

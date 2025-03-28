@@ -37,6 +37,13 @@ export interface ComponentData {
   ListItem?: ListItem
 }
 
+export interface AnimationKeyframe {
+  position: number
+  key: string
+  value: string
+  easing?: never
+}
+
 export interface StyleVariant {
   id?: string
   className?: string
@@ -79,6 +86,7 @@ export interface ElementNodeModel {
   attrs: Partial<Record<string, Formula>>
   style: NodeStyleModel
   variants?: StyleVariant[]
+  animations?: Record<string, Record<string, AnimationKeyframe>>
   children: string[]
   events: Record<string, EventModel>
   classes: Record<string, { formula?: Formula }>
@@ -102,6 +110,7 @@ export interface ComponentNodeModel {
   repeatKey?: Formula
   style?: NodeStyleModel
   variants?: StyleVariant[]
+  animations?: Record<string, Record<string, AnimationKeyframe>>
   attrs: Record<string, Formula>
   children: string[]
   events: Record<string, EventModel>
@@ -303,6 +312,7 @@ export type SetURLParameterAction = {
   type: 'SetURLParameter'
   parameter: string
   data: Formula
+  historyMode?: 'replace' | 'push' | null
 }
 
 export type EventActionModel = {

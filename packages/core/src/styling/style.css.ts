@@ -207,6 +207,28 @@ ${selector}::-webkit-scrollbar {
           return renderedVariant
         })
         .join('\n')}
+        ${
+          node.animations
+            ? Object.entries(node.animations)
+                .map(([animationName, keyframes]) => {
+                  return `
+                  @keyframes ${animationName} {
+                    ${Object.values(keyframes)
+                      .sort((a, b) => a.position - b.position)
+                      .map(({ key, position, value }) => {
+                        return `
+                        ${position * 100}% {
+                          ${key}: ${value};
+                        }
+                        `
+                      })
+                      .join('\n')}
+                  }
+                  `
+                })
+                .join('\n')
+            : ''
+        }
       `
     } catch (e) {
       console.error(e)

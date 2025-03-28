@@ -37,19 +37,19 @@ jobs:
         if: ${{ fromJson(env.PACKAGE_JSON).version == fromJson(env.PACKAGE_JSON_OLD).version }}
         run: |
           echo "Version was not changed! No release needed."
-  start_publish:
-    needs: version_check
-    # Only run this job if the version has changed
-    if: ${{needs.version_check.outputs.version}}
-    uses: toddledev/toddle/.github/workflows/deploy_to_npm.yml@main
-    with:
-      version: ${{needs.version_check.outputs.version}}
-    secrets: inherit
   create_release:
     needs: version_check
     # Only run this job if the version has changed
     if: ${{needs.version_check.outputs.version}}
     uses: toddledev/toddle/.github/workflows/create_release.yml@main
+    with:
+      version: ${{needs.version_check.outputs.version}}
+    secrets: inherit
+  start_publish:
+    needs: [version_check, create_release]
+    # Only run this job if the version has changed
+    if: ${{needs.version_check.outputs.version}}
+    uses: toddledev/toddle/.github/workflows/deploy_to_npm.yml@main
     with:
       version: ${{needs.version_check.outputs.version}}
     secrets: inherit

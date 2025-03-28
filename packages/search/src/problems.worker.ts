@@ -1,44 +1,47 @@
 import type { ProjectFiles } from '@toddledev/ssr/dist/ssr.types'
+import { createActionNameRule } from './rules/actions/createActionNameRule'
+import { legacyActionRule } from './rules/actions/legacyActionRule'
+import { noReferenceProjectActionRule } from './rules/actions/noReferenceProjectActionRule'
+import { unknownProjectActionRule } from './rules/actions/unknownProjectActionRule'
+import { legacyApiRule } from './rules/apis/legacyApiRule'
 import { noReferenceApiRule } from './rules/apis/noReferenceApiRule'
 import { unknownApiRule } from './rules/apis/unknownApiRule'
-import { createActionNameRule } from './rules/createActionNameRule'
-import { createRequiredDirectChildRule } from './rules/createRequiredDirectChildRule'
-import { createRequiredDirectParentRule } from './rules/createRequiredDirectParentRule'
-import { createRequiredElementAttributeRule } from './rules/createRequiredElementAttributeRule'
-import { createRequiredMetaTagRule } from './rules/createRequiredMetaTagRule'
-import { duplicateEventTriggerRule } from './rules/duplicateEventTriggerRule'
+import { noReferenceAttributeRule } from './rules/attributes/noReferenceAttributeRule'
+import { unknownAttributeRule } from './rules/attributes/unknownAttributeRule'
+import { noReferenceComponentRule } from './rules/components/noReferenceComponentRule'
+import { unknownComponentRule } from './rules/components/unknownComponentRule'
+import { noContextConsumersRule } from './rules/context/noContextConsumersRule'
+import { unknownContextFormulaRule } from './rules/context/unknownContextFormulaRule'
+import { unknownContextProviderFormulaRule } from './rules/context/unknownContextProviderFormulaRule'
+import { unknownContextProviderRule } from './rules/context/unknownContextProviderRule'
+import { createRequiredDirectChildRule } from './rules/dom/createRequiredDirectChildRule'
+import { createRequiredDirectParentRule } from './rules/dom/createRequiredDirectParentRule'
+import { createRequiredElementAttributeRule } from './rules/dom/createRequiredElementAttributeRule'
+import { createRequiredMetaTagRule } from './rules/dom/createRequiredMetaTagRule'
+import { imageWithoutDimensionRule } from './rules/dom/imageWithoutDimensionRule'
+import { nonEmptyVoidElementRule } from './rules/dom/nonEmptyVoidElementRule'
 import { duplicateRouteRule } from './rules/duplicateRouteRule'
-import { duplicateUrlParameterRule } from './rules/duplicateUrlParameterRule'
-import { imageWithoutDimensionRule } from './rules/imageWithoutDimensionRule'
-import { legacyActionRule } from './rules/legacyActionRule'
-import { legacyFormulaRule } from './rules/legacyFormulaRule'
-import { noContextConsumersRule } from './rules/noContextConsumersRule'
-import { noReferenceAttributeRule } from './rules/noReferenceAttributeRule'
-import { noReferenceComponentFormulaRule } from './rules/noReferenceComponentFormulaRule'
-import { noReferenceComponentRule } from './rules/noReferenceComponentRule'
-import { noReferenceEventRule } from './rules/noReferenceEventRule'
-import { noReferenceProjectActionRule } from './rules/noReferenceProjectActionRule'
-import { noReferenceProjectFormulaRule } from './rules/noReferenceProjectFormulaRule'
-import { noReferenceVariableRule } from './rules/noReferenceVariableRule'
-import { noUnnecessaryConditionFalsy } from './rules/noUnnecessaryConditionFalsy'
-import { noUnnecessaryConditionTruthy } from './rules/noUnnecessaryConditionTruthy'
+import { duplicateEventTriggerRule } from './rules/events/duplicateEventTriggerRule'
+import { noReferenceEventRule } from './rules/events/noReferenceEventRule'
+import { unknownEventRule } from './rules/events/unknownEventRule'
+import { unknownTriggerEventRule } from './rules/events/unknownTriggerEventRule'
+import { legacyFormulaRule } from './rules/formulas/legacyFormulaRule'
+import { noReferenceComponentFormulaRule } from './rules/formulas/noReferenceComponentFormulaRule'
+import { noReferenceProjectFormulaRule } from './rules/formulas/noReferenceProjectFormulaRule'
+import { unknownFormulaRule } from './rules/formulas/unknownFormulaRule'
+import { unknownProjectFormulaRule } from './rules/formulas/unknownProjectFormulaRule'
+import { noUnnecessaryConditionFalsy } from './rules/logic/noUnnecessaryConditionFalsy'
+import { noUnnecessaryConditionTruthy } from './rules/logic/noUnnecessaryConditionTruthy'
 import { requireExtensionRule } from './rules/requireExtensionRule'
-import { unknownAttributeRule } from './rules/unknownAttributeRule'
-import { unknownClassnameRule } from './rules/unknownClassnameRule'
-import { unknownComponentSlotRule } from './rules/unknownComponentSlotRule'
-import { unknownContextFormulaRule } from './rules/unknownContextFormulaRule'
-import { unknownContextProviderFormulaRule } from './rules/unknownContextProviderFormulaRule'
-import { unknownContextProviderRule } from './rules/unknownContextProviderRule'
+import { unknownClassnameRule } from './rules/slots/unknownClassnameRule'
+import { unknownComponentSlotRule } from './rules/slots/unknownComponentSlotRule'
 import { unknownCookieRule } from './rules/unknownCookieRule'
-import { unknownEventRule } from './rules/unknownEventRule'
-import { unknownFormulaRule } from './rules/unknownFormulaRule'
-import { unknownProjectActionRule } from './rules/unknownProjectActionRule'
-import { unknownProjectFormulaRule } from './rules/unknownProjectFormulaRule'
-import { unknownTriggerEventRule } from './rules/unknownTriggerEventRule'
-import { unknownVariableRule } from './rules/unknownVariableRule'
-import { unknownVariableSetterRule } from './rules/unknownVariableSetterRule'
+import { duplicateUrlParameterRule } from './rules/urlParameters/duplicateUrlParameterRule'
 import { unknownSetUrlParameterRule } from './rules/urlParameters/unknownSetUrlParameterRule'
 import { unknownUrlParameterRule } from './rules/urlParameters/unknownUrlParameterRule'
+import { noReferenceVariableRule } from './rules/variables/noReferenceVariableRule'
+import { unknownVariableRule } from './rules/variables/unknownVariableRule'
+import { unknownVariableSetterRule } from './rules/variables/unknownVariableSetterRule'
 import { duplicateWorkflowParameterRule } from './rules/workflows/duplicateWorkflowParameterRule'
 import { noReferenceComponentWorkflowRule } from './rules/workflows/noReferenceComponentWorkflowRule'
 import { unknownContextProviderWorkflowRule } from './rules/workflows/unknownContextProviderWorkflowRule'
@@ -114,8 +117,10 @@ const RULES = [
   duplicateWorkflowParameterRule,
   imageWithoutDimensionRule,
   legacyActionRule,
+  legacyApiRule,
   legacyFormulaRule,
   noContextConsumersRule,
+  nonEmptyVoidElementRule,
   noReferenceApiRule,
   noReferenceAttributeRule,
   noReferenceComponentFormulaRule,
@@ -131,6 +136,7 @@ const RULES = [
   unknownApiRule,
   unknownAttributeRule,
   unknownClassnameRule,
+  unknownComponentRule,
   unknownComponentSlotRule,
   unknownContextFormulaRule,
   unknownContextProviderFormulaRule,

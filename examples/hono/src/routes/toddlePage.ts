@@ -21,6 +21,7 @@ import { removeTestData } from '@toddledev/ssr/src/rendering/testData'
 import type { Context } from 'hono'
 import { html, raw } from 'hono/html'
 import type { HonoEnv } from '../../hono'
+import { evaluateComponentApis, RedirectError } from '../utils/api'
 import { routeHandler } from './routeHandler'
 
 export const toddlePage = async (c: Context<HonoEnv>) => {
@@ -100,18 +101,35 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
       theme,
     }),
   })
-  const { html: body } = await renderPageBody({
-    component: toddleComponent,
-    formulaContext,
-    env: formulaContext.env as ToddleServerEnv,
-    req: c.req.raw,
-    files: project.files,
-    includedComponents,
-    evaluateComponentApis: async (_) => ({
-      // TODO: Show an example of how to evaluate APIs - potentially using an adapter
-    }),
-    projectId: 'my_project',
-  })
+  let body: string
+  try {
+    body = (
+      await renderPageBody({
+        component: toddleComponent,
+        formulaContext,
+        env: formulaContext.env as ToddleServerEnv,
+        req: c.req.raw,
+        files: project.files,
+        includedComponents,
+        evaluateComponentApis,
+        projectId: 'my_project',
+      })
+    ).html
+  } catch (e) {
+    if (e instanceof RedirectError) {
+      return new Response(null, {
+        status: e.redirect.statusCode ?? 302,
+        // Header for helping the client (user) know which API caused the redirect
+        headers: {
+          'x-toddle-redirect-api-name': e.redirect.apiName,
+          'x-toddle-redirect-component-name': e.redirect.componentName,
+          location: e.redirect.url.href,
+        },
+      })
+    } else {
+      return new Response('Internal server error', { status: 500 })
+    }
+  }
   const charset = getCharset({
     pageInfo: toddleComponent.route?.info,
     formulaContext,
@@ -136,7 +154,7 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
     ])
     codeImport = `
             <script type="module">
-              import { initGlobalObject, createRoot } from '/_static/esm-page.main.js';
+              import { initGlobalObject, createRoot } from '/_static/page.main.esm.js';
               import { loadCustomCode, formulas, actions } from '/.toddle/custom-code.js?${customCodeSearchParams.toString()}';
 
               window.__toddle = ${JSON.stringify(toddleInternals).replaceAll(
@@ -152,7 +170,7 @@ export const toddlePage = async (c: Context<HonoEnv>) => {
   } else {
     codeImport = `
         <script type="module">
-          import { initGlobalObject, createRoot } from '/_static/esm-page.main.js';
+          import { initGlobalObject, createRoot } from '/_static/page.main.esm.js';
 
           window.__toddle = ${JSON.stringify(toddleInternals).replaceAll(
             '</script>',

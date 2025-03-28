@@ -2,3 +2,4 @@
 bun.lock
 packages/lib/actions.ts
 packages/lib/formulas.ts
+examples/hono/assets/
