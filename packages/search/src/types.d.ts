@@ -64,6 +64,7 @@ type Code =
   | 'unknown context provider'
   | 'unknown context workflow'
   | 'unknown cookie'
+  | 'unknown component'
   | 'unknown event'
   | 'unknown formula'
   | 'unknown project action'
