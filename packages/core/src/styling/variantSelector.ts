@@ -1,5 +1,8 @@
 import type { CSSProperties } from 'react'
-import type { EventModel } from '../component/component.types'
+import type {
+  AnimationKeyframe,
+  EventModel,
+} from '../component/component.types'
 import type { Formula } from '../formula/formula'
 
 export type Shadow = {
@@ -98,6 +101,7 @@ export type ElementNodeModel = {
   attrs: Record<string, Formula>
   style: NodeStyleModel
   variants?: StyleVariant[]
+  animations?: Record<string, Record<string, AnimationKeyframe>>
   children: NodeModel[]
   events: EventModel[]
 }
@@ -112,6 +116,7 @@ export type ComponentNodeModel = {
   repeatKey?: Formula
   style?: NodeStyleModel
   variants?: StyleVariant[]
+  animations?: Record<string, Record<string, AnimationKeyframe>>
   attrs: Record<string, Formula>
   children: NodeModel[]
   events: EventModel[]
