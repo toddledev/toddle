@@ -13,8 +13,14 @@ export const mapValues = <T, T2>(
   f: (value: T) => T2,
 ): Record<string, T2> => mapObject(object, ([key, value]) => [key, f(value)])
 
-export const omit = <T = unknown>(collection: T, key: string[]): T => {
-  const [head, ...rest] = key
+/**
+ * Deletes potentially nested keys from an object
+ * @param collection Array or Object
+ * @param path Path to the key to delete. For instance ['foo', 0, 'bar']
+ * @returns The updated object/array
+ */
+export const omit = <T = unknown>(collection: T, path: string[]): T => {
+  const [head, ...rest] = path
 
   const clone: any = Array.isArray(collection)
     ? [...collection]
@@ -30,8 +36,13 @@ export const omit = <T = unknown>(collection: T, key: string[]): T => {
   return clone as T
 }
 
-export const omitKeys = (object: Record<string, any>, keys: string[]) =>
-  Object.fromEntries(Object.entries(object).filter(([k]) => !keys.includes(k)))
+export const omitKeys = <T extends Record<string, any>>(
+  object: T,
+  keys: Array<keyof T>,
+): T =>
+  Object.fromEntries(
+    Object.entries(object).filter(([k]) => !keys.includes(k)),
+  ) as T
 
 export const omitPaths = (object: Record<string, any>, keys: string[][]) =>
   keys.reduce((acc, key) => omit(acc, key), { ...object })
