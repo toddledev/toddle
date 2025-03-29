@@ -10,6 +10,14 @@ import type { Formula } from '@toddledev/core/dist/formula/formula'
 import type { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
 import type { OldTheme, Theme } from '@toddledev/core/dist/styling/theme'
 
+export type FileGetter = (args: {
+  package?: string
+  name: string
+  type: keyof ProjectFiles
+}) => Promise<
+  Component | PluginAction | PluginFormula<string> | Route | Theme | ApiService
+>
+
 export interface ToddleProject {
   name: string
   description?: string | null
