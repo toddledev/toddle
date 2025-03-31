@@ -672,7 +672,7 @@ export const createRoot = (
 
           const id = element?.getAttribute('data-id') ?? null
           if (type === 'click' && id !== selectedNodeId) {
-            if (metaKey) {
+            if (message.data.metaKey) {
               // Figure out if the clicked element is a text element
               // or if one of its descendants is a text element
               const root = component.nodes.root
