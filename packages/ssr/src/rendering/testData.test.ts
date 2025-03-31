@@ -122,6 +122,40 @@ describe('removeTestData', () => {
       },
     ])
   })
+  test('it removes description from workflow actions', () => {
+    expect(
+      removeTestData({
+        name: 'test',
+        variables: {},
+        apis: {},
+        nodes: {},
+        attributes: {},
+        workflows: {
+          p: {
+            name: 'foo',
+            parameters: [
+              {
+                name: 'bar',
+                testValue: 'baz',
+              },
+            ],
+            actions: [
+              {
+                type: 'Custom',
+                description: 'A long description',
+                name: 'My Action',
+              },
+            ],
+          },
+        },
+      }).workflows?.['p']?.actions,
+    ).toEqual([
+      {
+        type: 'Custom',
+        name: 'My Action',
+      },
+    ])
+  })
   test('it removes service refs from APIs', () => {
     expect(
       removeTestData({

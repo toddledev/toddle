@@ -45,6 +45,11 @@ export function removeTestData(component: Component): Component {
             key,
             {
               ...value,
+              // We should find all actions (also nested actions and non-workflow actions) and remove
+              // the description from them. This is a start though
+              actions: value.actions.map((a) =>
+                a.type === 'Custom' ? omitKeys(a, ['description']) : a,
+              ),
               // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
               parameters: (value.parameters || []).map((p) =>
                 omit(p, ['testValue']),
@@ -56,6 +61,8 @@ export function removeTestData(component: Component): Component {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     apis: mapObject(component.apis ?? {}, ([key, api]) => [
       key,
+      // service and servicePath are only necessary in the editor. All information about an API
+      // request is available on the api object itself
       isLegacyApi(api) ? api : omitKeys(api, ['service', 'servicePath']),
     ]),
   }
