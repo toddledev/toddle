@@ -4,10 +4,7 @@ import type {
   ElementNodeModel,
   NodeStyleModel,
 } from '@toddledev/core/dist/component/component.types'
-import {
-  getClassName,
-  toValidClassName,
-} from '@toddledev/core/dist/styling/className'
+import { getClassName } from '@toddledev/core/dist/styling/className'
 import { kebabCase } from '@toddledev/core/dist/styling/style.css'
 import { variantSelector } from '@toddledev/core/dist/styling/variantSelector'
 import { omitKeys } from '@toddledev/core/dist/utils/collections'
@@ -150,7 +147,7 @@ ${
       console.warn('Unable to find nodes for component', component.name)
       return
     }
-    Object.entries(component.nodes).forEach(([id, node]) => {
+    Object.values(component.nodes).forEach((node) => {
       if (node.type === 'component') {
         const childComponent = components.find(
           (c) =>
@@ -160,15 +157,7 @@ ${
               .join('/'),
         )
         if (childComponent) {
-          insertComponentStyles(childComponent, node.package ?? package_name) // write the dependant CSS first.
-          parent.querySelector(`[data-hash="${id}"]`)?.remove() //  remove the old styles
-          parent.appendChild(
-            getNodeStyles(
-              node,
-              toValidClassName(`${component.name}:${id}`, true),
-            ),
-          )
-          return
+          insertComponentStyles(childComponent, node.package ?? package_name)
         }
       }
       if (node.type !== 'element') {

@@ -15,6 +15,7 @@ import type {
 import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import type { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
 import { valueFormula } from '@toddledev/core/dist/formula/formulaUtils'
+import { getClassName } from '@toddledev/core/dist/styling/className'
 import type { OldTheme, Theme } from '@toddledev/core/dist/styling/theme'
 import { getThemeCss } from '@toddledev/core/dist/styling/theme'
 import { theme } from '@toddledev/core/dist/styling/theme.const'
@@ -50,6 +51,7 @@ import type {
 } from './types'
 import { createFormulaCache } from './utils/createFormulaCache'
 import { getNodeAndAncestors, isNodeOrAncestorConditional } from './utils/nodes'
+import { omitStyleForComponent } from './utils/omitStyle'
 import { rectHasPoint } from './utils/rectHasPoint'
 
 type ToddlePreviewEvent =
@@ -121,6 +123,7 @@ type ToddlePreviewEvent =
         | undefined
       fillMode: 'none' | 'forwards' | 'backwards' | 'both' | undefined
     }
+  | { type: 'preview_style'; styles: Record<string, string> | null }
 
 /**
  * Styles required for rendering the same exact text again somewhere else (on a overlay rect in the editor)
@@ -313,6 +316,7 @@ export const createRoot = (
   } | null = null
   let altKey = false
   let metaKey = false
+  let previewStyleAnimationFrame = -1
 
   /**
    * Modifies all link nodes on a component
@@ -368,6 +372,12 @@ export const createRoot = (
             return
           }
           if (message.data.component.name != component?.name) {
+            // Clean up all styles before switching components
+            document.head
+              .querySelectorAll('style[data-hash]')
+              .forEach((style) => {
+                style.remove()
+              })
             showSignal.cleanSubscribers()
           }
 
@@ -1025,6 +1035,44 @@ export const createRoot = (
             '*',
           )
           break
+        case 'preview_style':
+          const { styles: previewStyleStyles } = message.data
+          cancelAnimationFrame(previewStyleAnimationFrame)
+          previewStyleAnimationFrame = requestAnimationFrame(() => {
+            // Update or create a new style tag and set the given styles with important priority
+            let styleTag = document.head.querySelector(
+              '[data-id="selected-node-styles"]',
+            )
+
+            // Cleanup when null styles are sent
+            if (!previewStyleStyles) {
+              styleTag?.remove()
+              return
+            }
+
+            if (!styleTag) {
+              styleTag = document.createElement('style')
+              styleTag.setAttribute('data-id', 'selected-node-styles')
+              document.head.appendChild(styleTag)
+            }
+
+            const previewStyles = Object.entries(previewStyleStyles)
+              .map(([key, value]) => `${key}: ${value} !important;`)
+              .join('\n')
+            styleTag.innerHTML = `[data-id="${selectedNodeId}"], [data-id="${selectedNodeId}"] ~ [data-id^="${selectedNodeId}("] { 
+    ${previewStyles} 
+    transition: none !important;
+  }`
+
+            window.parent?.postMessage(
+              {
+                type: 'selectionRect',
+                rect: getRectData(getDOMNodeFromNodeId(selectedNodeId)),
+              },
+              '*',
+            )
+          })
+          break
       }
     },
   )
@@ -1372,39 +1420,71 @@ export const createRoot = (
       fastDeepEqual(newCtx.component.nodes, ctx?.component?.nodes) === false
     ) {
       updateStyle()
-      Array.from(domNode.children).forEach((child) => {
-        if (child.tagName !== 'SCRIPT') {
-          child.remove()
-        }
-      })
 
-      // Clear old root signal and create a new one to not keep old signals with previous root around
-      ctxDataSignal?.destroy()
-      ctxDataSignal = dataSignal.map((data) => data)
-      const rootElem = createNode({
-        id: 'root',
-        path: '0',
-        dataSignal: ctxDataSignal,
-        ctx: newCtx,
-        parentElement: domNode,
-        instance: { [newCtx.component.name]: 'root' },
-      })
-      newCtx.component.onLoad?.actions.forEach((action) => {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        handleAction(action, dataSignal.get(), newCtx)
-      })
-      rootElem.forEach((elem) => domNode.appendChild(elem))
-      window.parent?.postMessage(
-        {
-          type: 'style',
-          time: new Intl.DateTimeFormat('en-GB', {
-            timeStyle: 'long',
-          }).format(new Date()),
-        },
-        '*',
-      )
+      // Remove preview styles
+      document.head.querySelector('[data-id="selected-node-styles"]')?.remove()
+
+      // Is only style change, no need to re-render
+      // Remove style and styleVariants from each node
+      const newComponentWithoutStyles = omitStyleForComponent(newCtx.component)
+      const oldComponentWithoutStyles = omitStyleForComponent(ctx?.component)
+      if (fastDeepEqual(newComponentWithoutStyles, oldComponentWithoutStyles)) {
+        // If we're in here, then the latest update was only a style change, so we should try some optimistic updates
+        Object.keys(newCtx.component.nodes).forEach((nodeId) => {
+          const newNode = newCtx.component.nodes[nodeId]
+          const oldNode = ctx?.component.nodes[nodeId]
+          if (
+            (newNode.type === 'element' || newNode.type === 'component') &&
+            (oldNode?.type === 'element' || oldNode?.type === 'component') &&
+            (!fastDeepEqual(newNode.style, oldNode.style) ||
+              !fastDeepEqual(newNode.variants, oldNode.variants))
+          ) {
+            const prevClassName = getClassName([
+              oldNode.style,
+              oldNode.variants,
+            ])
+            document.querySelectorAll(`.${prevClassName}`).forEach((elem) => {
+              elem.classList.remove(prevClassName)
+              elem.classList.add(
+                getClassName([newNode.style, newNode.variants]),
+              )
+            })
+          }
+        })
+      } else {
+        Array.from(domNode.children).forEach((child) => {
+          if (child.tagName !== 'SCRIPT') {
+            child.remove()
+          }
+        })
+
+        // Clear old root signal and create a new one to not keep old signals with previous root around
+        ctxDataSignal?.destroy()
+        ctxDataSignal = dataSignal.map((data) => data)
+        const rootElem = createNode({
+          id: 'root',
+          path: '0',
+          dataSignal: ctxDataSignal,
+          ctx: newCtx,
+          parentElement: domNode,
+          instance: { [newCtx.component.name]: 'root' },
+        })
+        newCtx.component.onLoad?.actions.forEach((action) => {
+          // eslint-disable-next-line @typescript-eslint/no-floating-promises
+          handleAction(action, dataSignal.get(), newCtx)
+        })
+        rootElem.forEach((elem) => domNode.appendChild(elem))
+        window.parent?.postMessage(
+          {
+            type: 'style',
+            time: new Intl.DateTimeFormat('en-GB', {
+              timeStyle: 'long',
+            }).format(new Date()),
+          },
+          '*',
+        )
+      }
     }
-
     // Rerendering may clear editor-preview-only styles, so we need to reapply them
     getDOMNodeFromNodeId(animationState?.animatedElementId)?.classList.add(
       'editor-preview-timeline',
