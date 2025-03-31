@@ -201,10 +201,12 @@ type ComponentFormulaNode = {
   nodeType: 'component-formula'
   value: {
     name: string
-    arguments: {
-      name: string
-      testValue: any
-    }[]
+    arguments?:
+      | {
+          name: string
+          testValue: any
+        }[]
+      | null
     memoize?: boolean | undefined
     exposeInContext?: boolean | undefined
     formula: Formula

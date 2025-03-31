@@ -190,7 +190,7 @@ export interface Component {
 
 export interface ComponentFormula extends ToddleMetadata {
   name: string
-  arguments: Array<{ name: string; testValue: any }>
+  arguments?: Array<{ name: string; testValue: any }> | null
   memoize?: boolean
   exposeInContext?: boolean
   formula: Formula
