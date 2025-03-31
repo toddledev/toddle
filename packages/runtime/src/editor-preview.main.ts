@@ -682,7 +682,7 @@ export const createRoot = (
 
           const id = element?.getAttribute('data-id') ?? null
           if (type === 'click' && id !== selectedNodeId) {
-            if (metaKey) {
+            if (message.data.metaKey) {
               // Figure out if the clicked element is a text element
               // or if one of its descendants is a text element
               const root = component.nodes.root
@@ -960,7 +960,7 @@ export const createRoot = (
                 ${Object.values(keyframes)
                   .map(
                     ({ key, value, position, easing }) =>
-                      `${position * 100}% { 
+                      `${position * 100}% {
                         ${key}: ${value};
                         ${easing ? `animation-timing-function: ${easing};` : ''}
                       }`,
@@ -1381,14 +1381,14 @@ export const createRoot = (
     for (const api in newCtx.component.apis) {
       // check if the api has changed (ignoring onCompleted and onFailed).
       const apiInstance = newCtx.component.apis[api]
+      const previousApiInstance = ctx?.component.apis[api]
       if (isLegacyApi(apiInstance)) {
         if (
           fastDeepEqual(
-            omitKeys(newCtx.component.apis[api], ['onCompleted', 'onFailed']),
-            omitKeys(ctx?.component.apis[api] ?? {}, [
-              'onCompleted',
-              'onFailed',
-            ]),
+            omitKeys(apiInstance, ['onCompleted', 'onFailed']),
+            previousApiInstance && isLegacyApi(previousApiInstance)
+              ? omitKeys(previousApiInstance, ['onCompleted', 'onFailed'])
+              : (previousApiInstance ?? {}),
           ) === false
         ) {
           newCtx.apis[api]?.destroy()
