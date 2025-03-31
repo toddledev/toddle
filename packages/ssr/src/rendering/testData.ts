@@ -32,7 +32,7 @@ export function removeTestData(component: Component): Component {
             {
               ...value,
               // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-              arguments: (value.arguments || []).map((a) =>
+              arguments: (value.arguments ?? []).map((a) =>
                 omit(a, ['testValue']),
               ),
             },
