@@ -6,8 +6,6 @@ import type {
   AnimationKeyframe,
   Component,
   ComponentData,
-  ComponentNodeModel,
-  ElementNodeModel,
   MetaEntry,
 } from '@toddledev/core/dist/component/component.types'
 import type {
@@ -53,6 +51,7 @@ import type {
 } from './types'
 import { createFormulaCache } from './utils/createFormulaCache'
 import { getNodeAndAncestors, isNodeOrAncestorConditional } from './utils/nodes'
+import { omitStyleForComponent } from './utils/omitStyle'
 import { rectHasPoint } from './utils/rectHasPoint'
 
 type ToddlePreviewEvent =
@@ -1427,53 +1426,31 @@ export const createRoot = (
 
       // Is only style change, no need to re-render
       // Remove style and styleVariants from each node
-      const newComponentWithoutStyles = structuredClone(newCtx.component)
-      Object.values(newComponentWithoutStyles.nodes).forEach((node) => {
-        if (node.type === 'element' || node.type === 'component') {
-          delete node.style
-          delete node.variants
-          delete node.animations
-        }
-      })
-      const oldComponentWithoutStyles = structuredClone(ctx?.component)
-      Object.values(oldComponentWithoutStyles?.nodes ?? {}).forEach((node) => {
-        if (node.type === 'element' || node.type === 'component') {
-          delete node.style
-          delete node.variants
-          delete node.animations
-        }
-      })
-
+      const newComponentWithoutStyles = omitStyleForComponent(newCtx.component)
+      const oldComponentWithoutStyles = omitStyleForComponent(ctx?.component)
       if (fastDeepEqual(newComponentWithoutStyles, oldComponentWithoutStyles)) {
         // If we're in here, then the latest update was only a style change, so we should try some optimistic updates
-
-        Object.keys(newCtx.component.nodes)
-          .filter((nodeId) => {
-            const newNode = newCtx.component.nodes[nodeId]
-            const oldNode = ctx?.component.nodes[nodeId]
-            return (
-              (newNode.type === 'element' || newNode.type === 'component') &&
-              (oldNode?.type === 'element' || oldNode?.type === 'component') &&
-              (!fastDeepEqual(newNode.style, oldNode.style) ||
-                !fastDeepEqual(newNode.variants, oldNode.variants))
-            )
-          })
-          .forEach((nodeId) => {
-            const node = newCtx.component.nodes[nodeId] as
-              | ComponentNodeModel
-              | ElementNodeModel
-            const oldNode = ctx?.component.nodes[nodeId] as
-              | ComponentNodeModel
-              | ElementNodeModel
+        Object.keys(newCtx.component.nodes).forEach((nodeId) => {
+          const newNode = newCtx.component.nodes[nodeId]
+          const oldNode = ctx?.component.nodes[nodeId]
+          if (
+            (newNode.type === 'element' || newNode.type === 'component') &&
+            (oldNode?.type === 'element' || oldNode?.type === 'component') &&
+            (!fastDeepEqual(newNode.style, oldNode.style) ||
+              !fastDeepEqual(newNode.variants, oldNode.variants))
+          ) {
             const prevClassName = getClassName([
               oldNode.style,
               oldNode.variants,
             ])
             document.querySelectorAll(`.${prevClassName}`).forEach((elem) => {
               elem.classList.remove(prevClassName)
-              elem.classList.add(getClassName([node.style, node.variants]))
+              elem.classList.add(
+                getClassName([newNode.style, newNode.variants]),
+              )
             })
-          })
+          }
+        })
       } else {
         Array.from(domNode.children).forEach((child) => {
           if (child.tagName !== 'SCRIPT') {
