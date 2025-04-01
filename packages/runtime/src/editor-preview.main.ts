@@ -1123,20 +1123,18 @@ export const createRoot = (
         if (nodeLookup) {
           if (
             styleVariantSelection?.nodeId === selectedNodeId &&
-            nodeLookup.node.type === 'element'
+            (nodeLookup.node.type === 'element' ||
+              nodeLookup.node.type === 'component')
           ) {
-            const selectedStyleVariant =
-              nodeLookup.node.variants?.[
-                styleVariantSelection.styleVariantIndex
-              ]
-
-            if (selectedStyleVariant) {
-              // Add a style element specific to the selected element which
-              // is only applied when the preview is in design mode
-              const styleElem = document.createElement('style')
-              styleElem.setAttribute('data-hash', selectedNodeId)
-              styleElem.appendChild(
-                document.createTextNode(`
+            const selectedStyleVariant = nodeLookup.node.variants?.[
+              styleVariantSelection.styleVariantIndex
+            ] ?? { style: {} }
+            // Add a style element specific to the selected element which
+            // is only applied when the preview is in design mode
+            const styleElem = document.createElement('style')
+            styleElem.setAttribute('data-hash', selectedNodeId)
+            styleElem.appendChild(
+              document.createTextNode(`
                         body[data-mode="design"] [data-id="${selectedNodeId}"] {
                           ${styleToCss({
                             ...nodeLookup.node.style,
@@ -1144,15 +1142,14 @@ export const createRoot = (
                           })}
                         }
                       `),
-              )
-              const existingStyleElement = document.head.querySelector(
-                `[data-hash="${selectedNodeId}"]`,
-              )
-              if (existingStyleElement) {
-                document.head.removeChild(existingStyleElement)
-              }
-              document.head.appendChild(styleElem)
+            )
+            const existingStyleElement = document.head.querySelector(
+              `[data-hash="${selectedNodeId}"]`,
+            )
+            if (existingStyleElement) {
+              document.head.removeChild(existingStyleElement)
             }
+            document.head.appendChild(styleElem)
           }
         }
       }
