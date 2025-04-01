@@ -277,11 +277,9 @@ export function handleAction(
               subEvent.actions.forEach((action) =>
                 handleAction(
                   action,
-                  {
-                    ...data,
-                    ...ctx.dataSignal.get(),
-                    Event: eventData ?? null,
-                  },
+                  eventData
+                    ? { ...data, ...ctx.dataSignal.get(), Event: eventData }
+                    : { ...data, ...ctx.dataSignal.get() },
                   ctx,
                   eventData ?? event,
                 ),
