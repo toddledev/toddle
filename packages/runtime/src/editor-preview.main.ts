@@ -1430,16 +1430,15 @@ export const createRoot = (
             (!fastDeepEqual(newNode.style, oldNode.style) ||
               !fastDeepEqual(newNode.variants, oldNode.variants))
           ) {
-            const prevClassName = getClassName([
-              oldNode.style,
-              oldNode.variants,
-            ])
-            document.querySelectorAll(`.${prevClassName}`).forEach((elem) => {
-              elem.classList.remove(prevClassName)
-              elem.classList.add(
-                getClassName([newNode.style, newNode.variants]),
-              )
-            })
+            const nodeInstance = document.querySelector(
+              `[data-node-id="${nodeId}"]`,
+            )
+            nodeInstance?.classList.remove(
+              getClassName([oldNode.style, oldNode.variants]),
+            )
+            nodeInstance?.classList.add(
+              getClassName([newNode.style, newNode.variants]),
+            )
           }
         })
       } else {
