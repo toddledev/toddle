@@ -372,12 +372,6 @@ export const createRoot = (
             return
           }
           if (message.data.component.name != component?.name) {
-            // Clean up all styles before switching components
-            document.head
-              .querySelectorAll('style[data-hash]')
-              .forEach((style) => {
-                style.remove()
-              })
             showSignal.cleanSubscribers()
           }
 
@@ -1162,15 +1156,15 @@ export const createRoot = (
           }
         }
       }
-      const selectedNode = getDOMNodeFromNodeId(selectedNodeId)
-      window.parent?.postMessage(
-        {
-          type: 'selectionRect',
-          rect: getRectData(selectedNode),
-        },
-        '*',
-      )
     }
+    const selectedNode = getDOMNodeFromNodeId(selectedNodeId)
+    window.parent?.postMessage(
+      {
+        type: 'selectionRect',
+        rect: getRectData(selectedNode),
+      },
+      '*',
+    )
   }
 
   const update = () => {

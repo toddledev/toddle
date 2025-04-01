@@ -4,7 +4,10 @@ import type {
   ElementNodeModel,
   NodeStyleModel,
 } from '@toddledev/core/dist/component/component.types'
-import { getClassName } from '@toddledev/core/dist/styling/className'
+import {
+  getClassName,
+  toValidClassName,
+} from '@toddledev/core/dist/styling/className'
 import { kebabCase } from '@toddledev/core/dist/styling/style.css'
 import { variantSelector } from '@toddledev/core/dist/styling/variantSelector'
 import { omitKeys } from '@toddledev/core/dist/utils/collections'
@@ -135,6 +138,7 @@ ${
 
   // Make sure that CSS for dependant components are rendered first so that instance styles will override.
   const visitedComponents = new Set<string>()
+  const newStyles = new Map<string, Element>()
   function insertComponentStyles(
     component: Component,
     package_name: string | undefined,
@@ -147,7 +151,7 @@ ${
       console.warn('Unable to find nodes for component', component.name)
       return
     }
-    Object.values(component.nodes).forEach((node) => {
+    Object.entries(component.nodes).forEach(([id, node]) => {
       if (node.type === 'component') {
         const childComponent = components.find(
           (c) =>
@@ -158,19 +162,35 @@ ${
         )
         if (childComponent) {
           insertComponentStyles(childComponent, node.package ?? package_name)
+
+          const instanceClassHash = toValidClassName(
+            `${component.name}:${id}`,
+            true,
+          )
+          newStyles.set(
+            instanceClassHash,
+            getNodeStyles(node, instanceClassHash),
+          )
         }
+      } else if (node.type === 'element') {
+        const classHash = getClassName([node.style, node.variants])
+        newStyles.set(classHash, getNodeStyles(node, classHash))
       }
-      if (node.type !== 'element') {
-        return
-      }
-      const classHash = getClassName([node.style, node.variants])
-      if (parent.querySelector(`[data-hash="${classHash}"]`)) {
-        return
-      }
-      parent.appendChild(getNodeStyles(node, classHash))
     })
   }
+
   insertComponentStyles(root, undefined)
+
+  // Remove old styles.
+  // We do not keep track of changes, so must remove all and re-add as order matters.
+  parent.querySelectorAll('[data-hash]').forEach((node) => node.remove())
+
+  // Add new styles
+  const fragment = document.createDocumentFragment()
+  newStyles.forEach((style) => {
+    fragment.appendChild(style)
+  })
+  parent.appendChild(fragment)
 }
 
 const renderVariant = (
