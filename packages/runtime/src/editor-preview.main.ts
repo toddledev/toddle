@@ -1123,7 +1123,8 @@ export const createRoot = (
         if (nodeLookup) {
           if (
             styleVariantSelection?.nodeId === selectedNodeId &&
-            nodeLookup.node.type === 'element'
+            (nodeLookup.node.type === 'element' ||
+              nodeLookup.node.type === 'component')
           ) {
             const selectedStyleVariant =
               nodeLookup.node.variants?.[
