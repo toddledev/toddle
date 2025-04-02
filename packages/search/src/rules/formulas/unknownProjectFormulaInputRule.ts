@@ -20,7 +20,6 @@ export const unknownProjectFormulaInputRule: Rule<{
     ) {
       return
     }
-    console.log({ path, value })
     const [formulas, formulaName] = path as string[]
     const formula: ComponentFormula = get(files, [formulas, formulaName])
     const args = formula.arguments ?? []
