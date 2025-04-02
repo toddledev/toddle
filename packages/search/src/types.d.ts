@@ -69,6 +69,7 @@ type Code =
   | 'unknown event'
   | 'unknown formula'
   | 'unknown project action'
+  | 'unknown project formula input'
   | 'unknown project formula'
   | 'unknown repeat item formula'
   | 'unknown set url parameter'
