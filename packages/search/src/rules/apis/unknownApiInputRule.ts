@@ -11,8 +11,9 @@ export const unknownApiInputRule: Rule<{
     if (
       nodeType !== 'formula' ||
       value.type !== 'path' ||
-      value.path[0] !== 'Args' ||
-      typeof value.path[1] !== 'string'
+      value.path[0] !== 'ApiInputs' ||
+      typeof value.path[1] !== 'string' ||
+      path.length < 4
     ) {
       return
     }

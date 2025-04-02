@@ -5,6 +5,7 @@ import { noReferenceProjectActionRule } from './rules/actions/noReferenceProject
 import { unknownProjectActionRule } from './rules/actions/unknownProjectActionRule'
 import { legacyApiRule } from './rules/apis/legacyApiRule'
 import { noReferenceApiRule } from './rules/apis/noReferenceApiRule'
+import { unknownApiInputRule } from './rules/apis/unknownApiInputRule'
 import { unknownApiRule } from './rules/apis/unknownApiRule'
 import { noReferenceAttributeRule } from './rules/attributes/noReferenceAttributeRule'
 import { unknownAttributeRule } from './rules/attributes/unknownAttributeRule'
@@ -134,6 +135,7 @@ const RULES = [
   noUnnecessaryConditionTruthy,
   requireExtensionRule,
   unknownApiRule,
+  unknownApiInputRule,
   unknownAttributeRule,
   unknownClassnameRule,
   unknownComponentRule,
