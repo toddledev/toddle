@@ -166,8 +166,8 @@ export function createElement({
               return dragData
             }, {})
           } catch (e) {
-            console.error('Could not get paste data')
-            console.error(e)
+            // eslint-disable-next-line no-console
+            console.error('Could not get paste data', e)
           }
         }
         void handleAction(action, { ...dataSignal.get(), Event: e }, ctx, e)

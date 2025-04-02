@@ -77,6 +77,7 @@ export default [
           ignoreRestSiblings: true,
         },
       ],
+      'no-console': 'error',
     },
   },
 ]

@@ -46,6 +46,7 @@ export function createComponent({
   const nodeLookupKey = [ctx.package, node.name].filter(isDefined).join('/')
   const component = ctx.components?.find((comp) => comp.name === nodeLookupKey)
   if (!component) {
+    // eslint-disable-next-line no-console
     console.warn(
       `Could not find component "${nodeLookupKey}" for component "${
         ctx.component.name

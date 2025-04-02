@@ -41,6 +41,7 @@ export const defineComponents = (
     .forEach((component) => {
       const tag = safeCustomElementName(component.name)
       if (customElements.get(tag)) {
+        // eslint-disable-next-line no-console
         console.warn(`Component ${tag} already defined`)
         return
       }

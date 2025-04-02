@@ -61,6 +61,7 @@ export const initGlobalObject = (code?: {
       actions: code?.actions ?? {},
       registerAction: (name, handler) => {
         if (legacyActions[name]) {
+          // eslint-disable-next-line no-console
           console.error('There already exists an action with the name ', name)
           return
         }
@@ -69,6 +70,7 @@ export const initGlobalObject = (code?: {
       getAction: (name) => legacyActions[name],
       registerFormula: (name, handler, getArgumentInputData) => {
         if (legacyFormulas[name]) {
+          // eslint-disable-next-line no-console
           console.error('There already exists a formula with the name ', name)
           return
         }
@@ -364,6 +366,7 @@ export const createRoot = (domNode: HTMLElement) => {
     apis: {},
     toddle: window.toddle,
     triggerEvent: (event: string, data: unknown) =>
+      // eslint-disable-next-line no-console
       console.info('EVENT FIRED', event, data),
     package: undefined,
     env,

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import type { Component, ComponentData } from '../component/component.types'
 import type {
   CustomFormulaHandler,

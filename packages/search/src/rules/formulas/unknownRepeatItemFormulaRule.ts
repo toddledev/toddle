@@ -17,10 +17,8 @@ export const unknownRepeatItemFormulaRule: Rule = {
     ) {
       return
     }
-    console.log({ path, value })
     const [_components, componentName, _nodes, nodeId] = path as string[]
     const component = files.components[componentName]
-    console.log({ component })
     if (!component) {
       return
     }

@@ -231,6 +231,7 @@ ${selector}::-webkit-scrollbar {
         }
       `
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error(e)
       return ''
     }
@@ -247,6 +248,7 @@ ${selector}::-webkit-scrollbar {
     }
     visitedComponents.add(component.name)
     if (!component.nodes) {
+      // eslint-disable-next-line no-console
       console.warn('Unable to find nodes for component', component.name)
       return
     }

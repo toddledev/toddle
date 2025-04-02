@@ -77,6 +77,7 @@ export const getFontCssUrl = ({
       swap: url,
     }
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(e)
   }
 }
