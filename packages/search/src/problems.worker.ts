@@ -29,6 +29,7 @@ import { unknownTriggerEventRule } from './rules/events/unknownTriggerEventRule'
 import { legacyFormulaRule } from './rules/formulas/legacyFormulaRule'
 import { noReferenceComponentFormulaRule } from './rules/formulas/noReferenceComponentFormulaRule'
 import { noReferenceProjectFormulaRule } from './rules/formulas/noReferenceProjectFormulaRule'
+import { unknownComponentFormulaInputRule } from './rules/formulas/unknownComponentFormulaInputRule'
 import { unknownFormulaRule } from './rules/formulas/unknownFormulaRule'
 import { unknownProjectFormulaRule } from './rules/formulas/unknownProjectFormulaRule'
 import { unknownRepeatItemFormulaRule } from './rules/formulas/unknownRepeatItemFormulaRule'
@@ -139,6 +140,7 @@ const RULES = [
   unknownApiInputRule,
   unknownAttributeRule,
   unknownClassnameRule,
+  unknownComponentFormulaInputRule,
   unknownComponentRule,
   unknownComponentSlotRule,
   unknownContextFormulaRule,

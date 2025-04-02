@@ -57,6 +57,7 @@ type Code =
   | 'unknown api'
   | 'unknown attribute'
   | 'unknown classname'
+  | 'unknown component formula input'
   | 'unknown component slot'
   | 'unknown context formula'
   | 'unknown context provider formula'
