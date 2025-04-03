@@ -8,6 +8,7 @@ import type {
   ComponentData,
   MetaEntry,
 } from '@toddledev/core/dist/component/component.types'
+import { isPageComponent } from '@toddledev/core/dist/component/isPageComponent'
 import type {
   FormulaContext,
   ToddleEnv,
@@ -1355,12 +1356,13 @@ export const createRoot = (
     dataSignal.update((data) => {
       return {
         ...data,
-        'URL parameters': component?.route
-          ? ({
-              ...window.toddle.locationSignal.get().query,
-              ...window.toddle.locationSignal.get().params,
-            } as Record<string, string>)
-          : {},
+        'URL parameters':
+          component && isPageComponent(component)
+            ? ({
+                ...window.toddle.locationSignal.get().query,
+                ...window.toddle.locationSignal.get().params,
+              } as Record<string, string>)
+            : {},
         Attributes,
         Variables,
         Contexts,
