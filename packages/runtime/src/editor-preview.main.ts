@@ -1355,10 +1355,12 @@ export const createRoot = (
     dataSignal.update((data) => {
       return {
         ...data,
-        'URL parameters': {
-          ...window.toddle.locationSignal.get().query,
-          ...window.toddle.locationSignal.get().params,
-        } as Record<string, string>,
+        'URL parameters': component?.route
+          ? ({
+              ...window.toddle.locationSignal.get().query,
+              ...window.toddle.locationSignal.get().params,
+            } as Record<string, string>)
+          : {},
         Attributes,
         Variables,
         Contexts,
