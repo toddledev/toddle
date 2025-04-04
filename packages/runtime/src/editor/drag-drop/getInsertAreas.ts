@@ -17,6 +17,7 @@ export function getInsertAreas() {
     .forEach((id) => {
       const element = getDOMNodeFromNodeId(id)
       if (!element) {
+        // eslint-disable-next-line no-console
         console.warn(`Element with path ${id} not found`)
         return
       }

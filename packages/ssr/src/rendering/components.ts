@@ -227,6 +227,7 @@ const renderComponent = async ({
           _childComponent = files.components[node.name]
         }
         if (!isDefined(_childComponent)) {
+          // eslint-disable-next-line no-console
           console.warn(
             `Unable to find component ${[packageName, node.name]
               .filter(isDefined)
@@ -253,6 +254,7 @@ const renderComponent = async ({
                 ? files.packages?.[packageName]?.components[name]
                 : files.components[name]
               if (!component) {
+                // eslint-disable-next-line no-console
                 console.warn(
                   `Unable to find component ${nodeLookupKey} in files`,
                 )

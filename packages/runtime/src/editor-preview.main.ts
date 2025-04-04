@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 /* eslint-disable no-case-declarations */
 /* eslint-disable no-fallthrough */
@@ -1054,8 +1055,8 @@ export const createRoot = (
             const previewStyles = Object.entries(previewStyleStyles)
               .map(([key, value]) => `${key}: ${value} !important;`)
               .join('\n')
-            styleTag.innerHTML = `[data-id="${selectedNodeId}"], [data-id="${selectedNodeId}"] ~ [data-id^="${selectedNodeId}("] { 
-    ${previewStyles} 
+            styleTag.innerHTML = `[data-id="${selectedNodeId}"], [data-id="${selectedNodeId}"] ~ [data-id^="${selectedNodeId}("] {
+    ${previewStyles}
     transition: none !important;
   }`
 

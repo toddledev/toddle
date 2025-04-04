@@ -23,6 +23,7 @@ export function subscribeToContext(
         context.formulas.forEach((formulaName) => {
           const formulaDataSignal = provider.formulaDataSignals[formulaName]
           if (!formulaDataSignal) {
+            // eslint-disable-next-line no-console
             console.warn(
               `Provider ${providerName} does not expose a formula named "${formulaName}". Available formulas are: ["${Object.keys(
                 provider.formulaDataSignals,
@@ -60,6 +61,7 @@ export function subscribeToContext(
         )
 
         if (!testProvider) {
+          // eslint-disable-next-line no-console
           console.error(
             `Could not find provider "${providerName}". No such component exist.`,
           )
@@ -112,6 +114,7 @@ export function subscribeToContext(
               context.formulas.map((formulaName) => {
                 const formula = testProvider.formulas?.[formulaName]
                 if (!formula) {
+                  // eslint-disable-next-line no-console
                   console.warn(
                     `Could not find formula "${formulaName}" in component "${providerName}"`,
                   )

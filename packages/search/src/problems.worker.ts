@@ -31,6 +31,7 @@ import { noReferenceComponentFormulaRule } from './rules/formulas/noReferenceCom
 import { noReferenceProjectFormulaRule } from './rules/formulas/noReferenceProjectFormulaRule'
 import { unknownFormulaRule } from './rules/formulas/unknownFormulaRule'
 import { unknownProjectFormulaRule } from './rules/formulas/unknownProjectFormulaRule'
+import { unknownRepeatItemFormulaRule } from './rules/formulas/unknownRepeatItemFormulaRule'
 import { noUnnecessaryConditionFalsy } from './rules/logic/noUnnecessaryConditionFalsy'
 import { noUnnecessaryConditionTruthy } from './rules/logic/noUnnecessaryConditionTruthy'
 import { requireExtensionRule } from './rules/requireExtensionRule'
@@ -150,6 +151,7 @@ const RULES = [
   unknownFormulaRule,
   unknownProjectActionRule,
   unknownProjectFormulaRule,
+  unknownRepeatItemFormulaRule,
   unknownSetUrlParameterRule,
   unknownTriggerEventRule,
   unknownTriggerWorkflowParameterRule,

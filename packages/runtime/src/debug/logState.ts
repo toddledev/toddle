@@ -6,6 +6,7 @@ import type { Signal } from '../signal/signal'
 
 export function initLogState() {
   ;(window as any).logState = () => {
+    // eslint-disable-next-line no-console
     console.table(
       Object.entries(window.__components ?? {}).map(([name, sig]) => {
         return {
