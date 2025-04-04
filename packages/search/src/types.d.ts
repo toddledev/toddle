@@ -71,6 +71,7 @@ type Code =
   | 'unknown project action'
   | 'unknown project formula input'
   | 'unknown project formula'
+  | 'unknown repeat index formula'
   | 'unknown repeat item formula'
   | 'unknown set url parameter'
   | 'unknown trigger event'

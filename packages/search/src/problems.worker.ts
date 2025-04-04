@@ -33,6 +33,7 @@ import { unknownComponentFormulaInputRule } from './rules/formulas/unknownCompon
 import { unknownFormulaRule } from './rules/formulas/unknownFormulaRule'
 import { unknownProjectFormulaInputRule } from './rules/formulas/unknownProjectFormulaInputRule'
 import { unknownProjectFormulaRule } from './rules/formulas/unknownProjectFormulaRule'
+import { unknownRepeatIndexFormulaRule } from './rules/formulas/unknownRepeatIndexFormulaRule'
 import { unknownRepeatItemFormulaRule } from './rules/formulas/unknownRepeatItemFormulaRule'
 import { noUnnecessaryConditionFalsy } from './rules/logic/noUnnecessaryConditionFalsy'
 import { noUnnecessaryConditionTruthy } from './rules/logic/noUnnecessaryConditionTruthy'
@@ -155,6 +156,7 @@ const RULES = [
   unknownProjectActionRule,
   unknownProjectFormulaInputRule,
   unknownProjectFormulaRule,
+  unknownRepeatIndexFormulaRule,
   unknownRepeatItemFormulaRule,
   unknownSetUrlParameterRule,
   unknownTriggerEventRule,
