@@ -32,6 +32,11 @@ export const noReferenceComponentWorkflowRule: Rule<{
       }
     }
 
+    // Short circuit if the component is exported and the workflow is exposed in context, as it is always indirectly used
+    if (value.exposeInContext && component.exported) {
+      return
+    }
+
     // It is possible that a formula is never used, but still has subscribers
     const contextSubscribers = []
     if (value.exposeInContext) {
