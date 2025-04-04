@@ -14,6 +14,7 @@ export const unknownProjectFormulaInputRule: Rule<{
       nodeType !== 'formula' ||
       value.type !== 'path' ||
       value.path?.[0] !== 'Args' ||
+      ['@toddle.parent', 'item'].includes(value.path[1]) ||
       value.path.length < 2 ||
       path[0] !== 'formulas' ||
       path.length < 2

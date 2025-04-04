@@ -71,4 +71,41 @@ describe('unknownProjectFormulaInput', () => {
 
     expect(problems).toHaveLength(0)
   })
+  test('should not detect @toddle.parent/item path formulas', () => {
+    const problems = Array.from(
+      searchProject({
+        files: {
+          formulas: {
+            myFormula: {
+              name: 'Test',
+              formula: {
+                type: 'function',
+                name: '@toddle/concatenate',
+                arguments: [
+                  {
+                    name: '0',
+                    formula: { type: 'path', path: ['Args', 'item'] },
+                  },
+                  {
+                    name: '0',
+                    formula: {
+                      type: 'path',
+                      path: ['Args', '@toddle.parent', 'test'],
+                    },
+                  },
+                ],
+                variableArguments: true,
+                display_name: 'Concatenate',
+              },
+              arguments: [],
+            },
+          },
+          components: {},
+        },
+        rules: [unknownProjectFormulaInputRule],
+      }),
+    )
+
+    expect(problems).toHaveLength(0)
+  })
 })
