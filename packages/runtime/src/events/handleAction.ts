@@ -7,7 +7,8 @@ import type {
 import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import { mapValues, omitKeys } from '@toddledev/core/dist/utils/collections'
 import { isDefined, toBoolean } from '@toddledev/core/dist/utils/util'
-import type { ComponentContext, Location } from '../types'
+import equal from 'fast-deep-equal'
+import type { ComponentContext } from '../types'
 import { getLocationUrl } from '../utils/url'
 
 // eslint-disable-next-line max-params
@@ -85,7 +86,12 @@ export function handleAction(
       }
       case 'SetURLParameter': {
         ctx.toddle.locationSignal.update((current) => {
-          const value = applyFormula(action.data, {
+          // historyMode was previously not declared explicitly, and we default
+          // to push for state changes and replace for query changes
+          let historyMode: SetURLParameterAction['historyMode'] = 'replace'
+          const queryUpdates: Record<string, unknown> = {}
+          const pathUpdates: Record<string, unknown> = {}
+          const urlParameterCtx = {
             data,
             component: ctx.component,
             formulaCache: ctx.formulaCache,
@@ -93,37 +99,51 @@ export function handleAction(
             package: ctx.package,
             toddle: ctx.toddle,
             env: ctx.env,
-          })
-          // historyMode was previously not declared explicitly, and we default
-          // to push for state changes and replace for query changes
-          let historyMode: SetURLParameterAction['historyMode'] | undefined
-          let newLocation: Location | undefined
+          }
           // We should only match on p.type === 'param', but
           // that would technically be a breaking change
-          if (current.route?.path.some((p) => p.name === action.parameter)) {
-            historyMode = 'push'
-            newLocation = {
-              ...current,
-              params: {
-                ...omitKeys(current.params, [action.parameter]),
-                [action.parameter]: value,
-              },
+          const isPathParameter = (param: string) =>
+            current.route?.path.some((p) => p.name === param)
+          if ('parameter' in action) {
+            const value = applyFormula(action.data, urlParameterCtx)
+            if (isPathParameter(action.parameter)) {
+              historyMode = 'push'
+              pathUpdates[action.parameter] = value
+            } else {
+              // We should check if the query parameter exists in the route
+              // but that would technically be a breaking change
+              // else if (Object.values(current.route?.query ?? {}).some((q) => q.name === action.parameter))
+              queryUpdates[action.parameter] = value
+            }
+          } else {
+            for (const [parameter, formula] of Object.entries(
+              action.parameters,
+            )) {
+              const value = applyFormula(formula, urlParameterCtx) ?? null
+              if (isPathParameter(parameter)) {
+                historyMode = 'push'
+                pathUpdates[parameter] = value
+              } else if (
+                Object.values(current.route?.query ?? {}).some(
+                  (q) => q.name === parameter,
+                )
+              ) {
+                queryUpdates[parameter] = value
+              }
             }
           }
-          // We should check if the query parameter exists in the route
-          // but that would technically be a breaking change
-          // else if (Object.values(current.route?.query ?? {}).some((q) => q.name === action.parameter))
-          else {
-            historyMode = 'replace'
-            newLocation = {
-              ...current,
-              query: {
-                ...omitKeys(current.query, [action.parameter]),
-                ...(isDefined(value) ? { [action.parameter]: value } : null),
-              },
-            }
+          const newLocation = {
+            ...current,
+            params: {
+              ...omitKeys(current.params, Object.keys(pathUpdates)),
+              ...pathUpdates,
+            },
+            query: {
+              ...omitKeys(current.query, Object.keys(queryUpdates)),
+              ...queryUpdates,
+            },
           }
-          if (!historyMode) {
+          if (equal(newLocation, current)) {
             // No path/query parameter matched
             return current
           }
