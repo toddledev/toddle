@@ -5,7 +5,8 @@ export interface BaseFormula {
   description?: string
   arguments: Array<{
     name: string
-    formula: Formula
+    formula?: Formula | null
+    testValue?: unknown
   }>
   // exported indicates that a formula is exported in a package
   exported?: boolean
