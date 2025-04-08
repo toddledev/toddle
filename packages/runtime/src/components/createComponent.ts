@@ -2,6 +2,7 @@ import { isLegacyApi, sortApiObjects } from '@toddledev/core/dist/api/api'
 import type {
   ComponentData,
   ComponentNodeModel,
+  SupportedNamespaces,
 } from '@toddledev/core/dist/component/component.types'
 import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import type { RequireFields } from '@toddledev/core/dist/types'
@@ -15,12 +16,7 @@ import { registerComponentToLogState } from '../debug/logState'
 import { handleAction } from '../events/handleAction'
 import type { Signal } from '../signal/signal'
 import { signal } from '../signal/signal'
-import type {
-  ComponentChild,
-  ComponentContext,
-  ContextApi,
-  SupportedNamespaces,
-} from '../types'
+import type { ComponentChild, ComponentContext, ContextApi } from '../types'
 import { createFormulaCache } from '../utils/createFormulaCache'
 import { renderComponent } from './renderComponent'
 

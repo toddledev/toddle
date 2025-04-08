@@ -1,10 +1,11 @@
 import type {
   ComponentData,
+  SupportedNamespaces,
   TextNodeModel,
 } from '@toddledev/core/dist/component/component.types'
 import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import type { Signal } from '../signal/signal'
-import type { ComponentContext, SupportedNamespaces } from '../types'
+import type { ComponentContext } from '../types'
 
 export type RenderTextProps = {
   node: TextNodeModel

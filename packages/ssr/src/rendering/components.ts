@@ -6,6 +6,7 @@ import type {
   Component,
   ComponentData,
   NodeModel,
+  SupportedNamespaces,
 } from '@toddledev/core/dist/component/component.types'
 import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
 import type {
@@ -40,6 +41,7 @@ const renderComponent = async ({
   projectId,
   req,
   updateApiCache,
+  namespace,
 }: {
   apiCache: ApiCache
   children?: Record<string, string>
@@ -54,6 +56,7 @@ const renderComponent = async ({
   packageName: string | undefined
   projectId: string
   req: Request
+  namespace?: SupportedNamespaces
   updateApiCache: (key: string, value: ApiStatus) => void
 }): Promise<string> => {
   const renderNode = async ({
@@ -62,16 +65,19 @@ const renderComponent = async ({
     data,
     packageName,
     isComponentRootNode = false,
+    namespace,
   }: {
     id: string
     node: NodeModel | undefined
     data: ComponentData
     packageName: string | undefined
     isComponentRootNode?: boolean
+    namespace?: SupportedNamespaces
   }): Promise<string> => {
     if (!node) {
       return ''
     }
+
     const formulaContext: FormulaContext = {
       data,
       component,
@@ -96,6 +102,7 @@ const renderComponent = async ({
                 ? { Index, Item, Parent: data.ListItem }
                 : { Index, Item },
             },
+            namespace,
             packageName,
           }),
         ),
@@ -111,9 +118,13 @@ const renderComponent = async ({
 
     switch (node.type) {
       case 'text': {
-        return `<span data-node-type="text" data-node-id="${id}">${toEncodedText(
-          String(applyFormula(node.value, formulaContext)),
-        )}</span>`
+        if (!namespace || namespace === 'http://www.w3.org/1999/xhtml') {
+          return `<span data-node-type="text" data-node-id="${id}">${toEncodedText(
+            String(applyFormula(node.value, formulaContext)),
+          )}</span>`
+        }
+
+        return toEncodedText(String(applyFormula(node.value, formulaContext)))
       }
       case 'slot': {
         const defaultChild = children?.[node.name ?? 'default']
@@ -127,6 +138,7 @@ const renderComponent = async ({
                 node: component.nodes[child],
                 data,
                 packageName,
+                namespace,
               }),
             ),
           )
@@ -134,8 +146,19 @@ const renderComponent = async ({
         }
       }
       case 'element': {
-        if (node.tag.toLocaleLowerCase() === 'script') {
-          return '' // we do not want to run scripts twice.
+        switch (node.tag.toLocaleLowerCase()) {
+          case 'script': {
+            // we do not want to run scripts twice.
+            return ''
+          }
+          case 'svg': {
+            namespace = 'http://www.w3.org/2000/svg'
+            break
+          }
+          case 'math': {
+            namespace = 'http://www.w3.org/1998/Math/MathML'
+            break
+          }
         }
 
         const nodeAttrs = getNodeAttrs({
@@ -167,6 +190,7 @@ const renderComponent = async ({
             node.children.map((child) =>
               renderNode({
                 id: child,
+                namespace,
                 node: component.nodes[child],
                 data,
                 packageName,
@@ -297,6 +321,7 @@ const renderComponent = async ({
           node.children.map((child) =>
             renderNode({
               id: child,
+              namespace,
               node: component.nodes[child],
               data: {
                 ...data,
@@ -392,6 +417,7 @@ const renderComponent = async ({
           apiCache,
           updateApiCache,
           projectId,
+          namespace,
           evaluateComponentApis,
           req,
         })
@@ -404,6 +430,7 @@ const renderComponent = async ({
     data,
     packageName,
     isComponentRootNode: true,
+    namespace,
   })
 }
 
@@ -424,6 +451,7 @@ const createComponent = async ({
   projectId,
   req,
   updateApiCache,
+  namespace,
 }: {
   apiCache: ApiCache
   apis: Record<
@@ -447,6 +475,7 @@ const createComponent = async ({
   projectId: string
   req: Request
   updateApiCache: (key: string, value: ApiStatus) => void
+  namespace?: SupportedNamespaces
 }): Promise<string> => {
   const data: ComponentData = {
     Location: formulaContext.data.Location,
@@ -490,6 +519,7 @@ const createComponent = async ({
     instance,
     packageName,
     projectId,
+    namespace,
     req,
     toddle: formulaContext.toddle,
     updateApiCache,

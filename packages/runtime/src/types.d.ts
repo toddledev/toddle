@@ -91,12 +91,3 @@ export type FormulaCache = Record<
     set: (data: ComponentData, result: any) => void
   }
 >
-
-/**
- * We must specify the namespace for some nodes when created programmatically that are not in the default namespace.
- * In toddle, we infer the namespace based on the tag name, but it would be interesting to also allow the user to specify it explicitly with the `xmlns` attribute.
- */
-export type SupportedNamespaces =
-  | 'http://www.w3.org/1999/xhtml'
-  | 'http://www.w3.org/2000/svg'
-  | 'http://www.w3.org/1998/Math/MathML'
