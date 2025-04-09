@@ -1,8 +1,8 @@
-import { valueFormula } from '@nordcraft/core/dist/formula/formulaUtils'
+import { valueFormula } from '@toddledev/core/dist/formula/formulaUtils'
 import { searchProject } from '../../searchProject'
-import { unknownSetUrlParameterRule } from './unknownSetUrlParameterRule'
+import { unknownSetUrlParametersRule } from './unknownSetUrlParametersRule'
 
-describe('unknownSetUrlParameterRule', () => {
+describe('unknownSetUrlParametersRule', () => {
   test('should report setting unknown URL parameters', () => {
     const problems = Array.from(
       searchProject({
@@ -20,9 +20,8 @@ describe('unknownSetUrlParameterRule', () => {
                       trigger: 'click',
                       actions: [
                         {
-                          type: 'SetURLParameter',
-                          parameter: 'unknown',
-                          data: valueFormula('newValue'),
+                          type: 'SetURLParameters',
+                          parameters: { unknown: valueFormula('newValue') },
                         },
                       ],
                     },
@@ -39,12 +38,12 @@ describe('unknownSetUrlParameterRule', () => {
             },
           },
         },
-        rules: [unknownSetUrlParameterRule],
+        rules: [unknownSetUrlParametersRule],
       }),
     )
 
     expect(problems).toHaveLength(1)
-    expect(problems[0].code).toBe('unknown set url parameter')
+    expect(problems[0].code).toBe('unknown set url parameters')
     expect(problems[0].details).toEqual({ name: 'unknown' })
   })
 
@@ -65,9 +64,8 @@ describe('unknownSetUrlParameterRule', () => {
                       trigger: 'click',
                       actions: [
                         {
-                          type: 'SetURLParameter',
-                          parameter: 'knownPath',
-                          data: valueFormula('newValue'),
+                          type: 'SetURLParameters',
+                          parameters: { knownPath: valueFormula('newValue') },
                         },
                       ],
                     },
@@ -93,12 +91,12 @@ describe('unknownSetUrlParameterRule', () => {
             },
           },
         },
-        rules: [unknownSetUrlParameterRule],
+        rules: [unknownSetUrlParametersRule],
       }),
     )
 
     expect(problems).toHaveLength(1)
-    expect(problems[0].code).toBe('unknown set url parameter')
+    expect(problems[0].code).toBe('unknown set url parameters')
     expect(problems[0].details).toEqual({ name: 'knownPath' })
   })
 
@@ -152,7 +150,7 @@ describe('unknownSetUrlParameterRule', () => {
             },
           },
         },
-        rules: [unknownSetUrlParameterRule],
+        rules: [unknownSetUrlParametersRule],
       }),
     )
 

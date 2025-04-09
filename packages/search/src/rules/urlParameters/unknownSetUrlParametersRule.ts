@@ -1,15 +1,15 @@
 import type { Rule } from '../../types'
 
-export const unknownSetUrlParameterRule: Rule<{
+export const unknownSetUrlParametersRule: Rule<{
   name: string
 }> = {
-  code: 'unknown set url parameter',
+  code: 'unknown set url parameters',
   level: 'error',
   category: 'Unknown Reference',
   visit: (report, args) => {
     if (
       args.nodeType !== 'action-model' ||
-      args.value.type !== 'SetURLParameter'
+      args.value.type !== 'SetURLParameters'
     ) {
       return
     }
@@ -24,9 +24,10 @@ export const unknownSetUrlParameterRule: Rule<{
       Object.values(args.component.route?.query ?? {}).some(
         (q) => q.name === parameterName,
       )
-    const parameterName = args.value.parameter
-    if (!isValidParameter(parameterName)) {
-      report(args.path, { name: parameterName })
+    for (const key of Object.keys(args.value.parameters ?? {})) {
+      if (!isValidParameter(key)) {
+        report([...args.path, 'parameters', key], { name: key })
+      }
     }
   },
 }
