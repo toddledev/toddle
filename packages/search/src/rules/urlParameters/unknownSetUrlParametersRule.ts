@@ -20,6 +20,7 @@ export const unknownSetUrlParametersRule: Rule<{
           p.name === parameterName &&
           // It's only valid to set non-static path parameters
           p.type === 'param',
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
       ) ||
       Object.values(args.component.route?.query ?? {}).some(
         (q) => q.name === parameterName,
