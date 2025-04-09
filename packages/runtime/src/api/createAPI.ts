@@ -8,7 +8,7 @@ import { handleAction } from '../events/handleAction'
 import type { Signal } from '../signal/signal'
 import type { ComponentContext } from '../types'
 
-export type ApiRequest = {
+export interface ApiRequest {
   url: string
   method: 'GET' | 'POST' | 'DELETE' | 'PUT' | 'OPTION' | 'HEAD'
   auth: { type: string } | undefined

@@ -54,7 +54,7 @@ import { unknownWorkflowParameterRule } from './rules/workflows/unknownWorkflowP
 import { searchProject } from './searchProject'
 import type { ApplicationState, Category, Code, Level, Result } from './types'
 
-export type Options = {
+export interface Options {
   /**
    * Useful for running search on a subset or a single file.
    */

@@ -368,7 +368,8 @@ export function createNode({
     instance,
   })
 }
-export type NodeRenderer<NodeType> = {
+
+export interface NodeRenderer<NodeType> {
   node: NodeType
   dataSignal: Signal<ComponentData>
   id: string

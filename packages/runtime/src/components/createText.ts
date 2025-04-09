@@ -6,7 +6,7 @@ import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import type { Signal } from '../signal/signal'
 import type { ComponentContext, SupportedNamespaces } from '../types'
 
-export type RenderTextProps = {
+export interface RenderTextProps {
   node: TextNodeModel
   dataSignal: Signal<ComponentData>
   id: string

@@ -24,7 +24,7 @@ import type {
 import { createFormulaCache } from '../utils/createFormulaCache'
 import { renderComponent } from './renderComponent'
 
-export type RenderComponentNodeProps = {
+export interface RenderComponentNodeProps {
   path: string
   node: ComponentNodeModel
   dataSignal: Signal<ComponentData>
