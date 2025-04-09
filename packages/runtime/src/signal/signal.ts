@@ -1,4 +1,4 @@
-import deepEqual from 'fast-deep-equal'
+import fastDeepEqual from 'fast-deep-equal'
 
 export class Signal<T> {
   value: T
@@ -23,7 +23,7 @@ export class Signal<T> {
       return
     }
 
-    if (deepEqual(value, this.value) === false) {
+    if (fastDeepEqual(value, this.value) === false) {
       this.value = value
       this.subscribers.forEach(({ notify }) => notify(this.value))
     }
@@ -70,5 +70,5 @@ export function signal<T>(value: T) {
 
 if (typeof window !== 'undefined') {
   ;(window as any).signal = signal
-  ;(window as any).deepEqual = deepEqual
+  ;(window as any).deepEqual = fastDeepEqual
 }

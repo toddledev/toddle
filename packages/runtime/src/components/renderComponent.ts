@@ -4,7 +4,7 @@ import type {
 } from '@toddledev/core/dist/component/component.types'
 import type { ToddleEnv } from '@toddledev/core/dist/formula/formula'
 import type { Toddle } from '@toddledev/core/dist/types'
-import deepEqual from 'fast-deep-equal'
+import fastDeepEqual from 'fast-deep-equal'
 import { handleAction } from '../events/handleAction'
 import type { Signal } from '../signal/signal'
 import type {
@@ -117,7 +117,7 @@ export function renderComponent({
                       [key, value],
                     ) => {
                       if (
-                        deepEqual(value, prev![key]) === false &&
+                        fastDeepEqual(value, prev![key]) === false &&
                         component.attributes[key]?.name
                       ) {
                         changes[component.attributes[key]?.name] = {

@@ -74,6 +74,7 @@ type Code =
   | 'unknown repeat index formula'
   | 'unknown repeat item formula'
   | 'unknown set url parameter'
+  | 'unknown set url parameters'
   | 'unknown trigger event'
   | 'unknown url parameter'
   | 'unknown variable setter'

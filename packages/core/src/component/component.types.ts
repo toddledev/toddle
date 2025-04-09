@@ -266,12 +266,12 @@ export enum HeadTagTypes {
   Style = 'style',
 }
 
-export type EventModel = {
+export interface EventModel {
   trigger: string
   actions: ActionModel[]
 }
 
-export type CustomActionModel = {
+export interface CustomActionModel {
   // Some legacy custom actions use an undefined type
   type?: 'Custom'
   package?: string
@@ -284,7 +284,7 @@ export type CustomActionModel = {
   label?: string
 }
 
-export type SwitchActionModel = {
+export interface SwitchActionModel {
   type: 'Switch'
   data?: string | number | boolean | Formula
   cases: Array<{
@@ -294,12 +294,12 @@ export type SwitchActionModel = {
   default: { actions: ActionModel[] }
 }
 
-export type VariableActionModel = {
+export interface VariableActionModel {
   type: 'SetVariable'
   variable: string
   data: Formula
 }
-export type FetchActionModel = {
+export interface FetchActionModel {
   type: 'Fetch'
   api: string
   inputs?: Record<string, { formula: Formula | null }>
@@ -308,20 +308,26 @@ export type FetchActionModel = {
   onMessage?: { actions: ActionModel[] }
 }
 
-export type SetURLParameterAction = {
+export interface SetURLParameterAction {
   type: 'SetURLParameter'
   parameter: string
   data: Formula
   historyMode?: 'replace' | 'push' | null
 }
 
-export type EventActionModel = {
+export interface SetMultiUrlParameterAction {
+  type: 'SetURLParameters'
+  parameters: Record<string, Formula>
+  historyMode?: 'replace' | 'push' | null
+}
+
+export interface EventActionModel {
   type: 'TriggerEvent'
   event: string
   data: Formula
 }
 
-export type WorkflowActionModel = {
+export interface WorkflowActionModel {
   type: 'TriggerWorkflow'
   workflow: string
   parameters: Record<string, { formula: Formula }>
@@ -335,6 +341,7 @@ export type ActionModel =
   | FetchActionModel
   | CustomActionModel
   | SetURLParameterAction
+  | SetMultiUrlParameterAction
   | WorkflowActionModel
 
 export interface ComponentEvent extends ToddleMetadata {
