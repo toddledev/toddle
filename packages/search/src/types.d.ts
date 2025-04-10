@@ -75,6 +75,7 @@ type Code =
   | 'unknown repeat item formula'
   | 'unknown set url parameter'
   | 'unknown trigger event'
+  | 'unknown trigger workflow'
   | 'unknown url parameter'
   | 'unknown variable setter'
   | 'unknown variable'

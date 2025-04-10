@@ -50,6 +50,7 @@ import { noReferenceComponentWorkflowRule } from './rules/workflows/noReferenceC
 import { unknownContextProviderWorkflowRule } from './rules/workflows/unknownContextProviderWorkflowRule'
 import { unknownContextWorkflowRule } from './rules/workflows/unknownContextWorkflowRule'
 import { unknownTriggerWorkflowParameterRule } from './rules/workflows/unknownTriggerWorkflowParameterRule'
+import { unknownTriggerWorkflowRule } from './rules/workflows/unknownTriggerWorkflowRule'
 import { unknownWorkflowParameterRule } from './rules/workflows/unknownWorkflowParameterRule'
 import { searchProject } from './searchProject'
 import type { ApplicationState, Category, Code, Level, Result } from './types'
@@ -159,6 +160,7 @@ const RULES = [
   unknownSetUrlParameterRule,
   unknownTriggerEventRule,
   unknownTriggerWorkflowParameterRule,
+  unknownTriggerWorkflowRule,
   unknownUrlParameterRule,
   unknownVariableRule,
   unknownVariableSetterRule,
