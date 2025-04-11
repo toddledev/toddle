@@ -81,10 +81,19 @@ export class ToddleComponent<Handler> {
     return new Set(
       Array.from(this.formulasInComponent())
         .filter(
-          (entry): entry is [(string | number)[], FunctionOperation] =>
-            entry[1].type === 'function',
+          (
+            entry,
+          ): entry is {
+            path: (string | number)[]
+            formula: FunctionOperation
+            packageName?: string
+          } => entry.formula.type === 'function',
         )
-        .map(([, f]) => [f.package, f.name].filter(isDefined).join('/')),
+        .map((entry) =>
+          [entry.formula.package ?? entry.packageName, entry.formula.name]
+            .filter(isDefined)
+            .join('/'),
+        ),
     )
   }
 
@@ -103,12 +112,20 @@ export class ToddleComponent<Handler> {
    * Traverse all formulas in the component.
    * @returns An iterable that yields the path and formula.
    */
-  *formulasInComponent(): Generator<[(string | number)[], Formula]> {
+  *formulasInComponent(): Generator<{
+    path: (string | number)[]
+    formula: Formula
+    packageName?: string
+  }> {
     const globalFormulas = this.globalFormulas
     function* visitNode(
       node: NodeModel,
       path: (string | number)[] = [],
-    ): Generator<[(string | number)[], Formula]> {
+    ): Generator<{
+      path: (string | number)[]
+      formula: Formula
+      packageName?: string
+    }> {
       switch (node.type) {
         case 'text':
           yield* getFormulasInFormula({

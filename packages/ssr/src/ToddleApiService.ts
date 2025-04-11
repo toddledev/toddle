@@ -22,7 +22,11 @@ export class ToddleApiService<Handler> {
    * Traverse all formulas in the API Service.
    * @returns An iterable that yields the path and formula.
    */
-  *formulasInService(): Generator<[(string | number)[], Formula]> {
+  *formulasInService(): Generator<{
+    path: (string | number)[]
+    formula: Formula
+    packageName?: string
+  }> {
     const globalFormulas = this.globalFormulas
 
     yield* getFormulasInFormula({

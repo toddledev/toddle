@@ -131,7 +131,11 @@ export class LegacyToddleApi<Handler> {
   get onFailed() {
     return this.api.onFailed
   }
-  *formulasInApi(): Generator<[(string | number)[], Formula]> {
+  *formulasInApi(): Generator<{
+    path: (string | number)[]
+    formula: Formula
+    packageName?: string
+  }> {
     const api = this.api
     const apiKey = this.key
     yield* getFormulasInFormula({
