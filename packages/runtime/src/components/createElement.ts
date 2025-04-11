@@ -1,6 +1,7 @@
 import type {
   ElementNodeModel,
   NodeModel,
+  SupportedNamespaces,
 } from '@toddledev/core/dist/component/component.types'
 import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import {
@@ -10,7 +11,6 @@ import {
 import { isDefined, toBoolean } from '@toddledev/core/dist/utils/util'
 import { handleAction } from '../events/handleAction'
 import type { Signal } from '../signal/signal'
-import type { SupportedNamespaces } from '../types'
 import { getDragData } from '../utils/getDragData'
 import { getElementTagName } from '../utils/getElementTagName'
 import { setAttribute } from '../utils/setAttribute'

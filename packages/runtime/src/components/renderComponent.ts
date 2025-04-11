@@ -1,6 +1,7 @@
 import type {
   Component,
   ComponentData,
+  SupportedNamespaces,
 } from '@toddledev/core/dist/component/component.types'
 import type { ToddleEnv } from '@toddledev/core/dist/formula/formula'
 import type { Toddle } from '@toddledev/core/dist/types'
@@ -13,7 +14,6 @@ import type {
   FormulaCache,
   LocationSignal,
   PreviewShowSignal,
-  SupportedNamespaces,
 } from '../types'
 import { BatchQueue } from '../utils/BatchQueue'
 import { createNode } from './createNode'

@@ -2,12 +2,13 @@
 import type {
   ComponentData,
   NodeModel,
+  SupportedNamespaces,
 } from '@toddledev/core/dist/component/component.types'
 import { applyFormula } from '@toddledev/core/dist/formula/formula'
 import { toBoolean } from '@toddledev/core/dist/utils/util'
 import type { Signal } from '../signal/signal'
 import { signal } from '../signal/signal'
-import type { ComponentContext, SupportedNamespaces } from '../types'
+import type { ComponentContext } from '../types'
 import { ensureEfficientOrdering, getNextSiblingElement } from '../utils/nodes'
 import { createComponent } from './createComponent'
 import { createElement } from './createElement'
