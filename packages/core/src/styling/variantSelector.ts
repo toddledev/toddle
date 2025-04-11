@@ -5,7 +5,7 @@ import type {
 } from '../component/component.types'
 import type { Formula } from '../formula/formula'
 
-export type Shadow = {
+export interface Shadow {
   x: number
   y: number
   blur: number
@@ -29,7 +29,7 @@ export interface StyleDeclarationBlock extends CSSProperties {
   shadows?: Shadow[]
 }
 
-type MediaQuery = {
+interface MediaQuery {
   'min-width'?: string
   'max-width'?: string
   'min-height'?: string
@@ -79,7 +79,7 @@ export interface NodeStyleModel extends StyleDeclarationBlock {
   mediaQuery?: MediaQuery
 }
 
-export type NodeClass = {
+export interface NodeClass {
   name: string
   formula?: Formula
 }
@@ -90,7 +90,7 @@ export type NodeModel =
   | ComponentNodeModel
   | SlotNodeModel
 
-export type ElementNodeModel = {
+export interface ElementNodeModel {
   id: string
   type: 'element'
   condition?: Formula
@@ -106,7 +106,7 @@ export type ElementNodeModel = {
   events: EventModel[]
 }
 
-export type ComponentNodeModel = {
+export interface ComponentNodeModel {
   id: string
   type: 'component'
   path?: string
@@ -122,7 +122,7 @@ export type ComponentNodeModel = {
   events: EventModel[]
 }
 
-export type TextNodeModel = {
+export interface TextNodeModel {
   id: string
   type: 'text'
   condition?: Formula
@@ -132,7 +132,7 @@ export type TextNodeModel = {
   children?: undefined
 }
 
-export type SlotNodeModel = {
+export interface SlotNodeModel {
   id: string
   type: 'slot'
   condition?: Formula

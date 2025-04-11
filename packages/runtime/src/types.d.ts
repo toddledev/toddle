@@ -77,7 +77,7 @@ export interface ComponentContext {
   env: ToddleEnv
 }
 
-export type ContextApi = {
+export interface ContextApi {
   fetch: Function
   destroy: Function
   update?: Function // for updating the dataSignal (v2 only)

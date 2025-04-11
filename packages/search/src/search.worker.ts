@@ -21,7 +21,7 @@ type Query =
       references?: boolean
     }
 
-export type Options = {
+export interface Options {
   /**
    * Useful for running search on a subset or a single file.
    */
