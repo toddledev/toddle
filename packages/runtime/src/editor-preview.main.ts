@@ -53,7 +53,7 @@ import type {
 } from './types'
 import { createFormulaCache } from './utils/createFormulaCache'
 import { getNodeAndAncestors, isNodeOrAncestorConditional } from './utils/nodes'
-import { omitStyleForComponent } from './utils/omitStyle'
+import { omitSubnodeStyleForComponent } from './utils/omitStyle'
 import { rectHasPoint } from './utils/rectHasPoint'
 
 type ToddlePreviewEvent =
@@ -1417,14 +1417,14 @@ export const createRoot = (
     ) {
       updateStyle()
 
-      // Remove preview styles
+      // Remove preview styles automatically when the component changes
       document.head.querySelector('[data-id="selected-node-styles"]')?.remove()
-
-      // Is only style change, no need to re-render
-      // Remove style and styleVariants from each node
-      const newComponentWithoutStyles = omitStyleForComponent(newCtx.component)
-      const oldComponentWithoutStyles = omitStyleForComponent(ctx?.component)
-      if (fastDeepEqual(newComponentWithoutStyles, oldComponentWithoutStyles)) {
+      if (
+        fastDeepEqual(
+          omitSubnodeStyleForComponent(newCtx.component),
+          omitSubnodeStyleForComponent(ctx?.component),
+        )
+      ) {
         // If we're in here, then the latest update was only a style change, so we should try some optimistic updates
         Object.keys(newCtx.component.nodes).forEach((nodeId) => {
           const newNode = newCtx.component.nodes[nodeId]
