@@ -169,7 +169,11 @@ export class ToddleApiV2<Handler> implements ApiRequest {
     return this.api['@toddle/metadata']
   }
 
-  *formulasInApi(): Generator<[(string | number)[], Formula]> {
+  *formulasInApi(): Generator<{
+    path: (string | number)[]
+    formula: Formula
+    packageName?: string
+  }> {
     const api = this.api
     const apiKey = this.key
     for (const [input, value] of Object.entries(this.api.inputs)) {
