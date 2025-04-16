@@ -230,7 +230,6 @@ export function* getFormulasInAction<Handler>({
       }
       break
     case 'SetVariable':
-    case 'SetURLParameter':
     case 'TriggerEvent':
       yield* getFormulasInFormula({
         formula: action.data,
@@ -239,7 +238,27 @@ export function* getFormulasInAction<Handler>({
         visitedFormulas,
       })
       break
+    case 'SetURLParameter':
+      yield* getFormulasInFormula({
+        formula: action.data,
+        globalFormulas,
+        path: [...path, 'data'],
+        visitedFormulas,
+      })
+      break
+    case 'SetURLParameters':
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+      for (const [key, formula] of Object.entries(action.parameters ?? {})) {
+        yield* getFormulasInFormula({
+          formula,
+          globalFormulas,
+          path: [...path, 'parameters', key],
+          visitedFormulas,
+        })
+      }
+      break
     case 'TriggerWorkflow':
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       for (const [key, a] of Object.entries(action.parameters ?? {})) {
         yield* getFormulasInFormula({
           formula: a.formula,
