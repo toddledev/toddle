@@ -22,7 +22,11 @@ export class ToddleRoute<Handler> {
    * Traverse all formulas in the route
    * @returns An iterable that yields the path and formula.
    */
-  *formulasInRoute(): Generator<[(string | number)[], Formula]> {
+  *formulasInRoute(): Generator<{
+    path: (string | number)[]
+    formula: Formula
+    packageName?: string
+  }> {
     const globalFormulas = this.globalFormulas
 
     yield* getFormulasInFormula({

@@ -203,6 +203,7 @@ export function applyFormula(
           ctx.toddle ?? ((globalThis as any).toddle as Toddle<unknown, unknown>)
         ).getFormula(formula.name)
         if (isDefined(newFunc)) {
+          ctx.package = packageName
           const args = formula.arguments.reduce<Record<string, unknown>>(
             (args, arg, i) => ({
               ...args,

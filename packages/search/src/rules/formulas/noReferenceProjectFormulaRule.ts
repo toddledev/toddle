@@ -21,7 +21,7 @@ export const noReferenceProjectFormulaRule: Rule<void> = {
         globalFormulas: { formulas: files.formulas, packages: files.packages },
       })
       const formulas = service.formulasInService()
-      for (const [_formulaPath, formula] of formulas) {
+      for (const { path: _formulaPath, formula } of formulas) {
         // Check if the formula is used in the formula
         if (checkFormula(formula, value.name)) {
           return
@@ -36,7 +36,7 @@ export const noReferenceProjectFormulaRule: Rule<void> = {
         globalFormulas: { formulas: files.formulas, packages: files.packages },
       })
       const formulas = route.formulasInRoute()
-      for (const [_formulaPath, formula] of formulas) {
+      for (const { path: _formulaPath, formula } of formulas) {
         // Check if the formula is used in the formula
         if (checkFormula(formula, value.name)) {
           return
@@ -59,7 +59,7 @@ export const noReferenceProjectFormulaRule: Rule<void> = {
               packages: files.packages,
             },
           })
-          for (const [, formula] of c.formulasInComponent()) {
+          for (const { formula } of c.formulasInComponent()) {
             if (formula.type === 'function') {
               usedFormulas.add(formula.name)
             }

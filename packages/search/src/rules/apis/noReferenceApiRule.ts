@@ -17,7 +17,7 @@ export const noReferenceApiRule: Rule<void> = {
       `componentApiReferences/${component.name}]`,
       () => {
         const usedApis = new Set<string>()
-        for (const [, formula] of component.formulasInComponent()) {
+        for (const { formula } of component.formulasInComponent()) {
           if (
             formula.type === 'path' &&
             formula.path[0] === 'Apis' &&

@@ -26,7 +26,7 @@ export const noReferenceApiInputRule: Rule<{ inputName: string }> = {
       () => {
         const apiFormulaReferences = apiV2.formulasInApi()
         const referencedApiInputs = new Set<string>()
-        for (const [, formula] of apiFormulaReferences) {
+        for (const { formula } of apiFormulaReferences) {
           if (formula.type === 'path' && formula.path[0] === 'Args') {
             referencedApiInputs.add(formula.path[1])
           }
