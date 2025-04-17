@@ -19,7 +19,7 @@ export interface PathOperation extends ToddleMetadata {
   path: string[]
 }
 
-type FunctionArgument = {
+interface FunctionArgument {
   name?: string
   isFunction?: boolean
   formula: Formula
@@ -93,7 +93,7 @@ export type Formula =
   | ValueOperation
   | ApplyOperation
 
-export type FormulaContext = {
+export interface FormulaContext {
   component: Component
   formulaCache?: Record<
     string,
@@ -113,7 +113,7 @@ export type FormulaContext = {
   env: ToddleEnv | undefined
 }
 
-export type ToddleServerEnv = {
+export interface ToddleServerEnv {
   branchName: string
   // isServer will be true for SSR + proxied requests
   isServer: true

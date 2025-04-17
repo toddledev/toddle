@@ -5,13 +5,13 @@ export interface ThemeOptions {
   createFontFaces: boolean
 }
 
-export type StyleToken = {
+export interface StyleToken {
   name: string
   type: 'value' | 'variable'
   value: string
 }
 
-export type StyleTokenGroup = {
+export interface StyleTokenGroup {
   name: string
   tokens: StyleToken[]
 }
@@ -25,7 +25,7 @@ export type StyleTokenCategory =
   | 'border-radius'
   | 'shadow'
 
-export type FontFamily = {
+export interface FontFamily {
   name: string
   family: string
   provider: 'google' | 'upload'
@@ -48,7 +48,7 @@ export type FontFamily = {
   }>
 }
 
-export type OldTheme = {
+export interface OldTheme {
   spacing: number
   colors: Record<
     string,
@@ -69,7 +69,7 @@ export type OldTheme = {
   shadow: Record<string, { value: string; order: number }>
   breakpoints: Record<string, { value: number; order: number }>
 }
-export type Theme = {
+export interface Theme {
   scheme?: 'dark' | 'light'
   color: StyleTokenGroup[]
   fonts: FontFamily[]
