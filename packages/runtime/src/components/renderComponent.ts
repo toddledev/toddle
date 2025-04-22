@@ -2,9 +2,9 @@ import type {
   Component,
   ComponentData,
   SupportedNamespaces,
-} from '@toddledev/core/dist/component/component.types'
-import type { ToddleEnv } from '@toddledev/core/dist/formula/formula'
-import type { Toddle } from '@toddledev/core/dist/types'
+} from '@nordcraft/core/dist/component/component.types'
+import type { ToddleEnv } from '@nordcraft/core/dist/formula/formula'
+import type { Toddle } from '@nordcraft/core/dist/types'
 import deepEqual from 'fast-deep-equal'
 import { handleAction } from '../events/handleAction'
 import type { Signal } from '../signal/signal'

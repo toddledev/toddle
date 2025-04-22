@@ -51,27 +51,27 @@ jobs:
         run: |
           cd packages/core
           bun pm pack --destination ../../publish/core
-          mv ../../publish/core/toddledev-*.tgz ../../publish/core/core.tgz
+          mv ../../publish/core/nordcraft-*.tgz ../../publish/core/core.tgz
       - name: Build lib
         run: |
           cd packages/lib
           bun pm pack --destination ../../publish/lib
-          mv ../../publish/lib/toddledev-*.tgz ../../publish/lib/lib.tgz
+          mv ../../publish/lib/nordcraft-*.tgz ../../publish/lib/lib.tgz
       - name: Build ssr
         run: |
           cd packages/ssr
           bun pm pack --destination ../../publish/ssr
-          mv ../../publish/ssr/toddledev-*.tgz ../../publish/ssr/ssr.tgz
+          mv ../../publish/ssr/nordcraft-*.tgz ../../publish/ssr/ssr.tgz
       - name: Build search
         run: |
           cd packages/search
           bun pm pack --destination ../../publish/search
-          mv ../../publish/search/toddledev-*.tgz ../../publish/search/search.tgz
+          mv ../../publish/search/nordcraft-*.tgz ../../publish/search/search.tgz
       - name: Build runtime
         run: |
           cd packages/runtime
           bun pm pack --destination ../../publish/runtime
-          mv ../../publish/runtime/toddledev-*.tgz ../../publish/runtime/runtime.tgz
+          mv ../../publish/runtime/nordcraft-*.tgz ../../publish/runtime/runtime.tgz
       - name: Publish core
         uses: JS-DevTools/npm-publish@v3
         with:

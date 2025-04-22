@@ -1,7 +1,7 @@
 import type {
   Component,
   ComponentData,
-} from '@toddledev/core/dist/component/component.types'
+} from '@nordcraft/core/dist/component/component.types'
 import type { Signal } from '../signal/signal'
 
 export function initLogState() {

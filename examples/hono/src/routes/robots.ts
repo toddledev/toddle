@@ -1,5 +1,5 @@
-import { applyFormula } from '@toddledev/core/dist/formula/formula'
-import { validateUrl } from '@toddledev/core/dist/utils/url'
+import { applyFormula } from '@nordcraft/core/dist/formula/formula'
+import { validateUrl } from '@nordcraft/core/dist/utils/url'
 import type { Context } from 'hono'
 import { stream } from 'hono/streaming'
 import type { HonoEnv } from '../../hono'
@@ -31,6 +31,7 @@ Disallow: /_toddle
 Disallow: /_toddle/
 Disallow: /.toddle
 Disallow: /.toddle/
+Disallow: /.nordcraft/
 Disallow: /_api
 Disallow: /_api/
 Allow: /cdn-cgi/imagedelivery/*

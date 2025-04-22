@@ -1,8 +1,8 @@
-import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
-import type { Formula } from '@toddledev/core/dist/formula/formula'
-import { isToddleFormula } from '@toddledev/core/dist/formula/formulaTypes'
-import { ToddleApiService } from '@toddledev/ssr/dist/ToddleApiService'
-import { ToddleRoute } from '@toddledev/ssr/dist/ToddleRoute'
+import { ToddleComponent } from '@nordcraft/core/dist/component/ToddleComponent'
+import type { Formula } from '@nordcraft/core/dist/formula/formula'
+import { isToddleFormula } from '@nordcraft/core/dist/formula/formulaTypes'
+import { ToddleApiService } from '@nordcraft/ssr/dist/ToddleApiService'
+import { ToddleRoute } from '@nordcraft/ssr/dist/ToddleRoute'
 import type { Rule } from '../../types'
 
 export const noReferenceProjectFormulaRule: Rule<void> = {

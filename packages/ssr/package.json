@@ -1,8 +1,8 @@
 {
-  "name": "@toddledev/ssr",
+  "name": "@nordcraft/ssr",
   "license": "Apache-2.0",
   "type": "module",
-  "homepage": "https://github.com/toddledev/toddle",
+  "homepage": "https://github.com/nordcraftengine/nordcraft",
   "scripts": {
     "build": "tsc",
     "npm-publish": "bun run build && bun publish --access public",
@@ -16,8 +16,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@toddledev/core": "workspace:*",
-    "@toddledev/std-lib": "workspace:*",
+    "@nordcraft/core": "workspace:*",
+    "@nordcraft/std-lib": "workspace:*",
     "cookie": "1.0.2",
     "xss": "1.0.15"
   }

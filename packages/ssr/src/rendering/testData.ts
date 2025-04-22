@@ -1,10 +1,10 @@
-import { isLegacyApi } from '@toddledev/core/dist/api/api'
-import type { Component } from '@toddledev/core/dist/component/component.types'
+import { isLegacyApi } from '@nordcraft/core/dist/api/api'
+import type { Component } from '@nordcraft/core/dist/component/component.types'
 import {
   mapObject,
   omit,
   omitKeys,
-} from '@toddledev/core/dist/utils/collections'
+} from '@nordcraft/core/dist/utils/collections'
 
 export function removeTestData(component: Component): Component {
   return {

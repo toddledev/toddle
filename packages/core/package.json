@@ -1,8 +1,8 @@
 {
-  "name": "@toddledev/core",
+  "name": "@nordcraft/core",
   "license": "Apache-2.0",
   "type": "module",
-  "homepage": "https://github.com/toddledev/toddle",
+  "homepage": "https://github.com/nordcraftengine/nordcraft",
   "devDependencies": {
     "@types/react": "19.1.2"
   },

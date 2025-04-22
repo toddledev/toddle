@@ -1,10 +1,10 @@
-import type { Component } from '@toddledev/core/dist/component/component.types'
-import { isDefined } from '@toddledev/core/dist/utils/util'
+import type { Component } from '@nordcraft/core/dist/component/component.types'
+import { isDefined } from '@nordcraft/core/dist/utils/util'
 import {
   generateCustomCodeFile,
   takeReferencedFormulasAndActions,
-} from '@toddledev/ssr/src/custom-code/codeRefs'
-import { escapeSearchParameter } from '@toddledev/ssr/src/rendering/request'
+} from '@nordcraft/ssr/src/custom-code/codeRefs'
+import { escapeSearchParameter } from '@nordcraft/ssr/src/rendering/request'
 import type { Context } from 'hono'
 import type { HonoEnv } from '../../hono'
 

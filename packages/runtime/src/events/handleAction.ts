@@ -3,10 +3,10 @@ import type {
   ActionModel,
   ComponentData,
   SetURLParameterAction,
-} from '@toddledev/core/dist/component/component.types'
-import { applyFormula } from '@toddledev/core/dist/formula/formula'
-import { mapValues, omitKeys } from '@toddledev/core/dist/utils/collections'
-import { isDefined, toBoolean } from '@toddledev/core/dist/utils/util'
+} from '@nordcraft/core/dist/component/component.types'
+import { applyFormula } from '@nordcraft/core/dist/formula/formula'
+import { mapValues, omitKeys } from '@nordcraft/core/dist/utils/collections'
+import { isDefined, toBoolean } from '@nordcraft/core/dist/utils/util'
 import type { ComponentContext, Location } from '../types'
 import { getLocationUrl } from '../utils/url'
 

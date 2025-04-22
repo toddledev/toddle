@@ -2,13 +2,13 @@ import type {
   Component,
   ComponentData,
   ElementNodeModel,
-} from '@toddledev/core/dist/component/component.types'
+} from '@nordcraft/core/dist/component/component.types'
 import type {
   FormulaContext,
   ToddleEnv,
-} from '@toddledev/core/dist/formula/formula'
-import { applyFormula } from '@toddledev/core/dist/formula/formula'
-import { isDefined, toBoolean } from '@toddledev/core/dist/utils/util'
+} from '@nordcraft/core/dist/formula/formula'
+import { applyFormula } from '@nordcraft/core/dist/formula/formula'
+import { isDefined, toBoolean } from '@nordcraft/core/dist/utils/util'
 
 const REGEXP_QUOTE = /"/g
 const REGEXP_LT = /</g

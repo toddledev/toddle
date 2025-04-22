@@ -1,4 +1,4 @@
-import type { FormulaHandler } from '@toddledev/core/dist/types'
+import type { FormulaHandler } from '@nordcraft/core/dist/types'
 
 const handler: FormulaHandler<number> = (numbers) => {
   if (numbers.some((n) => isNaN(Number(n)))) {

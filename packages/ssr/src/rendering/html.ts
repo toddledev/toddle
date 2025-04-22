@@ -1,6 +1,6 @@
-import type { PageRoute } from '@toddledev/core/dist/component/component.types'
-import type { FormulaContext } from '@toddledev/core/dist/formula/formula'
-import { applyFormula } from '@toddledev/core/dist/formula/formula'
+import type { PageRoute } from '@nordcraft/core/dist/component/component.types'
+import type { FormulaContext } from '@nordcraft/core/dist/formula/formula'
+import { applyFormula } from '@nordcraft/core/dist/formula/formula'
 
 export const getHtmlLanguage = ({
   pageInfo,

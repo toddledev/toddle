@@ -41,7 +41,7 @@ jobs:
     needs: version_check
     # Only run this job if the version has changed
     if: ${{needs.version_check.outputs.version}}
-    uses: toddledev/toddle/.github/workflows/create_release.yml@main
+    uses: nordcraftengine/nordcraft/.github/workflows/create_release.yml@main
     with:
       version: ${{needs.version_check.outputs.version}}
     secrets: inherit
@@ -49,7 +49,7 @@ jobs:
     needs: [version_check, create_release]
     # Only run this job if the version has changed
     if: ${{needs.version_check.outputs.version}}
-    uses: toddledev/toddle/.github/workflows/deploy_to_npm.yml@main
+    uses: nordcraftengine/nordcraft/.github/workflows/deploy_to_npm.yml@main
     with:
       version: ${{needs.version_check.outputs.version}}
     secrets: inherit

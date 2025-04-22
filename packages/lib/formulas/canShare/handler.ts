@@ -1,5 +1,5 @@
-import type { ActionHandler } from '@toddledev/core/dist/types'
-import { isDefined } from '@toddledev/core/dist/utils/util'
+import type { ActionHandler } from '@nordcraft/core/dist/types'
+import { isDefined } from '@nordcraft/core/dist/utils/util'
 
 const handler: ActionHandler = ([url, title, text]) => {
   if (!isDefined(navigator.canShare)) {

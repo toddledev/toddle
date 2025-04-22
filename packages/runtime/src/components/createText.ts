@@ -2,8 +2,8 @@ import type {
   ComponentData,
   SupportedNamespaces,
   TextNodeModel,
-} from '@toddledev/core/dist/component/component.types'
-import { applyFormula } from '@toddledev/core/dist/formula/formula'
+} from '@nordcraft/core/dist/component/component.types'
+import { applyFormula } from '@nordcraft/core/dist/formula/formula'
 import type { Signal } from '../signal/signal'
 import type { ComponentContext } from '../types'
 

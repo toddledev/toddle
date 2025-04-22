@@ -1,4 +1,4 @@
-import { ToddleApiV2 } from '@toddledev/core/dist/api/ToddleApiV2'
+import { ToddleApiV2 } from '@nordcraft/core/dist/api/ToddleApiV2'
 import type { Rule } from '../../types'
 
 export const noReferenceApiInputRule: Rule<{ inputName: string }> = {

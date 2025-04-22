@@ -1,4 +1,4 @@
-import { HeadTagTypes } from '@toddledev/core/dist/component/component.types'
+import { HeadTagTypes } from '@nordcraft/core/dist/component/component.types'
 import { searchProject } from '../../searchProject'
 import { noReferenceComponentFormulaRule } from './noReferenceComponentFormulaRule'
 

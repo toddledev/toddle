@@ -1,4 +1,4 @@
-import { isFormula } from '@toddledev/core/dist/formula/formula'
+import { isFormula } from '@nordcraft/core/dist/formula/formula'
 import type { Level, Rule } from '../../types'
 
 export function createRequiredMetaTagRule(

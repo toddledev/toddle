@@ -1,4 +1,4 @@
-import type { Component } from '@toddledev/core/dist/component/component.types'
+import type { Component } from '@nordcraft/core/dist/component/component.types'
 
 export function omitSubnodeStyleForComponent<T extends Component | undefined>(
   component: T,

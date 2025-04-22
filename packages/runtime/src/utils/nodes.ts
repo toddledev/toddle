@@ -1,7 +1,7 @@
 import type {
   Component,
   NodeModel,
-} from '@toddledev/core/dist/component/component.types'
+} from '@nordcraft/core/dist/component/component.types'
 
 type NodeWithNodeId = NodeModel & { nodeId: string }
 

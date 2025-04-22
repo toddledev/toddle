@@ -1,5 +1,5 @@
-import type { CustomActionModel } from '@toddledev/core/dist/component/component.types'
-import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
+import type { CustomActionModel } from '@nordcraft/core/dist/component/component.types'
+import { ToddleComponent } from '@nordcraft/core/dist/component/ToddleComponent'
 import type { Rule } from '../../types'
 
 export const noReferenceProjectActionRule: Rule<void> = {

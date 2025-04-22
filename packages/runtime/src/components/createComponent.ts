@@ -1,13 +1,13 @@
-import { isLegacyApi, sortApiObjects } from '@toddledev/core/dist/api/api'
+import { isLegacyApi, sortApiObjects } from '@nordcraft/core/dist/api/api'
 import type {
   ComponentData,
   ComponentNodeModel,
   SupportedNamespaces,
-} from '@toddledev/core/dist/component/component.types'
-import { applyFormula } from '@toddledev/core/dist/formula/formula'
-import type { RequireFields } from '@toddledev/core/dist/types'
-import { mapObject } from '@toddledev/core/dist/utils/collections'
-import { isDefined } from '@toddledev/core/dist/utils/util'
+} from '@nordcraft/core/dist/component/component.types'
+import { applyFormula } from '@nordcraft/core/dist/formula/formula'
+import type { RequireFields } from '@nordcraft/core/dist/types'
+import { mapObject } from '@nordcraft/core/dist/utils/collections'
+import { isDefined } from '@nordcraft/core/dist/utils/util'
 import { createLegacyAPI } from '../api/createAPI'
 import { createAPI } from '../api/createAPIv2'
 import { isContextProvider } from '../context/isContextProvider'

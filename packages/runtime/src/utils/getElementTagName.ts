@@ -1,4 +1,4 @@
-import type { ElementNodeModel } from '@toddledev/core/dist/component/component.types'
+import type { ElementNodeModel } from '@nordcraft/core/dist/component/component.types'
 import type { ComponentContext } from '../types'
 
 export function getElementTagName(

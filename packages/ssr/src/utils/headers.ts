@@ -1,4 +1,4 @@
-import { PROXY_URL_HEADER } from '@toddledev/core/dist/utils/url'
+import { PROXY_URL_HEADER } from '@nordcraft/core/dist/utils/url'
 
 /**
  * Omit the `cookie` header from a set of headers.

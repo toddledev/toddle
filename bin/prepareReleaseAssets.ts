@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { RESET_STYLES } from '@toddledev/core/dist/styling/theme.const'
+import { RESET_STYLES } from '@nordcraft/core/dist/styling/theme.const'
 import type { BuildOptions } from 'esbuild'
 import { build } from 'esbuild'
 import { mkdirSync, rmSync, writeFileSync } from 'fs'
