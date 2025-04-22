@@ -1,4 +1,4 @@
-# Nordcraft - the open-source visual frontend framework
+# Nordcraft - the Web Development Engine
 
 Create highly performant web apps with SSR, branching, version control, components, and much more! Visit [nordcraft.com](https://nordcraft.com?utm_medium=web&utm_source=GitHub) to learn more.
 
