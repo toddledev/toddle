@@ -1,10 +1,10 @@
-import { NON_BODY_RESPONSE_CODES } from '@toddledev/core/dist/api/api'
-import { PROXY_URL_HEADER, validateUrl } from '@toddledev/core/dist/utils/url'
-import { getRequestCookies } from '@toddledev/ssr/dist/rendering/cookies'
+import { NON_BODY_RESPONSE_CODES } from '@nordcraft/core/dist/api/api'
+import { PROXY_URL_HEADER, validateUrl } from '@nordcraft/core/dist/utils/url'
+import { getRequestCookies } from '@nordcraft/ssr/dist/rendering/cookies'
 import {
   applyTemplateValues,
   sanitizeProxyHeaders,
-} from '@toddledev/ssr/dist/rendering/template'
+} from '@nordcraft/ssr/dist/rendering/template'
 import type { Context } from 'hono'
 import type { HonoEnv } from '../../hono'
 

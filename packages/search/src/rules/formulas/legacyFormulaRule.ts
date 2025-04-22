@@ -1,7 +1,7 @@
-import type { FunctionOperation } from '@toddledev/core/dist/formula/formula'
-import { isToddleFormula } from '@toddledev/core/dist/formula/formulaTypes'
-import { isDefined } from '@toddledev/core/dist/utils/util'
-import type { ProjectFiles } from '@toddledev/ssr/dist/ssr.types'
+import type { FunctionOperation } from '@nordcraft/core/dist/formula/formula'
+import { isToddleFormula } from '@nordcraft/core/dist/formula/formulaTypes'
+import { isDefined } from '@nordcraft/core/dist/utils/util'
+import type { ProjectFiles } from '@nordcraft/ssr/dist/ssr.types'
 import type { Rule } from '../../types'
 
 export const legacyFormulaRule: Rule<{

@@ -1,5 +1,5 @@
-import { ApiMethod } from '@toddledev/core/dist/api/apiTypes'
-import { valueFormula } from '@toddledev/core/dist/formula/formulaUtils'
+import { ApiMethod } from '@nordcraft/core/dist/api/apiTypes'
+import { valueFormula } from '@nordcraft/core/dist/formula/formulaUtils'
 import { searchProject } from '../../searchProject'
 import { legacyApiRule } from './legacyApiRule'
 

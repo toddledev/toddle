@@ -1,11 +1,11 @@
 import type {
   Component,
   ComponentData,
-} from '@toddledev/core/dist/component/component.types'
-import type { FormulaContext } from '@toddledev/core/dist/formula/formula'
-import { applyFormula } from '@toddledev/core/dist/formula/formula'
-import { mapObject } from '@toddledev/core/dist/utils/collections'
-import { isDefined } from '@toddledev/core/dist/utils/util'
+} from '@nordcraft/core/dist/component/component.types'
+import type { FormulaContext } from '@nordcraft/core/dist/formula/formula'
+import { applyFormula } from '@nordcraft/core/dist/formula/formula'
+import { mapObject } from '@nordcraft/core/dist/utils/collections'
+import { isDefined } from '@nordcraft/core/dist/utils/util'
 import type { Signal } from '../signal/signal'
 import type { ComponentContext } from '../types'
 

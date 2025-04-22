@@ -1,7 +1,7 @@
 import {
   pathFormula,
   valueFormula,
-} from '@toddledev/core/dist/formula/formulaUtils'
+} from '@nordcraft/core/dist/formula/formulaUtils'
 import { searchProject } from '../../searchProject'
 import { noReferenceApiRule } from './noReferenceApiRule'
 

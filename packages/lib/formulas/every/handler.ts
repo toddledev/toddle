@@ -1,4 +1,4 @@
-import type { FormulaHandler } from '@toddledev/core/dist/types'
+import type { FormulaHandler } from '@nordcraft/core/dist/types'
 
 export const handler: FormulaHandler<boolean> = ([items, fx]: unknown[]) => {
   if (typeof fx !== 'function') {

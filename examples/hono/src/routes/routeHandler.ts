@@ -1,7 +1,7 @@
-import { NON_BODY_RESPONSE_CODES } from '@toddledev/core/dist/api/api'
-import { REWRITE_HEADER } from '@toddledev/core/dist/utils/url'
-import { getRouteDestination } from '@toddledev/ssr/dist/routing/routing'
-import type { Route } from '@toddledev/ssr/dist/ssr.types'
+import { NON_BODY_RESPONSE_CODES } from '@nordcraft/core/dist/api/api'
+import { REWRITE_HEADER } from '@nordcraft/core/dist/utils/url'
+import { getRouteDestination } from '@nordcraft/ssr/dist/routing/routing'
+import type { Route } from '@nordcraft/ssr/dist/ssr.types'
 import type { Context } from 'hono'
 import type { HonoEnv } from '../../hono'
 
@@ -23,7 +23,7 @@ export const routeHandler = async (c: Context<HonoEnv>, route: Route) => {
 
   // Rewrite handling: fetch the destination and return the response
   if (c.req.raw.headers.get(REWRITE_HEADER) !== null) {
-    return c.html(`toddle rewrites are not allowed to be recursive`, {
+    return c.html(`Nordcraft rewrites are not allowed to be recursive`, {
       status: 500,
     })
   }
@@ -34,7 +34,7 @@ export const routeHandler = async (c: Context<HonoEnv>, route: Route) => {
     requestHeaders.set('accept-encoding', 'gzip')
     requestHeaders.set('accept', '*/*')
     // Add header to identify that this is a rewrite
-    // This allows us to avoid recursive fetch calls across toddle routes
+    // This allows us to avoid recursive fetch calls across Nordcraft routes
     requestHeaders.set(REWRITE_HEADER, 'true')
     const response = await fetch(destination, {
       headers: requestHeaders,

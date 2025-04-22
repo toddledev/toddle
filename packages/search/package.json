@@ -1,10 +1,11 @@
 {
-  "name": "@toddledev/search",
+  "name": "@nordcraft/search",
   "description": "Used for searching and reporting linting problems in toddle projects.",
   "type": "module",
   "license": "Apache-2.0",
+  "homepage": "https://github.com/nordcraftengine/nordcraft",
   "dependencies": {
-    "@toddledev/ssr": "workspace:*"
+    "@nordcraft/ssr": "workspace:*"
   },
   "scripts": {
     "build": "tsc",

@@ -1,5 +1,5 @@
-import type { Component } from '@toddledev/core/dist/component/component.types'
-import { isDefined } from '@toddledev/core/dist/utils/util'
+import type { Component } from '@nordcraft/core/dist/component/component.types'
+import { isDefined } from '@nordcraft/core/dist/utils/util'
 import type { Rule } from '../../types'
 
 export const noReferenceComponentRule: Rule<void> = {

@@ -1,25 +1,25 @@
 import type {
   ApiStatus,
   LegacyApiStatus,
-} from '@toddledev/core/dist/api/apiTypes'
+} from '@nordcraft/core/dist/api/apiTypes'
 import type {
   Component,
   ComponentData,
   NodeModel,
   SupportedNamespaces,
-} from '@toddledev/core/dist/component/component.types'
-import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
+} from '@nordcraft/core/dist/component/component.types'
+import { ToddleComponent } from '@nordcraft/core/dist/component/ToddleComponent'
 import type {
   FormulaContext,
   ToddleServerEnv,
-} from '@toddledev/core/dist/formula/formula'
-import { applyFormula } from '@toddledev/core/dist/formula/formula'
+} from '@nordcraft/core/dist/formula/formula'
+import { applyFormula } from '@nordcraft/core/dist/formula/formula'
 import {
   getClassName,
   toValidClassName,
-} from '@toddledev/core/dist/styling/className'
-import { mapValues } from '@toddledev/core/dist/utils/collections'
-import { isDefined, toBoolean } from '@toddledev/core/dist/utils/util'
+} from '@nordcraft/core/dist/styling/className'
+import { mapValues } from '@nordcraft/core/dist/utils/collections'
+import { isDefined, toBoolean } from '@nordcraft/core/dist/utils/util'
 import { escapeAttrValue } from 'xss'
 import { VOID_HTML_ELEMENTS } from '../const'
 import type { ProjectFiles } from '../ssr.types'

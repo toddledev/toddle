@@ -1,5 +1,5 @@
-import * as libActions from '@toddledev/std-lib/dist/actions'
-import * as libFormulas from '@toddledev/std-lib/dist/formulas'
+import * as libActions from '@nordcraft/std-lib/dist/actions'
+import * as libFormulas from '@nordcraft/std-lib/dist/formulas'
 import fastDeepEqual from 'fast-deep-equal'
 import { defineComponents } from './custom-element/defineComponents'
 

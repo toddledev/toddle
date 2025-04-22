@@ -1,4 +1,4 @@
-import type { SlotNodeModel } from '@toddledev/core/dist/component/component.types'
+import type { SlotNodeModel } from '@nordcraft/core/dist/component/component.types'
 import type { NodeRenderer } from './createNode'
 import { createNode } from './createNode'
 

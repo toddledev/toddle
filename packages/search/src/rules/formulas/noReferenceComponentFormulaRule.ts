@@ -1,4 +1,4 @@
-import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
+import { ToddleComponent } from '@nordcraft/core/dist/component/ToddleComponent'
 import type { Rule } from '../../types'
 
 export const noReferenceComponentFormulaRule: Rule<{

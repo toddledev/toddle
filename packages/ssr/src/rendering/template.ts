@@ -1,6 +1,6 @@
-import { STRING_TEMPLATE } from '@toddledev/core/dist/api/template'
-import type { ToddleServerEnv } from '@toddledev/core/dist/formula/formula'
-import { isDefined } from '@toddledev/core/dist/utils/util'
+import { STRING_TEMPLATE } from '@nordcraft/core/dist/api/template'
+import type { ToddleServerEnv } from '@nordcraft/core/dist/formula/formula'
+import { isDefined } from '@nordcraft/core/dist/utils/util'
 import { skipCookieHeader, skipToddleHeader } from '../utils/headers'
 
 export const applyTemplateValues = (

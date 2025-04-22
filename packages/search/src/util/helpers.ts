@@ -1,4 +1,4 @@
-import type { ActionModel } from '@toddledev/core/dist/component/component.types'
+import type { ActionModel } from '@nordcraft/core/dist/component/component.types'
 
 export function shouldSearchPath(
   path: (string | number)[],

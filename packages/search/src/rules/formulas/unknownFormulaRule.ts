@@ -1,4 +1,4 @@
-import { isFormulaApplyOperation } from '@toddledev/core/dist/formula/formula'
+import { isFormulaApplyOperation } from '@nordcraft/core/dist/formula/formula'
 import type { Rule } from '../../types'
 
 export const unknownFormulaRule: Rule<{

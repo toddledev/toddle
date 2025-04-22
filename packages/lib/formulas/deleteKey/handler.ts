@@ -1,5 +1,5 @@
-import type { FormulaHandler } from '@toddledev/core/dist/types'
-import { isObject } from '@toddledev/core/dist/utils/util'
+import type { FormulaHandler } from '@nordcraft/core/dist/types'
+import { isObject } from '@nordcraft/core/dist/utils/util'
 
 const handler: FormulaHandler<Array<unknown> | Record<string, unknown>> = ([
   collection,

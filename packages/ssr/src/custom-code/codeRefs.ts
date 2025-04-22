@@ -1,12 +1,12 @@
-import { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
-import type { Component } from '@toddledev/core/dist/component/component.types'
+import { ToddleComponent } from '@nordcraft/core/dist/component/ToddleComponent'
+import type { Component } from '@nordcraft/core/dist/component/component.types'
 import type {
   CodeFormula,
   PluginFormula,
-} from '@toddledev/core/dist/formula/formulaTypes'
-import { isToddleFormula } from '@toddledev/core/dist/formula/formulaTypes'
-import { filterObject, mapObject } from '@toddledev/core/dist/utils/collections'
-import { isDefined } from '@toddledev/core/dist/utils/util'
+} from '@nordcraft/core/dist/formula/formulaTypes'
+import { isToddleFormula } from '@nordcraft/core/dist/formula/formulaTypes'
+import { filterObject, mapObject } from '@nordcraft/core/dist/utils/collections'
+import { isDefined } from '@nordcraft/core/dist/utils/util'
 import type { PluginAction, ProjectFiles, ToddleProject } from '../ssr.types'
 
 export function takeReferencedFormulasAndActions({

@@ -1,5 +1,5 @@
-import { STRING_TEMPLATE } from '@toddledev/core/dist/api/template'
-import type { FormulaHandler } from '@toddledev/core/dist/types'
+import { STRING_TEMPLATE } from '@nordcraft/core/dist/api/template'
+import type { FormulaHandler } from '@nordcraft/core/dist/types'
 
 const handler: FormulaHandler<string> = ([name]) => {
   if (!name || typeof name !== 'string') {

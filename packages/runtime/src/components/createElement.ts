@@ -2,13 +2,13 @@ import type {
   ElementNodeModel,
   NodeModel,
   SupportedNamespaces,
-} from '@toddledev/core/dist/component/component.types'
-import { applyFormula } from '@toddledev/core/dist/formula/formula'
+} from '@nordcraft/core/dist/component/component.types'
+import { applyFormula } from '@nordcraft/core/dist/formula/formula'
 import {
   getClassName,
   toValidClassName,
-} from '@toddledev/core/dist/styling/className'
-import { isDefined, toBoolean } from '@toddledev/core/dist/utils/util'
+} from '@nordcraft/core/dist/styling/className'
+import { isDefined, toBoolean } from '@nordcraft/core/dist/utils/util'
 import { handleAction } from '../events/handleAction'
 import type { Signal } from '../signal/signal'
 import { getDragData } from '../utils/getDragData'

@@ -1,7 +1,7 @@
 import type {
   Component,
   NodeModel,
-} from '@toddledev/core/dist/component/component.types'
+} from '@nordcraft/core/dist/component/component.types'
 
 export const isCloudflareImagePath = (path?: string | null): path is string =>
   typeof path === 'string' && path.startsWith('/cdn-cgi/imagedelivery/')

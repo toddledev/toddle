@@ -1,4 +1,4 @@
-import { isLegacyApi } from '@toddledev/core/dist/api/api'
+import { isLegacyApi } from '@nordcraft/core/dist/api/api'
 import type { Rule } from '../../types'
 
 export const invalidApiParserModeRule: Rule<{ api: string }> = {

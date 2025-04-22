@@ -2,7 +2,7 @@
 import type {
   ApiRequest,
   ComponentAPI,
-} from '@toddledev/core/dist/api/apiTypes'
+} from '@nordcraft/core/dist/api/apiTypes'
 import type {
   ComponentEvent as _ComponentEvent,
   ActionModel,
@@ -10,17 +10,17 @@ import type {
   ElementNodeModel,
   NodeModel,
   StyleVariant,
-} from '@toddledev/core/dist/component/component.types'
-import type { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
-import type { Formula } from '@toddledev/core/dist/formula/formula'
-import type { PluginFormula } from '@toddledev/core/dist/formula/formulaTypes'
-import type { Theme } from '@toddledev/core/dist/styling/theme'
+} from '@nordcraft/core/dist/component/component.types'
+import type { ToddleComponent } from '@nordcraft/core/dist/component/ToddleComponent'
+import type { Formula } from '@nordcraft/core/dist/formula/formula'
+import type { PluginFormula } from '@nordcraft/core/dist/formula/formulaTypes'
+import type { Theme } from '@nordcraft/core/dist/styling/theme'
 import type {
   ApiService,
   PluginAction,
   ProjectFiles,
   Route,
-} from '@toddledev/ssr/dist/ssr.types'
+} from '@nordcraft/ssr/dist/ssr.types'
 
 type Code =
   | 'duplicate event trigger'

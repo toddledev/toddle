@@ -3,14 +3,14 @@ import type {
   ComponentNodeModel,
   ElementNodeModel,
   NodeStyleModel,
-} from '@toddledev/core/dist/component/component.types'
+} from '@nordcraft/core/dist/component/component.types'
 import {
   getClassName,
   toValidClassName,
-} from '@toddledev/core/dist/styling/className'
-import { kebabCase } from '@toddledev/core/dist/styling/style.css'
-import { variantSelector } from '@toddledev/core/dist/styling/variantSelector'
-import { omitKeys } from '@toddledev/core/dist/utils/collections'
+} from '@nordcraft/core/dist/styling/className'
+import { kebabCase } from '@nordcraft/core/dist/styling/style.css'
+import { variantSelector } from '@nordcraft/core/dist/styling/variantSelector'
+import { omitKeys } from '@nordcraft/core/dist/utils/collections'
 
 const LEGACY_BREAKPOINTS = {
   large: 1440,

@@ -1,8 +1,8 @@
 import type {
   Component,
   NodeModel,
-} from '@toddledev/core/dist/component/component.types'
-import { isDefined } from '@toddledev/core/dist/utils/util'
+} from '@nordcraft/core/dist/component/component.types'
+import { isDefined } from '@nordcraft/core/dist/utils/util'
 import type { ProjectFiles } from '../ssr.types'
 
 export function takeIncludedComponents({

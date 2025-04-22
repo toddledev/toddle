@@ -1,6 +1,6 @@
 import type { Rule } from '../../types'
 
-import { VOID_HTML_ELEMENTS } from '@toddledev/ssr/dist/const'
+import { VOID_HTML_ELEMENTS } from '@nordcraft/ssr/dist/const'
 /**
  * See full list here
  * https://developer.mozilla.org/en-US/docs/Glossary/Void_element

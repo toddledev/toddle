@@ -1,4 +1,4 @@
-import type { ComponentWorkflow } from '@toddledev/core/dist/component/component.types'
+import type { ComponentWorkflow } from '@nordcraft/core/dist/component/component.types'
 import type { Rule } from '../../types'
 
 export const unknownTriggerWorkflowParameterRule: Rule<{ parameter: string }> =

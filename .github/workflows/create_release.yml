@@ -23,7 +23,7 @@ jobs:
             --method POST \
             -H "Accept: application/vnd.github+json" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            /repos/toddledev/toddle/releases \
+            /repos/nordcraftengine/nordcraft/releases \
             -f "tag_name=${{ inputs.version }}" -f "target_commitish=main" -f "name=${{ inputs.version }}" -f "body=Release ${{ inputs.version }}" -F "draft=false" -F "prerelease=false" -F "generate_release_notes=true"
   upload_assets:
     needs: create_release

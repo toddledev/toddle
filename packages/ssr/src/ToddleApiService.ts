@@ -1,6 +1,6 @@
-import type { Formula } from '@toddledev/core/dist/formula/formula'
-import type { GlobalFormulas } from '@toddledev/core/dist/formula/formulaTypes'
-import { getFormulasInFormula } from '@toddledev/core/dist/formula/formulaUtils'
+import type { Formula } from '@nordcraft/core/dist/formula/formula'
+import type { GlobalFormulas } from '@nordcraft/core/dist/formula/formulaTypes'
+import { getFormulasInFormula } from '@nordcraft/core/dist/formula/formulaUtils'
 import type { ApiService } from './ssr.types'
 
 export class ToddleApiService<Handler> {

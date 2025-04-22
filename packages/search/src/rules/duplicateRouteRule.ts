@@ -1,5 +1,5 @@
-import type { RouteDeclaration } from '@toddledev/core/dist/component/component.types'
-import { isPageComponent } from '@toddledev/core/dist/component/isPageComponent'
+import type { RouteDeclaration } from '@nordcraft/core/dist/component/component.types'
+import { isPageComponent } from '@nordcraft/core/dist/component/isPageComponent'
 import type { Rule } from '../types'
 
 export const duplicateRouteRule: Rule<{

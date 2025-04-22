@@ -1,4 +1,4 @@
-import type { ActionHandler } from '@toddledev/core/dist/types'
+import type { ActionHandler } from '@nordcraft/core/dist/types'
 
 const handler: ActionHandler = async function ([access_token, ttl], ctx) {
   const query = [

@@ -1,4 +1,4 @@
-import type { ApiRequest } from '@toddledev/core/dist/api/apiTypes'
+import type { ApiRequest } from '@nordcraft/core/dist/api/apiTypes'
 import type { Rule } from '../../types'
 
 export const unknownApiInputRule: Rule<{

@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@jest/globals'
-import type { ComponentData } from '@toddledev/core/dist/component/component.types'
-import { valueFormula } from '@toddledev/core/dist/formula/formulaUtils'
+import type { ComponentData } from '@nordcraft/core/dist/component/component.types'
+import { valueFormula } from '@nordcraft/core/dist/formula/formulaUtils'
 import { Signal } from '../signal/signal'
 import type { ComponentContext } from '../types'
 import { createText } from './createText'

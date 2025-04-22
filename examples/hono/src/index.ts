@@ -1,6 +1,6 @@
 import { serveStatic } from '@hono/node-server/serve-static'
-import { initIsEqual } from '@toddledev/ssr/dist/rendering/equals'
-import type { ProjectFiles, ToddleProject } from '@toddledev/ssr/dist/ssr.types'
+import { initIsEqual } from '@nordcraft/ssr/dist/rendering/equals'
+import type { ProjectFiles, ToddleProject } from '@nordcraft/ssr/dist/ssr.types'
 import { Hono } from 'hono'
 import { env } from 'hono/adapter'
 import type { HonoEnv } from '../hono'

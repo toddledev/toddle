@@ -1,13 +1,13 @@
 import type {
   Component,
   ComponentData,
-} from '@toddledev/core/dist/component/component.types'
-import type { ToddleEnv } from '@toddledev/core/dist/formula/formula'
+} from '@nordcraft/core/dist/component/component.types'
+import type { ToddleEnv } from '@nordcraft/core/dist/formula/formula'
 import type {
   Toddle as NewToddle,
   Toddle,
   ToddleInternals,
-} from '@toddledev/core/dist/types'
+} from '@nordcraft/core/dist/types'
 import type { Signal } from './signal/signal'
 
 declare global {

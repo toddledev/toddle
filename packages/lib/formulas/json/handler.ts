@@ -1,4 +1,4 @@
-import type { FormulaHandler } from '@toddledev/core/dist/types'
+import type { FormulaHandler } from '@nordcraft/core/dist/types'
 
 const handler: FormulaHandler<string> = ([data, indentation]) => {
   const indent = isNaN(Number(indentation)) ? 0 : Number(indentation)

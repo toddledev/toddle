@@ -1,9 +1,9 @@
 {
-  "name": "toddle",
+  "name": "nordcraft",
   "type": "module",
   "license": "Apache-2.0",
-  "version": "0.0.25",
-  "homepage": "https://github.com/toddledev/toddle",
+  "version": "1.0.0",
+  "homepage": "https://github.com/nordcraftengine/nordcraft",
   "private": "false",
   "workspaces": [
     "packages/*"

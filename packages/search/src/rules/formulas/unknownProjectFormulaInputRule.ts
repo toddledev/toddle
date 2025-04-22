@@ -1,6 +1,6 @@
-import type { ComponentFormula } from '@toddledev/core/dist/component/component.types'
-import { get } from '@toddledev/core/dist/utils/collections'
-import { isDefined } from '@toddledev/core/dist/utils/util'
+import type { ComponentFormula } from '@nordcraft/core/dist/component/component.types'
+import { get } from '@nordcraft/core/dist/utils/collections'
+import { isDefined } from '@nordcraft/core/dist/utils/util'
 import type { Rule } from '../../types'
 
 export const unknownProjectFormulaInputRule: Rule<{

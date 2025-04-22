@@ -1,9 +1,9 @@
 import type {
   ApiStatus,
   LegacyApiStatus,
-} from '@toddledev/core/dist/api/apiTypes'
-import type { ToddleComponent } from '@toddledev/core/dist/component/ToddleComponent'
-import type { FormulaContext } from '@toddledev/core/dist/formula/formula'
+} from '@nordcraft/core/dist/api/apiTypes'
+import type { ToddleComponent } from '@nordcraft/core/dist/component/ToddleComponent'
+import type { FormulaContext } from '@nordcraft/core/dist/formula/formula'
 
 export type ApiCache = Record<string, ApiStatus>
 

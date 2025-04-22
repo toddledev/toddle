@@ -1,10 +1,10 @@
-import { getUrl } from '@toddledev/core/dist/api/api'
+import { getUrl } from '@nordcraft/core/dist/api/api'
 import type {
   PageComponent,
   PageRoute,
   RouteDeclaration,
-} from '@toddledev/core/dist/component/component.types'
-import { isDefined } from '@toddledev/core/dist/utils/util'
+} from '@nordcraft/core/dist/component/component.types'
+import { isDefined } from '@nordcraft/core/dist/utils/util'
 import {
   getParameters,
   getServerToddleObject,

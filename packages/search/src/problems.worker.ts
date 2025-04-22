@@ -1,4 +1,4 @@
-import type { ProjectFiles } from '@toddledev/ssr/dist/ssr.types'
+import type { ProjectFiles } from '@nordcraft/ssr/dist/ssr.types'
 import { createActionNameRule } from './rules/actions/createActionNameRule'
 import { legacyActionRule } from './rules/actions/legacyActionRule'
 import { noReferenceProjectActionRule } from './rules/actions/noReferenceProjectActionRule'

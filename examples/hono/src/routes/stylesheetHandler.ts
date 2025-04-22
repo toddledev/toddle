@@ -1,7 +1,7 @@
-import { isPageComponent } from '@toddledev/core/dist/component/isPageComponent'
-import { createStylesheet } from '@toddledev/core/dist/styling/style.css'
-import { theme as defaultTheme } from '@toddledev/core/dist/styling/theme.const'
-import { takeIncludedComponents } from '@toddledev/ssr/dist/components/utils'
+import { isPageComponent } from '@nordcraft/core/dist/component/isPageComponent'
+import { createStylesheet } from '@nordcraft/core/dist/styling/style.css'
+import { theme as defaultTheme } from '@nordcraft/core/dist/styling/theme.const'
+import { takeIncludedComponents } from '@nordcraft/ssr/dist/components/utils'
 import type { Context } from 'hono'
 import type { HonoEnv } from '../../hono'
 

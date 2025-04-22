@@ -1,13 +1,13 @@
 import type {
   Component,
   ComponentData,
-} from '@toddledev/core/dist/component/component.types'
+} from '@nordcraft/core/dist/component/component.types'
 import type {
   Formula,
   FunctionOperation,
-} from '@toddledev/core/dist/formula/formula'
-import { get, mapObject } from '@toddledev/core/dist/utils/collections'
-import { isDefined } from '@toddledev/core/dist/utils/util'
+} from '@nordcraft/core/dist/formula/formula'
+import { get, mapObject } from '@nordcraft/core/dist/utils/collections'
+import { isDefined } from '@nordcraft/core/dist/utils/util'
 import type { FormulaCache } from '../types'
 
 export function createFormulaCache(component: Component): FormulaCache {

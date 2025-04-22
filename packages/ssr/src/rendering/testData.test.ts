@@ -1,4 +1,4 @@
-import { valueFormula } from '@toddledev/core/dist/formula/formulaUtils'
+import { valueFormula } from '@nordcraft/core/dist/formula/formulaUtils'
 import { removeTestData } from './testData'
 
 describe('removeTestData', () => {

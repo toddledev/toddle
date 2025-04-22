@@ -1,4 +1,4 @@
-import type { FormulaHandler } from '@toddledev/core/dist/types'
+import type { FormulaHandler } from '@nordcraft/core/dist/types'
 const handler: FormulaHandler<boolean> = ([collection, prefix]) => {
   if (typeof collection !== 'string') {
     // throw new Error("Argument 'String' must be of type string")
