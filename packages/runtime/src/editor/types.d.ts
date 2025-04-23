@@ -1,4 +1,4 @@
-export type DragState = {
+export interface DragState {
   /**
    * Dragging elements within the initial container is a reorder operation while dragging elements outside the initial container is an insert operation.
    * While they share some common properties, we need to differentiate between the two to handle them differently.
@@ -23,7 +23,7 @@ export type DragState = {
   destroying: boolean
 }
 
-export type InsertArea = {
+export interface InsertArea {
   layout: 'block' | 'inline'
   parent: Element
   index: number
@@ -32,5 +32,13 @@ export type InsertArea = {
   direction: 1 | -1
 }
 
-export type Point = { x: number; y: number }
-export type Line = { x1: number; y1: number; x2: number; y2: number }
+export interface Point {
+  x: number
+  y: number
+}
+export interface Line {
+  x1: number
+  y1: number
+  x2: number
+  y2: number
+}

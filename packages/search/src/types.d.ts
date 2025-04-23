@@ -95,7 +95,7 @@ type Category =
 
 type Level = 'error' | 'warning' | 'info'
 
-export type Result = {
+export interface Result {
   path: (string | number)[]
   code: Code
   category: Category
@@ -130,7 +130,7 @@ export interface ApplicationState {
   isBrowserExtensionAvailable?: boolean
 }
 
-type Base = {
+interface Base {
   files: Omit<ProjectFiles, 'config'> & Partial<Pick<ProjectFiles, 'config'>>
   /**
    * The JSON-path
