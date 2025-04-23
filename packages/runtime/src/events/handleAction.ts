@@ -2,11 +2,13 @@
 import type {
   ActionModel,
   ComponentData,
+  SetMultiUrlParameterAction,
   SetURLParameterAction,
 } from '@nordcraft/core/dist/component/component.types'
 import { applyFormula } from '@nordcraft/core/dist/formula/formula'
 import { mapValues, omitKeys } from '@nordcraft/core/dist/utils/collections'
 import { isDefined, toBoolean } from '@nordcraft/core/dist/utils/util'
+import fastDeepEqual from 'fast-deep-equal'
 import type { ComponentContext, Location } from '../types'
 import { getLocationUrl } from '../utils/url'
 
@@ -124,6 +126,90 @@ export function handleAction(
             }
           }
           if (!historyMode) {
+            // No path/query parameter matched
+            return current
+          }
+
+          const currentUrl = getLocationUrl(current)
+          const historyUrl = getLocationUrl(newLocation)
+          if (historyUrl !== currentUrl) {
+            // Default to the historyMode from the action, and fallback
+            // to the default (push for path change, replace for query change)
+            historyMode = action.historyMode ?? historyMode
+            // Update the window's history state
+            if (historyMode === 'push') {
+              window.history.pushState({}, '', historyUrl)
+            } else {
+              window.history.replaceState({}, '', historyUrl)
+            }
+          }
+          return newLocation
+        })
+        break
+      }
+      case 'SetURLParameters': {
+        const parameters = Object.entries(action.parameters ?? {})
+        if (parameters.length === 0) {
+          return
+        }
+        ctx.toddle.locationSignal.update((current) => {
+          if (!current.route) {
+            // A route must exist for us to update/validate against it
+            return current
+          }
+          // We default to push for state changes and replace for query changes
+          let historyMode: SetMultiUrlParameterAction['historyMode'] = 'replace'
+          const queryUpdates: Record<string, string> = {}
+          const pathUpdates: Record<string, string> = {}
+          const urlParameterCtx = {
+            data,
+            component: ctx.component,
+            formulaCache: ctx.formulaCache,
+            root: ctx.root,
+            package: ctx.package,
+            toddle: ctx.toddle,
+            env: ctx.env,
+          }
+          // Only match on p.type === 'param'
+          const isValidPathParameter = (param: string) =>
+            current.route?.path.some(
+              (p) => p.name === param && p.type === 'param',
+            )
+          const isValidQueryParameter = (param: string) =>
+            Object.values(current.route?.query ?? {}).some(
+              (q) => q.name === param,
+            )
+
+          for (const [parameter, formula] of parameters) {
+            const value = applyFormula(formula, urlParameterCtx) ?? null
+            if (isValidPathParameter(parameter)) {
+              historyMode = 'push'
+              pathUpdates[parameter] = value as string
+            } else if (isValidQueryParameter(parameter)) {
+              queryUpdates[parameter] = value as string
+            }
+          }
+          if (
+            Object.keys(pathUpdates).length === 0 &&
+            Object.keys(queryUpdates).length === 0
+          ) {
+            // No path/query parameter matched
+            // We'll exit early to avoid deep equal below
+            return current
+          }
+
+          const newLocation = {
+            ...current,
+            params: {
+              ...omitKeys(current.params, Object.keys(pathUpdates)),
+              ...pathUpdates,
+            },
+            query: {
+              ...omitKeys(current.query, Object.keys(queryUpdates)),
+              ...queryUpdates,
+            },
+          }
+          if (fastDeepEqual(newLocation, current)) {
             // No path/query parameter matched
             return current
           }
