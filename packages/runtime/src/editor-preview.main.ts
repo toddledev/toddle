@@ -522,10 +522,7 @@ export const createRoot = (
           return
         }
         case 'highlight': {
-          // if (highlightedNodeId !== message.data.highlightedNodeId) {
           highlightedNodeId = message.data.highlightedNodeId ?? null
-
-          // }
           return
         }
         case 'mousemove':
