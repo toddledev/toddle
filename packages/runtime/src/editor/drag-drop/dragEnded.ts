@@ -1,4 +1,3 @@
-import { getRectData } from '../../editor-preview.main'
 import { tryStartViewTransition } from '../../utils/tryStartViewTransition'
 import type { DragState } from '../types'
 import { DRAG_MOVE_CLASSNAME } from './dragMove'
@@ -57,13 +56,6 @@ export async function dragEnded(dragState: DragState, canceled: boolean) {
       node.style.removeProperty('--drag-repeat-node-opacity')
     })
     removeDropHighlight()
-    window.parent.postMessage(
-      {
-        type: 'selectionRect',
-        rect: getRectData(dragState.element),
-      },
-      '*',
-    )
   }).finished.then(() => {
     dragState.element.style.removeProperty('view-transition-name')
     siblings.forEach((node) => {

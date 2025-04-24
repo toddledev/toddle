@@ -99,14 +99,14 @@ export function dragStarted({
     }
 
     const followRect = dragState.element.getBoundingClientRect()
-    dragState.repeatedNodes.forEach((node, i) => {
+    dragState.repeatedNodes.forEach((node) => {
       // Calculate rect without rotation as it expands the rect and makes it difficult to calculate the correct position
       node.style.setProperty('rotate', '0deg')
       const fromRect = node.getBoundingClientRect()
       node.style.removeProperty('rotate')
       const toX = followRect.left + followRect.width / 2 - fromRect.width / 2
       const toY = followRect.top + followRect.height / 2 - fromRect.height / 2
-      const interpolation = 0.4 / (i + 1)
+      const interpolation = 0.4
       const x = fromRect.left + (toX - fromRect.left) * interpolation
       const y = fromRect.top + (toY - fromRect.top) * interpolation
       node.style.setProperty('--drag-repeat-node-translate', `${x}px ${y}px`)
