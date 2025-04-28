@@ -467,4 +467,8 @@ export class ToddleComponent<Handler> {
   get contexts() {
     return this.component.contexts
   }
+
+  get exported() {
+    return this.component.exported
+  }
 }
