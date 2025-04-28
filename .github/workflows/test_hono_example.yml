@@ -11,9 +11,6 @@ on:
 jobs:
   tsc-hono-example:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./examples/hono
     steps:
       - name: Checkout root
         uses: actions/checkout@v4
@@ -24,6 +21,10 @@ jobs:
       - name: Build
         run: bun run build
       - name: Install example dependencies
-        run: bun install --frozen-lockfile
+        run: |
+          cd examples/hono
+          bun install --frozen-lockfile
       - name: TSC Hono Example
-        run: bun run typecheck
+        run: |
+          cd examples/hono
+          bun run typecheck
