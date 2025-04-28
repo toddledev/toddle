@@ -751,18 +751,17 @@ export function createAPI(
   payloadSignal.subscribe(async (_) => {
     const { url, requestSettings } = constructRequest(api)
     // Ensure we only use caching if the page is currently loading
-    const autoFetch = applyFormula(api.autoFetch, getFormulaContext(api))
     const cacheMatch =
-      isDefined(autoFetch) &&
-      autoFetch !== false &&
+      // We lookup the API from cache as long as autofetch is not null/undefined/(statically) false since
+      // the autofetch formula could've evaluated to true during SSR
+      isDefined(api.autoFetch) &&
+      !(api.autoFetch.type === 'value' && api.autoFetch.value === false) &&
       (window?.__toddle?.isPageLoaded ?? false) === false
         ? (ctx.toddle.pageState.Apis?.[
             requestHash(url, requestSettings)
           ] as ApiStatus)
         : undefined
 
-    // We lookup the API from cache as long as autofetch is not null/undefined/false since
-    // the autofetch formula could've evaluated to true during SSR
     if (cacheMatch) {
       if (cacheMatch.error) {
         apiError(
@@ -798,7 +797,7 @@ export function createAPI(
         )
       }
     } else {
-      if (autoFetch === true) {
+      if (applyFormula(api.autoFetch, getFormulaContext(api)) === true) {
         // Execute will set the initial status of the api in the dataSignal
         await execute(api, url, requestSettings)
       } else {
