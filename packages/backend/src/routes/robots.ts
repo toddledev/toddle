@@ -45,6 +45,7 @@ Disallow: /cdn-cgi/
       },
     })
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(e)
   }
   return new Response('404', { status: 404 })

@@ -56,6 +56,7 @@ export const proxyRequestHandler = async (
     try {
       response = await fetch(request)
     } catch (e: any) {
+      // eslint-disable-next-line no-console
       console.log('API request error', e.message)
       const status = e instanceof Error && e.name === 'TimeoutError' ? 504 : 500
       response = Response.json(e.message, { status })

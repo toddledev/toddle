@@ -57,6 +57,7 @@ export const nordcraftPage = async (
         ? files.packages?.[packageName]?.components[name]
         : files.components[name]
       if (!component) {
+        // eslint-disable-next-line no-console
         console.warn(`Unable to find component ${nodeLookupKey} in files`)
         return undefined
       }

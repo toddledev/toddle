@@ -188,6 +188,7 @@ defineComponents(${JSON.stringify([component.name])}, ${JSON.stringify({
       },
     })
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(e)
     return errorResponse('404', 404)
   }

@@ -23,6 +23,7 @@ export const serviceWorker = async (c: Context<HonoEnv<HonoProject>>) => {
     }
     return new Response(null, { status: 404 })
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(e)
   }
   return new Response(null, { status: 404 })

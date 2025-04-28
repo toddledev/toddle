@@ -23,6 +23,7 @@ export const manifest = async (c: Context<HonoEnv<HonoProject>>) => {
       }
     }
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error(e)
   }
   return new Response(null, { status: 404 })
