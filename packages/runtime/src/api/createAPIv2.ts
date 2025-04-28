@@ -31,6 +31,7 @@ import {
   sortObjectEntries,
 } from '@nordcraft/core/dist/utils/collections'
 import { PROXY_URL_HEADER, validateUrl } from '@nordcraft/core/dist/utils/url'
+import { isDefined } from '@nordcraft/core/dist/utils/util'
 import { handleAction } from '../events/handleAction'
 import type { Signal } from '../signal/signal'
 import type { ComponentContext, ContextApi } from '../types'
@@ -750,14 +751,18 @@ export function createAPI(
   payloadSignal.subscribe(async (_) => {
     const { url, requestSettings } = constructRequest(api)
     // Ensure we only use caching if the page is currently loading
+    const autoFetch = applyFormula(api.autoFetch, getFormulaContext(api))
     const cacheMatch =
+      isDefined(autoFetch) &&
+      autoFetch !== false &&
       (window?.__toddle?.isPageLoaded ?? false) === false
         ? (ctx.toddle.pageState.Apis?.[
             requestHash(url, requestSettings)
           ] as ApiStatus)
         : undefined
 
-    // We lookup the API from cache regardless of autofetch since the API could've been set to autofetch during SSR
+    // We lookup the API from cache as long as autofetch is not null/undefined/false since
+    // the autofetch formula could've evaluated to true during SSR
     if (cacheMatch) {
       if (cacheMatch.error) {
         apiError(
@@ -793,7 +798,7 @@ export function createAPI(
         )
       }
     } else {
-      if (applyFormula(api.autoFetch, getFormulaContext(api)) === true) {
+      if (autoFetch === true) {
         // Execute will set the initial status of the api in the dataSignal
         await execute(api, url, requestSettings)
       } else {
