@@ -748,184 +748,188 @@ export function createAPI(
     }
   })
   payloadSignal.subscribe(async (_) => {
-    if (api.autoFetch && applyFormula(api.autoFetch, getFormulaContext(api))) {
-      // Ensure we only use caching if the page is currently loading
-      if ((window?.__toddle?.isPageLoaded ?? false) === false) {
-        const { url, requestSettings } = constructRequest(api)
-        const cacheKey = requestHash(url, requestSettings)
-        const cacheMatch = ctx.toddle.pageState.Apis?.[cacheKey] as ApiStatus
-        if (cacheMatch) {
-          if (cacheMatch.error) {
-            apiError(
-              api,
-              {
-                body: cacheMatch.error,
-                status: cacheMatch.response?.status,
-                headers: cacheMatch.response?.headers ?? undefined,
-              },
-              {
-                requestStart:
-                  cacheMatch.response?.performance?.requestStart ?? null,
-                responseStart:
-                  cacheMatch.response?.performance?.responseStart ?? null,
-                responseEnd:
-                  cacheMatch.response?.performance?.responseEnd ?? null,
-              },
-            )
-          } else {
-            apiSuccess(
-              api,
-              {
-                body: cacheMatch.data,
-                status: cacheMatch.response?.status,
-                headers: cacheMatch.response?.headers ?? undefined,
-              },
-              {
-                requestStart:
-                  cacheMatch.response?.performance?.requestStart ?? null,
-                responseStart:
-                  cacheMatch.response?.performance?.responseStart ?? null,
-                responseEnd:
-                  cacheMatch.response?.performance?.responseEnd ?? null,
-              },
-            )
-          }
-        } else {
-          // Execute will set the initial status of the api in the dataSignal
-          await execute(api, url, requestSettings)
-        }
+    const { url, requestSettings } = constructRequest(api)
+    // Ensure we only use caching if the page is currently loading
+    const cacheMatch =
+      (window?.__toddle?.isPageLoaded ?? false) === false
+        ? (ctx.toddle.pageState.Apis?.[
+            requestHash(url, requestSettings)
+          ] as ApiStatus)
+        : undefined
+
+    // We lookup the API from cache regardless of autofetch since the API could've been set to autofetch during SSR
+    if (cacheMatch) {
+      if (cacheMatch.error) {
+        apiError(
+          api,
+          {
+            body: cacheMatch.error,
+            status: cacheMatch.response?.status,
+            headers: cacheMatch.response?.headers ?? undefined,
+          },
+          {
+            requestStart:
+              cacheMatch.response?.performance?.requestStart ?? null,
+            responseStart:
+              cacheMatch.response?.performance?.responseStart ?? null,
+            responseEnd: cacheMatch.response?.performance?.responseEnd ?? null,
+          },
+        )
       } else {
-        // Execute will set the initial status of the api in the dataSignal
-        const { url, requestSettings } = constructRequest(api)
-        await execute(api, url, requestSettings)
+        apiSuccess(
+          api,
+          {
+            body: cacheMatch.data,
+            status: cacheMatch.response?.status,
+            headers: cacheMatch.response?.headers ?? undefined,
+          },
+          {
+            requestStart:
+              cacheMatch.response?.performance?.requestStart ?? null,
+            responseStart:
+              cacheMatch.response?.performance?.responseStart ?? null,
+            responseEnd: cacheMatch.response?.performance?.responseEnd ?? null,
+          },
+        )
       }
     } else {
-      ctx.dataSignal.update((data) => {
-        return {
-          ...data,
-          Apis: {
-            ...(data.Apis ?? {}),
-            [api.name]: {
-              isLoading: false,
-              data: null,
-              error: null,
+      if (applyFormula(api.autoFetch, getFormulaContext(api)) === true) {
+        // Execute will set the initial status of the api in the dataSignal
+        await execute(api, url, requestSettings)
+      } else {
+        ctx.dataSignal.update((data) => {
+          return {
+            ...data,
+            Apis: {
+              ...(data.Apis ?? {}),
+              [api.name]: {
+                isLoading: false,
+                data: null,
+                error: null,
+              },
+            },
+          }
+        })
+      }
+    }
+
+    return {
+      fetch: ({
+        actionInputs,
+        actionModels,
+      }: {
+        actionInputs?: Record<
+          string,
+          | ValueOperationValue
+          | {
+              name: string
+              formula?: Formula
+            }
+        >
+        actionModels?: {
+          onCompleted: ActionModel[]
+          onFailed: ActionModel[]
+          onMessage: ActionModel[]
+        }
+      }) => {
+        // Inputs might already be evaluated. If they are we add them as a value formula to be evaluated later.
+        const inputs = Object.entries(actionInputs ?? {}).reduce<
+          Record<
+            string,
+            {
+              formula: Formula
+            }
+          >
+        >((acc, [inputName, input]) => {
+          if (
+            input !== null &&
+            typeof input === 'object' &&
+            'formula' in input
+          ) {
+            acc[inputName] = input as {
+              formula: Formula
+            }
+          } else {
+            acc[inputName] = {
+              formula: { type: 'value', value: input },
+            }
+          }
+          return acc
+        }, {})
+
+        const apiWithInputsAndActions: ApiRequest = {
+          ...api,
+          inputs: { ...api.inputs, ...inputs },
+          client: {
+            ...api.client,
+            parserMode: api.client?.parserMode ?? 'auto',
+            onCompleted: {
+              trigger: api.client?.onCompleted?.trigger ?? 'success',
+              actions: [
+                ...(api.client?.onCompleted?.actions ?? []),
+                ...(actionModels?.onCompleted ?? []),
+              ],
+            },
+            onFailed: {
+              trigger: api.client?.onFailed?.trigger ?? 'failed',
+              actions: [
+                ...(api.client?.onFailed?.actions ?? []),
+                ...(actionModels?.onFailed ?? []),
+              ],
+            },
+            onMessage: {
+              trigger: api.client?.onMessage?.trigger ?? 'message',
+              actions: [
+                ...(api.client?.onMessage?.actions ?? []),
+                ...(actionModels?.onMessage ?? []),
+              ],
             },
           },
         }
-      })
+
+        const { url, requestSettings } = constructRequest(
+          apiWithInputsAndActions,
+        )
+
+        return execute(apiWithInputsAndActions, url, requestSettings)
+      },
+      update: (newApi: ApiRequest) => {
+        api = newApi
+        const updateContext = getFormulaContext(api)
+        const autoFetch =
+          api.autoFetch && applyFormula(api.autoFetch, updateContext)
+        if (autoFetch) {
+          payloadSignal?.set({
+            request: constructRequest(newApi),
+            api: getApiForComparison(newApi),
+            autoFetch,
+            proxy: applyFormula(
+              newApi.server?.proxy?.enabled.formula,
+              updateContext,
+            ),
+          })
+        }
+      },
+      triggerActions: () => {
+        const apiData = ctx.dataSignal.get().Apis?.[api.name]
+        if (
+          apiData === undefined ||
+          (apiData.data === null && apiData.error === null)
+        ) {
+          return
+        }
+        if (apiData.error) {
+          triggerActions('failed', api, {
+            body: apiData.error,
+            status: apiData.response?.status,
+          })
+        } else {
+          triggerActions('success', api, {
+            body: apiData.data,
+          })
+        }
+      },
+      destroy: () => payloadSignal?.destroy(),
     }
   })
-
-  return {
-    fetch: ({
-      actionInputs,
-      actionModels,
-    }: {
-      actionInputs?: Record<
-        string,
-        | ValueOperationValue
-        | {
-            name: string
-            formula?: Formula
-          }
-      >
-      actionModels?: {
-        onCompleted: ActionModel[]
-        onFailed: ActionModel[]
-        onMessage: ActionModel[]
-      }
-    }) => {
-      // Inputs might already be evaluated. If they are we add them as a value formula to be evaluated later.
-      const inputs = Object.entries(actionInputs ?? {}).reduce<
-        Record<
-          string,
-          {
-            formula: Formula
-          }
-        >
-      >((acc, [inputName, input]) => {
-        if (input !== null && typeof input === 'object' && 'formula' in input) {
-          acc[inputName] = input as {
-            formula: Formula
-          }
-        } else {
-          acc[inputName] = {
-            formula: { type: 'value', value: input },
-          }
-        }
-        return acc
-      }, {})
-
-      const apiWithInputsAndActions: ApiRequest = {
-        ...api,
-        inputs: { ...api.inputs, ...inputs },
-        client: {
-          ...api.client,
-          parserMode: api.client?.parserMode ?? 'auto',
-          onCompleted: {
-            trigger: api.client?.onCompleted?.trigger ?? 'success',
-            actions: [
-              ...(api.client?.onCompleted?.actions ?? []),
-              ...(actionModels?.onCompleted ?? []),
-            ],
-          },
-          onFailed: {
-            trigger: api.client?.onFailed?.trigger ?? 'failed',
-            actions: [
-              ...(api.client?.onFailed?.actions ?? []),
-              ...(actionModels?.onFailed ?? []),
-            ],
-          },
-          onMessage: {
-            trigger: api.client?.onMessage?.trigger ?? 'message',
-            actions: [
-              ...(api.client?.onMessage?.actions ?? []),
-              ...(actionModels?.onMessage ?? []),
-            ],
-          },
-        },
-      }
-
-      const { url, requestSettings } = constructRequest(apiWithInputsAndActions)
-
-      return execute(apiWithInputsAndActions, url, requestSettings)
-    },
-    update: (newApi: ApiRequest) => {
-      api = newApi
-      const updateContext = getFormulaContext(api)
-      const autoFetch =
-        api.autoFetch && applyFormula(api.autoFetch, updateContext)
-      if (autoFetch) {
-        payloadSignal?.set({
-          request: constructRequest(newApi),
-          api: getApiForComparison(newApi),
-          autoFetch,
-          proxy: applyFormula(
-            newApi.server?.proxy?.enabled.formula,
-            updateContext,
-          ),
-        })
-      }
-    },
-    triggerActions: () => {
-      const apiData = ctx.dataSignal.get().Apis?.[api.name]
-      if (
-        apiData === undefined ||
-        (apiData.data === null && apiData.error === null)
-      ) {
-        return
-      }
-      if (apiData.error) {
-        triggerActions('failed', api, {
-          body: apiData.error,
-          status: apiData.response?.status,
-        })
-      } else {
-        triggerActions('success', api, {
-          body: apiData.data,
-        })
-      }
-    },
-    destroy: () => payloadSignal?.destroy(),
-  }
 }
