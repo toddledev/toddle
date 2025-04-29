@@ -752,10 +752,10 @@ export function createAPI(
     const { url, requestSettings } = constructRequest(api)
     // Ensure we only use caching if the page is currently loading
     const cacheMatch =
-      // We lookup the API from cache as long as autofetch is not null/undefined/(statically) false since
-      // the autofetch formula could've evaluated to true during SSR
+      // We lookup the API from cache as long as autofetch is defined (and not statically falsy)
+      // since the autofetch formula could've evaluated to true during SSR
       isDefined(api.autoFetch) &&
-      !(api.autoFetch.type === 'value' && api.autoFetch.value === false) &&
+      (api.autoFetch.type !== 'value' || api.autoFetch.value === true) &&
       (window?.__toddle?.isPageLoaded ?? false) === false
         ? (ctx.toddle.pageState.Apis?.[
             requestHash(url, requestSettings)
