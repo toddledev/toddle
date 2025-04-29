@@ -347,7 +347,10 @@ function* visitNode(
         )
       }
 
-      for (const [formulaPath, formula] of component.formulasInComponent()) {
+      for (const {
+        path: formulaPath,
+        formula,
+      } of component.formulasInComponent()) {
         yield* visitNode(
           {
             nodeType: 'formula',
@@ -391,7 +394,10 @@ function* visitNode(
           },
         })
         formula.formulasInFormula()
-        for (const [formulaPath, f] of formula.formulasInFormula()) {
+        for (const {
+          path: formulaPath,
+          formula: f,
+        } of formula.formulasInFormula()) {
           yield* visitNode(
             {
               nodeType: 'formula',
@@ -439,7 +445,10 @@ function* visitNode(
           packages: files.packages,
         },
       })
-      for (const [formulaPath, formula] of apiService.formulasInService()) {
+      for (const {
+        path: formulaPath,
+        formula,
+      } of apiService.formulasInService()) {
         yield* visitNode(
           {
             nodeType: 'formula',
@@ -464,7 +473,10 @@ function* visitNode(
           packages: files.packages,
         },
       })
-      for (const [formulaPath, formula] of projectRoute.formulasInRoute()) {
+      for (const {
+        path: formulaPath,
+        formula,
+      } of projectRoute.formulasInRoute()) {
         yield* visitNode(
           {
             nodeType: 'formula',

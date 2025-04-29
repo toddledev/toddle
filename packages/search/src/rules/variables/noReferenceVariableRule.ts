@@ -18,12 +18,12 @@ export const noReferenceVariableRule: Rule<void> = {
         new Set(
           Array.from(component.formulasInComponent())
             .filter(
-              ([, formula]) =>
+              ({ formula }) =>
                 formula.type === 'path' &&
                 formula.path[0] === 'Variables' &&
                 formula.path[1],
             )
-            .map<string | number>(([, formula]) => (formula as any).path[1]),
+            .map<string | number>(({ formula }) => (formula as any).path[1]),
         ),
     )
 

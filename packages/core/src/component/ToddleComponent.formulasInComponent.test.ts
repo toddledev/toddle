@@ -37,7 +37,7 @@ describe('ToddleComponent.formulasInComponent', () => {
       globalFormulas: { formulas: {}, packages: {} },
     })
     const formulas = Array.from(demo.formulasInComponent()).map(
-      ([, formula]) => formula,
+      ({ formula }) => formula,
     )
     expect(formulas).toContainEqual({
       name: 'scrollPosition',
@@ -90,7 +90,7 @@ describe('ToddleComponent.formulasInComponent', () => {
       globalFormulas: { formulas: {}, packages: {} },
     })
     const formulas = Array.from(demo.formulasInComponent()).map(
-      ([, formula]) => formula,
+      ({ formula }) => formula,
     )
     expect(formulas).toContainEqual({
       name: 'customFunction',
@@ -131,7 +131,7 @@ describe('ToddleComponent.formulasInComponent', () => {
       },
     })
     const formulas = Array.from(demo.formulasInComponent()).map(
-      ([, formula]) => formula,
+      ({ formula }) => formula,
     )
     expect(formulas).toContainEqual({
       name: 'globalFunction',
@@ -172,7 +172,7 @@ describe('ToddleComponent.formulasInComponent', () => {
       },
     })
     const formulas = Array.from(demo.formulasInComponent()).map(
-      ([, formula]) => formula,
+      ({ formula }) => formula,
     )
     expect(formulas).toContainEqual({
       name: 'globalFunction',
@@ -218,7 +218,7 @@ describe('ToddleComponent.formulasInComponent', () => {
       },
     })
     const formulas = Array.from(demo.formulasInComponent()).map(
-      ([, formula]) => formula,
+      ({ formula }) => formula,
     )
     expect(formulas).toContainEqual({
       name: 'globalFunction',

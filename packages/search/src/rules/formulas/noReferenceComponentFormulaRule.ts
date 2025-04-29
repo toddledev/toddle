@@ -15,7 +15,10 @@ export const noReferenceComponentFormulaRule: Rule<{
 
     const { path, files, value, component } = args
     const [, componentName, , formulaKey] = path
-    for (const [formulaPath, formula] of component.formulasInComponent()) {
+    for (const {
+      path: formulaPath,
+      formula,
+    } of component.formulasInComponent()) {
       if (
         formula.type === 'apply' &&
         formula.name === formulaKey &&
@@ -57,7 +60,7 @@ export const noReferenceComponentFormulaRule: Rule<{
                 packages: files.packages,
               },
             })
-            for (const [, formula] of contextComponent.formulasInComponent()) {
+            for (const { formula } of contextComponent.formulasInComponent()) {
               if (
                 formula.type === 'path' &&
                 formula.path[0] === 'Contexts' &&
