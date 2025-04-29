@@ -1,19 +1,19 @@
-import type { RouteDeclaration } from '@toddledev/core/dist/component/component.types'
-import { isPageComponent } from '@toddledev/core/dist/component/isPageComponent'
-import { createStylesheet } from '@toddledev/core/dist/styling/style.css'
-import { theme as defaultTheme } from '@toddledev/core/dist/styling/theme.const'
-import { takeIncludedComponents } from '@toddledev/ssr/dist/components/utils'
+import type { RouteDeclaration } from '@nordcraft/core/dist/component/component.types'
+import { isPageComponent } from '@nordcraft/core/dist/component/isPageComponent'
+import { createStylesheet } from '@nordcraft/core/dist/styling/style.css'
+import { theme as defaultTheme } from '@nordcraft/core/dist/styling/theme.const'
+import { takeIncludedComponents } from '@nordcraft/ssr/dist/components/utils'
 import {
   generateCustomCodeFile,
   hasCustomCode,
   takeReferencedFormulasAndActions,
-} from '@toddledev/ssr/dist/custom-code/codeRefs'
-import { removeTestData } from '@toddledev/ssr/dist/rendering/testData'
+} from '@nordcraft/ssr/dist/custom-code/codeRefs'
+import { removeTestData } from '@nordcraft/ssr/dist/rendering/testData'
 import type {
   ProjectFiles,
   Route,
   ToddleProject,
-} from '@toddledev/ssr/dist/ssr.types'
+} from '@nordcraft/ssr/dist/ssr.types'
 
 interface Routes {
   pages: Record<string, { name: string; route: RouteDeclaration }>
