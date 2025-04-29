@@ -2,7 +2,7 @@
   "name": "nordcraft",
   "type": "module",
   "license": "Apache-2.0",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com/nordcraftengine/nordcraft",
   "private": "false",
   "workspaces": [
@@ -28,6 +28,6 @@
     "lint": "eslint --quiet .",
     "prettier": "prettier --check '*.{json,js}' '**/*.{js,ts}'",
     "prettier:write": "prettier --write  '*.{json,js}' './**/*.{js,ts}'",
-    "typecheck": "cd packages/core && bun typecheck && cd ../ssr && bun run typecheck && cd ../lib && bun run typecheck && cd ../search && bun run typecheck && cd ../runtime && bun run typecheck"
+    "typecheck": "cd packages/core && bun typecheck && cd ../ssr && bun run typecheck && cd ../lib && bun run typecheck && cd ../search && bun run typecheck && cd ../runtime && bun run typecheck && cd ../backend && bun run typecheck"
   }
 }

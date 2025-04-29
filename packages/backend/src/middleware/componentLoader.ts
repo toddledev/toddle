@@ -1,4 +1,4 @@
-import type { ProjectFiles } from '@toddledev/ssr/dist/ssr.types'
+import type { ProjectFiles } from '@nordcraft/ssr/dist/ssr.types'
 import type { MiddlewareHandler } from 'hono'
 import type { HonoComponent, HonoEnv } from '../../hono'
 import { loadJsFile } from './jsLoader'
