@@ -1,8 +1,10 @@
 import { initIsEqual } from '@nordcraft/ssr/dist/rendering/equals'
 import { Hono } from 'hono'
-import type { HonoEnv } from '../hono'
+import { createMiddleware } from 'hono/factory'
+import type { HonoEnv, HonoRoute, HonoRoutes } from '../hono'
 import { pageLoader } from './middleware/pageLoader'
 import { loadProjectInfo } from './middleware/projectInfo'
+import { routeLoader } from './middleware/routeLoader'
 import { routesLoader } from './middleware/routesLoader'
 import { proxyRequestHandler } from './routes/apiProxy'
 import { customElement } from './routes/customElement'
@@ -11,6 +13,7 @@ import { fontRouter } from './routes/font'
 import { manifest } from './routes/manifest'
 import { nordcraftPage } from './routes/nordcraftPage'
 import { robots } from './routes/robots'
+import { routeHandler } from './routes/routeHandler'
 import { serviceWorker } from './routes/serviceWorker'
 import { sitemap } from './routes/sitemap'
 
@@ -44,14 +47,15 @@ app.get(
   routesLoader,
   loadProjectInfo,
   // First we try loading a route if it exists
-  // routeLoader,
-  // createMiddleware<HonoEnv<HonoRoute & HonoRoutes>>((ctx, next) => {
-  //   const route = ctx.var.route
-  //   if (route) {
-  //     return routeHandler(ctx, route)
-  //   }
-  //   return next()
-  // }),
+  routeLoader,
+  createMiddleware<HonoEnv<HonoRoute & HonoRoutes>>((ctx, next) => {
+    const route = ctx.var.route
+    if (route) {
+      // Serve the route if it exists
+      return routeHandler(ctx, route)
+    }
+    return next()
+  }),
   pageLoader,
   nordcraftPage,
 ) // routes + single page
