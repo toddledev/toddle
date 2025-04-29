@@ -62,9 +62,6 @@ type ToddlePreviewEvent =
       variantIndex: number | null
     }
   | {
-      type: 'update'
-    }
-  | {
       type: 'component'
       component: Component
     }
@@ -319,6 +316,7 @@ export const createRoot = (
   let altKey = false
   let metaKey = false
   let previewStyleAnimationFrame = -1
+  let timelineTimeAnimationFrame = -1
 
   /**
    * Modifies all link nodes on a component
@@ -341,34 +339,6 @@ export const createRoot = (
         console.error('UNTRUSTED MESSAGE')
       }
       switch (message.data?.type) {
-        case 'update':
-          {
-            if (highlightedNodeId) {
-              const highlightedNode = getDOMNodeFromNodeId(highlightedNodeId)
-              if (highlightedNode) {
-                window.parent?.postMessage(
-                  {
-                    type: 'highlightRect',
-                    rect: getRectData(highlightedNode),
-                  },
-                  '*',
-                )
-              }
-            }
-            if (selectedNodeId) {
-              const selectedNode = getDOMNodeFromNodeId(selectedNodeId)
-              if (selectedNode) {
-                window.parent?.postMessage(
-                  {
-                    type: 'selectionRect',
-                    rect: getRectData(selectedNode),
-                  },
-                  '*',
-                )
-              }
-            }
-          }
-          break
         case 'component': {
           if (!message.data.component) {
             return
@@ -413,32 +383,10 @@ export const createRoot = (
 
           update()
 
-          if (highlightedNodeId) {
-            const highlightedNode = getDOMNodeFromNodeId(highlightedNodeId)
-            if (highlightedNode) {
-              window.parent?.postMessage(
-                {
-                  type: 'highlightRect',
-                  rect: getRectData(highlightedNode),
-                },
-                '*',
-              )
-            }
-          }
           if (selectedNodeId) {
             if (styleVariantSelection) {
               updateSelectedStyleVariant(
                 styleVariantSelection.styleVariantIndex,
-              )
-            }
-            const selectedNode = getDOMNodeFromNodeId(selectedNodeId)
-            if (selectedNode) {
-              window.parent?.postMessage(
-                {
-                  type: 'selectionRect',
-                  rect: getRectData(selectedNode),
-                },
-                '*',
               )
             }
           }
@@ -527,15 +475,6 @@ export const createRoot = (
 
             updateConditionalElements()
 
-            const selectedNode = getDOMNodeFromNodeId(selectedNodeId)
-            window.parent?.postMessage(
-              {
-                type: 'selectionRect',
-                rect: getRectData(selectedNode),
-              },
-              '*',
-            )
-
             const node = getDOMNodeFromNodeId(selectedNodeId)
             const element =
               component?.nodes[node?.getAttribute('data-node-id') ?? '']
@@ -579,28 +518,11 @@ export const createRoot = (
             selectedNode.getAttribute('data-node-type') === 'text'
           ) {
             ;(selectedNode as HTMLElement).innerText = innerText
-            window.parent?.postMessage(
-              {
-                type: 'selectionRect',
-                rect: getRectData(selectedNode),
-              },
-              '*',
-            )
           }
           return
         }
         case 'highlight': {
-          if (highlightedNodeId !== message.data.highlightedNodeId) {
-            highlightedNodeId = message.data.highlightedNodeId ?? null
-            const highlightedNode = getDOMNodeFromNodeId(highlightedNodeId)
-            window.parent?.postMessage(
-              {
-                type: 'highlightRect',
-                rect: getRectData(highlightedNode),
-              },
-              '*',
-            )
-          }
+          highlightedNodeId = message.data.highlightedNodeId ?? null
           return
         }
         case 'mousemove':
@@ -967,41 +889,35 @@ export const createRoot = (
           )
           styleElem.setAttribute('data-timeline-keyframes', '')
           document.head.appendChild(styleElem)
-          window.parent?.postMessage(
-            {
-              type: 'selectionRect',
-              rect: getRectData(
-                getDOMNodeFromNodeId(selectedNodeId) ?? document.body,
-              ),
-            },
-            '*',
-          )
           break
 
         case 'set_timeline_time':
           const { time, timingFunction, fillMode } = message.data
-          const prevAnimatedElement = getDOMNodeFromNodeId(
-            animationState?.animatedElementId ?? '',
-          )
-          animationState = {
-            animatedElementId: time !== null ? selectedNodeId : null,
-            time,
-            timingFunction,
-            fillMode,
-          }
+          cancelAnimationFrame(timelineTimeAnimationFrame)
+          timelineTimeAnimationFrame = requestAnimationFrame(() => {
+            const animatedElementChanged =
+              animationState?.animatedElementId !== selectedNodeId
+            animationState = {
+              animatedElementId: time !== null ? selectedNodeId : null,
+              time,
+              timingFunction,
+              fillMode,
+            }
 
-          const animatedElement = getDOMNodeFromNodeId(
-            animationState.animatedElementId,
-          )
-          if (
-            prevAnimatedElement === null ||
-            prevAnimatedElement !== animatedElement
-          ) {
-            prevAnimatedElement?.classList.remove('editor-preview-timeline')
-          }
+            // Cleanup on null
+            if (time === null) {
+              document.head
+                .querySelector('[data-id="preview-animation-styles"]')
+                ?.remove()
+              document.body.style.removeProperty('--editor-timeline-position')
+              document.body.style.removeProperty(
+                '--editor-timeline-timing-function',
+              )
+              document.body.style.removeProperty('--editor-timeline-fill-mode')
+              update()
+              return
+            }
 
-          if (animatedElement && time !== null) {
-            animatedElement.classList.add('editor-preview-timeline')
             document.body.style.setProperty(
               '--editor-timeline-position',
               `${time}s`,
@@ -1014,22 +930,31 @@ export const createRoot = (
               '--editor-timeline-fill-mode',
               fillMode ?? 'none',
             )
-          } else {
-            document.body.style.removeProperty('--editor-timeline-position')
-            document.body.style.removeProperty(
-              '--editor-timeline-timing-function',
-            )
-            document.body.style.removeProperty('--editor-timeline-fill-mode')
-            update()
-          }
 
-          window.parent?.postMessage(
-            {
-              type: 'selectionRect',
-              rect: getRectData(animatedElement),
-            },
-            '*',
-          )
+            if (animatedElementChanged) {
+              let styleTag = document.head.querySelector(
+                '[data-id="preview-animation-styles"]',
+              )
+              if (!styleTag) {
+                styleTag = document.createElement('style')
+                styleTag.setAttribute('data-id', 'preview-animation-styles')
+                document.head.appendChild(styleTag)
+              }
+
+              // Set the animation styles for self and repeated nodes, but pause for all others
+              // TODO: Consider if we should set all other animations to follow the current timeline time, by setting animation-delay with paused
+              styleTag.innerHTML = `
+[data-id] {
+  animation-play-state: paused !important;
+}
+[data-id="${animationState.animatedElementId}"], [data-id="${animationState.animatedElementId}"] ~ [data-id^="${animationState.animatedElementId}("] {
+  animation: preview_timeline 1s paused normal !important;
+  animation-fill-mode: var(--editor-timeline-fill-mode) !important;
+  animation-timing-function: var(--editor-timeline-timing-function) !important;
+  animation-delay: calc(0s - var(--editor-timeline-position)) !important;
+}`
+            }
+          })
           break
         case 'preview_style':
           const { styles: previewStyleStyles } = message.data
@@ -1059,14 +984,6 @@ export const createRoot = (
     ${previewStyles}
     transition: none !important;
   }`
-
-            window.parent?.postMessage(
-              {
-                type: 'selectionRect',
-                rect: getRectData(getDOMNodeFromNodeId(selectedNodeId)),
-              },
-              '*',
-            )
           })
           break
       }
@@ -1156,14 +1073,6 @@ export const createRoot = (
         }
       }
     }
-    const selectedNode = getDOMNodeFromNodeId(selectedNodeId)
-    window.parent?.postMessage(
-      {
-        type: 'selectionRect',
-        rect: getRectData(selectedNode),
-      },
-      '*',
-    )
   }
 
   const update = () => {
@@ -1481,10 +1390,6 @@ export const createRoot = (
         )
       }
     }
-    // Rerendering may clear editor-preview-only styles, so we need to reapply them
-    getDOMNodeFromNodeId(animationState?.animatedElementId)?.classList.add(
-      'editor-preview-timeline',
-    )
 
     ctx = newCtx
   }
@@ -1661,6 +1566,58 @@ export const createRoot = (
       testMode: mode === 'test',
     })
   }
+
+  // Animations are first class citizens in Nordcraft, so we sync their overlay positions on each frame
+  ;(function syncOverlayRects(
+    prevSelectionRect?: ReturnType<typeof getRectData>,
+    prevHighlightedRect?: ReturnType<typeof getRectData>,
+  ) {
+    const selectionRect = getRectData(getDOMNodeFromNodeId(selectedNodeId))
+    if (!fastDeepEqual(prevSelectionRect, selectionRect)) {
+      window.parent?.postMessage(
+        {
+          type: 'selectionRect',
+          rect: selectionRect,
+        },
+        '*',
+      )
+    }
+
+    const highlightRect = getRectData(getDOMNodeFromNodeId(highlightedNodeId))
+    if (!fastDeepEqual(prevHighlightedRect, highlightRect)) {
+      window.parent?.postMessage(
+        {
+          type: 'highlightRect',
+          rect: highlightRect,
+        },
+        '*',
+      )
+    }
+
+    requestAnimationFrame(() => syncOverlayRects(selectionRect, highlightRect))
+  })()
+}
+
+function getRectData(selectedNode: Element | null | undefined) {
+  if (!selectedNode) {
+    return null
+  }
+
+  const rect = selectedNode.getBoundingClientRect()
+  return {
+    left: rect.left,
+    right: rect.right,
+    top: rect.top,
+    bottom: rect.bottom,
+    width: rect.width,
+    height: rect.height,
+    x: rect.x,
+    y: rect.y,
+    borderRadius: window
+      .getComputedStyle(selectedNode)
+      .borderRadius.split(' ')
+      .map(parseFloat),
+  }
 }
 
 const insertOrReplaceHeadNode = (id: string, node: Node) => {
@@ -1722,28 +1679,6 @@ export function getDOMNodeFromNodeId(
   return document.querySelector(
     `[data-id="${selectedNodeId}"]:not([data-component])`,
   )
-}
-
-export function getRectData(selectedNode: Element | null | undefined) {
-  if (!selectedNode) {
-    return null
-  }
-
-  const rect = selectedNode.getBoundingClientRect()
-  return {
-    left: rect.left,
-    right: rect.right,
-    top: rect.top,
-    bottom: rect.bottom,
-    width: rect.width,
-    height: rect.height,
-    x: rect.x,
-    y: rect.y,
-    borderRadius: window
-      .getComputedStyle(selectedNode)
-      .borderRadius.split(' ')
-      .map(parseFloat),
-  }
 }
 
 function getNodeId(component: Component, path: string[]) {
