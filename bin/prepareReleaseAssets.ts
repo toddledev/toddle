@@ -56,6 +56,20 @@ const run = async () => {
 
   await bundleFiles([createTempFileFromValue('reset.css', RESET_STYLES)])
 
+  // Build the backend worker
+  await build({
+    entryPoints: ['packages/backend/src/index.ts'],
+    bundle: true,
+    sourcemap: true,
+    minify: true,
+    write: true,
+    outfile: 'dist/backend.js',
+    platform: 'node',
+    format: 'esm',
+    allowOverwrite: true,
+    entryNames: `[name].esm`,
+  })
+
   return `Build finished in ${Date.now() - t1}ms`
 }
 

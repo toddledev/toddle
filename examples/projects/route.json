@@ -88,16 +88,17 @@
         "source": {
           "path": [{ "type": "static", "name": "test" }]
         },
+        "type": "redirect",
         "destination": {
           "url": {
             "type": "value",
-            "value": "https://toddle.dev"
+            "value": "https://nordcraft.com"
           },
           "path": {
             "xyz": {
               "formula": {
                 "type": "value",
-                "value": "docs"
+                "value": "packages"
               },
               "index": 0
             }
