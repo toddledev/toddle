@@ -24,7 +24,7 @@ export const customElement = async (
     ctx.json(
       {
         error,
-        info: `Please see https://toddle.dev/docs/export-component for more information on web component export`,
+        info: `Please see https://docs.nordcraft.com/components/export-a-component#export-as-web-component for more information on web component export`,
       },
       {
         headers: {
