@@ -100,16 +100,8 @@ export class ToddleComponent<Handler> {
             packageName = undefined
           }
 
-          if (
-            !packageName &&
-            !this.globalFormulas.formulas?.[entry.formula.name]
-          ) {
-            return
-          }
-
           return [packageName, entry.formula.name].filter(isDefined).join('/')
-        })
-        .filter(isDefined),
+        }),
     )
   }
 
