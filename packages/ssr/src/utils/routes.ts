@@ -2,18 +2,14 @@ import type { RouteDeclaration } from '@nordcraft/core/dist/component/component.
 import { isPageComponent } from '@nordcraft/core/dist/component/isPageComponent'
 import { createStylesheet } from '@nordcraft/core/dist/styling/style.css'
 import { theme as defaultTheme } from '@nordcraft/core/dist/styling/theme.const'
-import { takeIncludedComponents } from '@nordcraft/ssr/dist/components/utils'
+import { takeIncludedComponents } from '../components/utils'
 import {
   generateCustomCodeFile,
   hasCustomCode,
   takeReferencedFormulasAndActions,
-} from '@nordcraft/ssr/dist/custom-code/codeRefs'
-import { removeTestData } from '@nordcraft/ssr/dist/rendering/testData'
-import type {
-  ProjectFiles,
-  Route,
-  ToddleProject,
-} from '@nordcraft/ssr/dist/ssr.types'
+} from '../custom-code/codeRefs'
+import { removeTestData } from '../rendering/testData'
+import type { ProjectFiles, Route, ToddleProject } from '../ssr.types'
 
 interface Routes {
   pages: Record<string, { name: string; route: RouteDeclaration }>

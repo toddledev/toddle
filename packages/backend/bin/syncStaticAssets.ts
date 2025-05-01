@@ -1,10 +1,10 @@
 // Copy files from the static-assets directory to the dist directory using fs
 // This script is executed by the build process
 import { RESET_STYLES } from '@nordcraft/core/dist/styling/theme.const'
+import { splitRoutes } from '@nordcraft/ssr/dist/utils/routes'
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { splitRoutes } from './routes'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
