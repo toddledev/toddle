@@ -93,7 +93,7 @@ export class ToddleComponent<Handler> {
           let packageName = entry.formula.package ?? entry.packageName
           if (
             packageName &&
-            !this.globalFormulas.packages?.[packageName].formulas?.[
+            !this.globalFormulas.packages?.[packageName]?.formulas?.[
               entry.formula.name
             ]
           ) {

@@ -38,8 +38,7 @@ export const isToddleFormula = <Handler>(
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export interface GlobalFormulas<Handler = string | Function> {
   formulas?: Record<string, PluginFormula<Handler>>
-  packages?: Record<
-    string,
-    { formulas?: Record<string, PluginFormula<Handler>> }
+  packages?: Partial<
+    Record<string, { formulas?: Record<string, PluginFormula<Handler>> }>
   >
 }
