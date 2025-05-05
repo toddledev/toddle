@@ -25,5 +25,11 @@ export const pageLoader: MiddlewareHandler<
     ctx.set('files', pageContent)
     return next()
   }
-  return ctx.text('Page not found', { status: 404 })
+  return ctx.text('Page not found', {
+    status: 404,
+    headers: {
+      // Temporary debug header for debugging the backend's routing logic
+      X_NC_DEBUG: JSON.stringify(ctx.var.routes.pages),
+    },
+  })
 }
