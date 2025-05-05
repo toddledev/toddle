@@ -89,18 +89,20 @@ export class ToddleComponent<Handler> {
             packageName?: string
           } => entry.formula.type === 'function',
         )
-        .map((entry) => {
-          let packageName = entry.formula.package ?? entry.packageName
+        .flatMap((entry) => {
+          const refs = [entry.formula.name]
+          const packageName =
+            entry.formula.package ?? entry.packageName ?? this.packageName
           if (
             packageName &&
-            !this.globalFormulas.packages?.[packageName]?.formulas?.[
+            this.globalFormulas.packages?.[packageName]?.formulas?.[
               entry.formula.name
             ]
           ) {
-            packageName = undefined
+            refs.push([packageName, entry.formula.name].join('/'))
           }
 
-          return [packageName, entry.formula.name].filter(isDefined).join('/')
+          return refs
         }),
     )
   }
