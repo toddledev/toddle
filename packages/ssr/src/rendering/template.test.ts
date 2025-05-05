@@ -15,4 +15,14 @@ describe('template', () => {
       'this is a test my-access-token and another value my-refresh-token + finally my-access-token',
     )
   })
+  test('it replaces unknown cookies with an empty string', () => {
+    expect(
+      applyTemplateValues(
+        'this is a test {{ cookies.unknown_cookie }} and {{ cookies.known_cookie }}',
+        {
+          known_cookie: 'my-known-cookie',
+        },
+      ),
+    ).toEqual('this is a test  and my-known-cookie')
+  })
 })

@@ -5,7 +5,7 @@ import { skipCookieHeader, skipToddleHeader } from '../utils/headers'
 
 export const applyTemplateValues = (
   input: string | null | undefined,
-  cookies: ToddleServerEnv['request']['cookies'],
+  cookies: Partial<ToddleServerEnv['request']['cookies']>,
 ) => {
   if (!isDefined(input)) {
     return ''
@@ -23,12 +23,12 @@ export const applyTemplateValues = (
   }
   for (const cookieName of cookieNames) {
     const cookieValue = cookies[cookieName]
-    if (cookieValue) {
-      output = output.replaceAll(
-        STRING_TEMPLATE('cookies', cookieName),
-        cookieValue,
-      )
-    }
+    output = output.replaceAll(
+      STRING_TEMPLATE('cookies', cookieName),
+      // We fallback to an empty string to avoid sending the internal
+      // template format ('{{ cookies.<cookie> }}') to other services/APIs
+      cookieValue ?? '',
+    )
   }
   return output
 }
