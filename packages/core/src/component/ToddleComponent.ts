@@ -90,8 +90,9 @@ export class ToddleComponent<Handler> {
           } => entry.formula.type === 'function',
         )
         .flatMap((entry) => {
-          const refs: string[] = []
-          const packageName = entry.formula.package ?? entry.packageName
+          const refs = [entry.formula.name]
+          const packageName =
+            entry.formula.package ?? entry.packageName ?? this.packageName
           if (
             packageName &&
             this.globalFormulas.packages?.[packageName]?.formulas?.[
@@ -99,10 +100,6 @@ export class ToddleComponent<Handler> {
             ]
           ) {
             refs.push([packageName, entry.formula.name].join('/'))
-          }
-
-          if (this.globalFormulas.formulas?.[entry.formula.name]) {
-            refs.push(entry.formula.name)
           }
 
           return refs
