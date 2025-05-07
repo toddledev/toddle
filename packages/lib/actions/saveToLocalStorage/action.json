@@ -1,6 +1,6 @@
 {
   "name": "Save to Local Storage",
-  "description": "Saves the provided key/value to local storage by JSON encoding the value.",
+  "description": "Save a provided key/value to local storage by JSON encoding the value.",
   "arguments": [
     {
       "name": "Key",
