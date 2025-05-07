@@ -1,10 +1,10 @@
 {
   "name": "Save to Local Storage",
-  "description": "Saves the provided key/value to Local Storage by JSON encoding the value",
+  "description": "Saves the provided key/value to local storage by JSON encoding the value.",
   "arguments": [
     {
       "name": "Key",
-      "description": "The key to be used in Local Storage",
+      "description": "The key to be used in local storage.",
       "formula": {
         "type": "value",
         "value": ""
@@ -12,7 +12,7 @@
     },
     {
       "name": "Value",
-      "description": "The value that should be saved in Local Storage. This can be anything that is serializable (string, number, boolean, array or object)",
+      "description": "The value that should be saved in local storage. This can be anything that is serializable (String, Number, Boolean, Array or Object).",
       "type": { "type": "Any" },
       "formula": {
         "type": "value",

@@ -1,12 +1,13 @@
 {
   "name": "Append",
+  "description": "Add an element to the end of an Array.",
   "arguments": [
     {
       "name": "Array",
       "type": {
         "type": "Array"
       },
-      "description": "The array to append to",
+      "description": "The Array to append to.",
       "formula": { "type": "array", "arguments": [] }
     },
     {
@@ -14,16 +15,15 @@
       "type": {
         "type": "Any"
       },
-      "description": "The item to append to the array",
+      "description": "The item to append to the Array.",
       "formula": {
         "type": "value",
         "value": "Item"
       }
     }
   ],
-  "description": "Add an element to the end of an array",
   "output": {
-    "description": "A new array containing all the elements from the input array and the new item ",
+    "description": "A new Array containing all elements from the input Array, including the new item.",
     "type": {
       "type": "Array"
     }

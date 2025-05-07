@@ -1,16 +1,16 @@
 {
   "name": "Parse JSON",
-  "description": "Parse a string to JSON",
+  "description": "Parse a String to JSON.",
   "arguments": [
     {
       "name": "JSON string",
       "formula": { "type": "value", "value": null },
-      "description": "The JSON string to be parsed",
+      "description": "The String to be parsed.",
       "type": { "type": "String" }
     }
   ],
   "output": {
-    "description": "The parsed JSON value. If the input is not a valid JSON string, null is returned.",
+    "description": "The parsed JSON value. If the input is not a valid String, this returns Null.",
     "type": { "type": "Any" }
   }
 }

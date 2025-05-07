@@ -3,21 +3,21 @@
   "arguments": [
     {
       "name": "0",
-      "description": "Number to be added",
+      "description": "Number to be added.",
       "type": { "type": "Number" },
       "formula": { "type": "value", "value": 1 }
     },
     {
       "name": "1",
       "type": { "type": "Number" },
-      "description": "Number to be added",
+      "description": "Number to be added.",
       "formula": { "type": "value", "value": 1 }
     }
   ],
   "variableArguments": true,
-  "description": "Get the sum of multiple numbers",
+  "description": "Get the sum of multiple numbers.",
   "output": {
-    "description": "The sum of all the input numbers",
+    "description": "The sum of all the input numbers.",
     "type": { "type": "Number" }
   }
 }

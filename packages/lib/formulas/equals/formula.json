@@ -1,6 +1,6 @@
 {
   "name": "Equals",
-  "description": "Returns TRUE if the input values are identical",
+  "description": "Returns True if the input values are identical.",
   "arguments": [
     {
       "name": "First",
@@ -16,7 +16,7 @@
     }
   ],
   "output": {
-    "description": "TRUE if the input values are identical, otherwise FALSE",
-    "type": { "type": "Any" }
+    "description": "Returns True if the input values are identical, otherwise False.",
+    "type": { "type": "Boolean" }
   }
 }

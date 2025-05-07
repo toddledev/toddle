@@ -1,6 +1,6 @@
 {
   "name": "Drop last",
-  "description": "Remove items from the end of an array or String.",
+  "description": "Remove item(s) from the end of an Array or String.",
   "arguments": [
     {
       "name": "Array",
@@ -22,11 +22,11 @@
       "type": {
         "type": "Number"
       },
-      "description": "Number of items to remove"
+      "description": "Number of items to remove."
     }
   ],
   "output": {
-    "description": "A copy of the list without the last items",
+    "description": "A copy of the list without the last item(s).",
     "type": {
       "type": "Union",
       "types": [

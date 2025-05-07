@@ -1,10 +1,10 @@
 {
   "name": "Focus",
-  "description": "Move focus to a DOM element",
+  "description": "Move focus to a DOM element.",
   "arguments": [
     {
       "name": "Element",
-      "description": "The DOM element that should receive focus",
+      "description": "The DOM element that should receive focus.",
       "type": {
         "type": "Element"
       },

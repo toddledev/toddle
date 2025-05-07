@@ -1,10 +1,10 @@
 {
   "name": "Save to Session Storage",
-  "description": "Saves the provided key/value to Session Storage by JSON encoding the value",
+  "description": "Saves the provided key/value to session storage by JSON encoding the value.",
   "arguments": [
     {
       "name": "Key",
-      "description": "The key to be used in Session Storage",
+      "description": "The key to be used in session storage.",
       "formula": {
         "type": "value",
         "value": ""
@@ -12,7 +12,7 @@
     },
     {
       "name": "Value",
-      "description": "The value that should be saved in Session Storage. This can be anything that is serializable (string, number, boolean, array or object)",
+      "description": "The value that should be saved in session storage. This can be anything that is serializable (String, Number, Boolean, Array or Object).",
       "type": { "type": "Any" },
       "formula": {
         "type": "value",

@@ -1,6 +1,6 @@
 {
   "name": "Min",
-  "description": "Find the smallest number",
+  "description": "Find the smallest Number from a list of inputs.",
   "arguments": [
     {
       "name": "0",
@@ -17,7 +17,7 @@
   ],
   "variableArguments": true,
   "output": {
-    "description": "The smallest of all the input numbers",
+    "description": "The smallest of the input Numbers.",
     "type": { "type": "Number" }
   }
 }

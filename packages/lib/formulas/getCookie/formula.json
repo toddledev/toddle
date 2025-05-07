@@ -1,6 +1,6 @@
 {
   "name": "Get Cookie",
-  "description": "Get the value of a cookie by name. This formula is available both server-side and client-side. Some cookies will only be available server-side in case they are http-only cookies.",
+  "description": "Get the value of a cookie by name. This formula is available both server-side and client-side. Http-Only cookies will only be available server-side.",
   "arguments": [
     {
       "name": "Cookie name",
@@ -12,7 +12,7 @@
     }
   ],
   "output": {
-    "description": "The value of the cookie if found or null if not found.",
+    "description": "The value of the cookie. If a value is not found, this return value will be Null.",
     "type": { "type": "String" }
   }
 }

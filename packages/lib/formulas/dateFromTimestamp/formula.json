@@ -3,14 +3,14 @@
   "arguments": [
     {
       "name": "Timestamp",
-      "description": "Number in milliseconds since 1st January, 1970 (EPOCH)",
+      "description": "A Number in milliseconds since 1st January, 1970 (EPOCH).",
       "type": { "type": "Number" },
       "formula": { "type": "value", "value": 1687787245933 }
     }
   ],
-  "description": "Convert a timestamp (milliseconds) to a Date",
+  "description": "Convert a timestamp (milliseconds) to a Date.",
   "output": {
-    "description": "The input value converted to a Date",
+    "description": "The input value converted to a Date.",
     "type": { "type": "Date" }
   }
 }

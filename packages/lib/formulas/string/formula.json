@@ -1,14 +1,14 @@
 {
   "name": "String",
+  "description": "Convert a value of any type to a String.",
   "arguments": [
     {
       "name": "Input",
-      "description": "Value of any type",
+      "description": "Value of any type.",
       "type": { "type": "Any" },
       "formula": { "type": "value", "value": "1" }
     }
   ],
-  "description": "Convert a value of any type to a String.",
   "output": {
     "description": "The input value converted to a String",
     "type": { "type": "String" }

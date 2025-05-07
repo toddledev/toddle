@@ -1,6 +1,6 @@
 {
   "name": "Delete",
-  "description": "Returns a copy of the input object or array without the specified key.",
+  "description": "Returns a copy of the input Object or Array without the specified key.",
   "arguments": [
     {
       "name": "Object",
@@ -11,7 +11,7 @@
     {
       "name": "Path",
       "formula": { "type": "value", "value": "Item" },
-      "description": "The path can be either a number (if the first argument is an array), a string or an array of strings.\nIf an array is given then the property at that path will be removed.",
+      "description": "The path can be either a Number (if the first argument is an array), a String, or an Array of strings. If an Array is given, the property at that path will be removed.",
       "type": {
         "type": "Union",
         "types": [{ "type": "Array" }, { "type": "String" }]

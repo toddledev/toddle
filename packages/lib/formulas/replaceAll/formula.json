@@ -1,22 +1,22 @@
 {
   "name": "Replace all",
-  "description": "Replace all occurrences of a substring in a string",
+  "description": "Replace all occurrences of a substring in a String.",
   "arguments": [
     {
       "name": "Input",
-      "description": "The input string to search in",
+      "description": "The input string to search in.",
       "type": "String",
       "required": true
     },
     {
       "name": "Search",
-      "description": "The substring to search for",
+      "description": "The substring to search for.",
       "type": "String",
       "required": true
     },
     {
       "name": "Replace with",
-      "description": "The replacement value",
+      "description": "The replacement value.",
       "type": "String",
       "required": true
     }
@@ -24,6 +24,6 @@
   "output": {
     "type": "String",
     "name": "Output",
-    "description": "The resulting string"
+    "description": "The resulting String."
   }
 }

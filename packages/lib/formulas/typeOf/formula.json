@@ -1,16 +1,16 @@
 {
   "name": "Type of",
-  "description": "Get the Type of a given Input",
+  "description": "Get the type of a given input.",
   "arguments": [
     {
       "name": "Input",
       "formula": { "type": "value", "value": 1 },
-      "description": "The input",
+      "description": "The inpu value.",
       "type": { "type": "Any" }
     }
   ],
   "output": {
-    "description": "The type of the input.\n Types can be one of: \n - String\n - Boolean\n - Number \n - Array \n - Object \n - Null",
+    "description": "The type of the input value. Types can be one of: String, Boolean, Number, Array, Object, or Null.",
     "type": { "type": "Any" }
   }
 }

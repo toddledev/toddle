@@ -1,16 +1,16 @@
 {
   "name": "First",
+  "description": "Return the first item in an Array.",
   "arguments": [
     {
       "name": "Array",
       "formula": { "type": "value", "value": [] },
       "type": { "type": "Array" },
-      "description": "The input list"
+      "description": "An Array of items."
     }
   ],
-  "description": "Get first item in an array",
   "output": {
-    "description": "The first item in the array",
+    "description": "The first item in the Array.",
     "type": { "type": "Any" }
   }
 }

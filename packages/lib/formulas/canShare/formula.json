@@ -1,6 +1,6 @@
 {
   "name": "Can Share",
-  "description": "Returns a boolean indicating whether the provided data can be shared (with the \"Share\" action)",
+  "description": "Returns a boolean indicating whether the provided data can be shared (with the \"Share\" action).",
   "arguments": [
     {
       "name": "URL to share",

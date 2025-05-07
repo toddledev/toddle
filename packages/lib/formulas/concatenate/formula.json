@@ -1,6 +1,6 @@
 {
   "name": "Concatenate",
-  "description": "Concatenate 2 or more values. ",
+  "description": "Concatenate two or more values.",
   "arguments": [
     {
       "name": "0",
@@ -23,6 +23,6 @@
         { "type": "Array", "ofType": { "type": "Any" } }
       ]
     },
-    "description": "String or array containing all the input values."
+    "description": "Returns a String or Array containing all the specified input values."
   }
 }

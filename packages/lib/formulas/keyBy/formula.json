@@ -1,23 +1,23 @@
 {
   "name": "Key by",
-  "description": "Organize an array of items into an Object based on the Key formula",
+  "description": "Organize an Array of items into an Object based on a Key formula.",
   "arguments": [
     {
       "name": "Array",
       "formula": { "type": "value", "value": null },
-      "description": "Array of items to be Organized",
+      "description": "Array of items.",
       "type": { "type": "Array" }
     },
     {
       "name": "Formula",
       "isFunction": true,
       "formula": { "type": "value", "value": null },
-      "description": "The key formula used to index the items. The String returned from the formula will match the key in the output object",
+      "description": "The key formula used to index the items. The String returned from the formula will match the key in the output Object.",
       "type": { "type": "Formula" }
     }
   ],
   "output": {
-    "description": "An object where each key matches a value returned by the key formula and each value is the item that string was returned for",
+    "description": "An Object where each key matches a value returned by the key formula, and each value is the item that String was returned for.",
     "type": { "type": "Object" }
   }
 }

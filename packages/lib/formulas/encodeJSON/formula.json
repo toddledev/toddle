@@ -1,22 +1,22 @@
 {
   "name": "Encode JSON",
-  "description": "Encode data as JSON",
+  "description": "Encode data as JSON.",
   "arguments": [
     {
       "name": "Data",
       "formula": { "type": "value", "value": null },
-      "description": "The data to convert",
+      "description": "The data to convert.",
       "type": { "type": "Any" }
     },
     {
       "name": "Indent",
       "formula": { "type": "value", "value": 2 },
-      "description": "How many characters indentation",
+      "description": "How many characters the encoded value will be indented.",
       "type": { "type": "Number" }
     }
   ],
   "output": {
-    "description": "The encoded JSON value",
+    "description": "The encoded JSON value.",
     "type": { "type": "String" }
   }
 }

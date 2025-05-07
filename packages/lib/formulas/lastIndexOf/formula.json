@@ -1,11 +1,11 @@
 {
   "name": "Last Index of",
-  "description": "Find the last index of a specific item in an array or string",
+  "description": "Search an Array or String to find the index of the last occurrence of a specified item or substring.",
   "arguments": [
     {
       "name": "Array",
       "formula": { "type": "value", "value": "" },
-      "description": "The array or string to search",
+      "description": "The Array or String to search.",
       "type": {
         "type": "Union",
         "types": [{ "type": "String" }, { "type": "Array" }]
@@ -14,16 +14,16 @@
     {
       "name": "Item",
       "formula": { "type": "value", "value": "" },
-      "description": "The items to search for",
+      "description": "The item or substring to search for.",
       "type": {
         "type": "Any"
       }
     }
   ],
   "output": {
-    "description": "If the item exists in the array then the last index of that item is returned. If the item is not found -1 is returned",
+    "description": "If the item or substring exists in the Array, the last index of that item is returned. If the item is not found, -1 is returned",
     "type": {
-      "type": "Boolean"
+      "type": "Number"
     }
   }
 }

@@ -3,14 +3,14 @@
   "arguments": [
     {
       "name": "Date string",
-      "description": "String representing a date - \"August 18, 1986\" for instance.",
+      "description": "A String representing a date, for example \"January 1, 1970\".",
       "type": { "type": "String" },
-      "formula": { "type": "value", "value": "August 18, 1986" }
+      "formula": { "type": "value", "value": "January 1, 1970" }
     }
   ],
   "description": "Convert a string to a Date.",
   "output": {
-    "description": "The input value converted to a Date",
+    "description": "The input value converted to a Date.",
     "type": { "type": "Date" }
   }
 }

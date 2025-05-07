@@ -1,23 +1,23 @@
 {
   "name": "Filter",
-  "description": "Returns a new array containing only the elements for which the predicate formula evaluated to TRUE",
+  "description": "Returns a new Array containing only the elements for which the provided formula evaluates to True.",
   "arguments": [
     {
       "name": "Array",
       "formula": { "type": "value", "value": null },
-      "description": "The array of items to be filtered",
+      "description": "The array of items to be filtered.",
       "type": { "type": "Array" }
     },
     {
       "name": "Formula",
       "isFunction": true,
       "formula": { "type": "path", "path": ["Args", "item"] },
-      "description": "Predicate formula for filtering items",
+      "description": "Predicate formula for filtering items.",
       "type": { "type": "Formula" }
     }
   ],
   "output": {
-    "description": "New array containing only the items for which the Formula evaluated to TRUE",
+    "description": "New Array containing only the items for which the Formula evaluated to True.",
     "type": { "type": "Array" }
   }
 }

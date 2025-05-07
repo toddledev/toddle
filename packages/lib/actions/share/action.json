@@ -1,6 +1,6 @@
 {
   "name": "Share",
-  "description": "Share data with title, text, and/or url using the Navigator.share API",
+  "description": "Share data with title, text, and/or URL using the Navigator.share API.",
   "arguments": [
     {
       "name": "URL to share",

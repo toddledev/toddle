@@ -1,12 +1,13 @@
 {
   "name": "Prepend",
+  "description": "Add an element to the start of an Array.",
   "arguments": [
     {
       "name": "Array",
       "type": {
         "type": "Array"
       },
-      "description": "The array to prepend to",
+      "description": "The Array to prepend to.",
       "formula": { "type": "array", "arguments": [] }
     },
     {
@@ -14,16 +15,15 @@
       "type": {
         "type": "Any"
       },
-      "description": "The item to prepend to the array",
+      "description": "The item to prepend to the Array.",
       "formula": {
         "type": "value",
         "value": "Item"
       }
     }
   ],
-  "description": "Add an element to the start of an array",
   "output": {
-    "description": "A new array containing the new item and all the elements from the input array",
+    "description": "A new Array containing the new item and all the elements from the input Array.",
     "type": {
       "type": "Array"
     }

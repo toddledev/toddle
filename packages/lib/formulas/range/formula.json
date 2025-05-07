@@ -1,22 +1,22 @@
 {
   "name": "Range",
-  "description": "Create an array of numbers between Min and Max",
+  "description": "Create an Array of numbers between a Min and Max value.",
   "arguments": [
     {
       "formula": { "type": "value", "value": 0 },
       "name": "Min",
-      "description": "The smallest value in the list",
+      "description": "The smallest value in the list.",
       "type": { "type": "Number" }
     },
     {
       "name": "Max",
       "formula": { "type": "value", "value": 10 },
-      "description": "The largest value in the list",
+      "description": "The largest value in the list.",
       "type": { "type": "Number" }
     }
   ],
   "output": {
-    "description": "An array containing all the numbers between Min and Max, both inclusive",
+    "description": "An Array containing all the numbers between Min and Max, inclusive.",
     "type": { "type": "Array" }
   }
 }

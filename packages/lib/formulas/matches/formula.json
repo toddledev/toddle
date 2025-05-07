@@ -1,40 +1,40 @@
 {
   "name": "Matches",
-  "description": "Finds the (global) matches in a string based on a regular expression",
+  "description": "Finds the (global) matches in a String based on a regular expression.",
   "arguments": [
     {
       "name": "Input",
       "formula": { "type": "value", "value": "" },
-      "description": "The string to search for matches in",
+      "description": "The string to search for matches in.",
       "type": { "type": "String" }
     },
     {
       "name": "Regular expression",
       "formula": { "type": "value", "value": "" },
-      "description": "The regular expression to use for matching",
+      "description": "The regular expression to use for matching.",
       "type": { "type": "String" }
     },
     {
       "name": "Global search",
       "formula": { "type": "value", "value": true },
-      "description": "Test the regular expression against all possible matches in a string",
+      "description": "Test the regular expression against all possible matches in a string.",
       "type": { "type": "Boolean" }
     },
     {
       "name": "Case insensitive",
       "formula": { "type": "value", "value": false },
-      "description": "Ignore case while attempting a match in a string",
+      "description": "Ignore case while attempting a match in a string.",
       "type": { "type": "Boolean" }
     },
     {
       "name": "Multi line",
       "formula": { "type": "value", "value": false },
-      "description": "Treat multiline strings as multiple lines",
+      "description": "Treat multiline strings as multiple lines.",
       "type": { "type": "Boolean" }
     }
   ],
   "output": {
-    "description": "A list of strings",
-    "type": { "type": "List" }
+    "description": "An Array of Strings",
+    "type": { "type": "Array" }
   }
 }

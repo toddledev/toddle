@@ -1,22 +1,22 @@
 {
   "name": "Less than",
-  "description": "Returns True if the First number is smaller than the Second",
+  "description": "Returns True if the first value is smaller than the second value.",
   "arguments": [
     {
       "name": "First",
       "formula": { "type": "value", "value": "" },
-      "description": "First value to be compared",
+      "description": "First Number to be compared.",
       "type": { "type": "Number" }
     },
     {
       "name": "Second",
       "formula": { "type": "value", "value": "" },
-      "description": "Second value to be compared",
+      "description": "Second Number to be compared.",
       "type": { "type": "Number" }
     }
   ],
   "output": {
-    "description": "Returns True if the First number is smaller than the Second",
-    "type": { "type": "Number" }
+    "description": "Returns True if the First Number is smaller than the second Number, otherwise it returns False.",
+    "type": { "type": "Boolean" }
   }
 }

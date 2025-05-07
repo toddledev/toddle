@@ -1,16 +1,16 @@
 {
   "name": "Last",
+  "description": "Get the last item in an array",
   "arguments": [
     {
       "name": "Array",
       "formula": { "type": "value", "value": [] },
       "type": { "type": "Array" },
-      "description": "The input array"
+      "description": "The input Array."
     }
   ],
-  "description": "Get the last item in an array",
   "output": {
-    "description": "The last item in the array",
+    "description": "The last item in the Array.",
     "type": { "type": "Any" }
   }
 }

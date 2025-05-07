@@ -1,6 +1,6 @@
 {
   "name": "Go to URL",
-  "description": "Navigate to a different URL",
+  "description": "Navigate to a specified URL.",
   "arguments": [
     {
       "name": "URL",

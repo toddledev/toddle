@@ -1,23 +1,23 @@
 {
   "name": "Find index",
-  "description": "Search through an array of items and apply the predicate formula to each item. Returns the index of the first item where the predicate formula returns TRUE",
+  "description": "Search through an Array of items and apply a formula to each item, to return the index of the first item where the formula returns True.",
   "arguments": [
     {
       "name": "Array",
       "formula": { "type": "value", "value": null },
-      "description": "The array to search through",
+      "description": "The array to search.",
       "type": { "type": "Array" }
     },
     {
       "name": "Formula",
       "isFunction": true,
       "formula": { "type": "path", "path": ["Args", "item"] },
-      "description": "The predicate formula that each item in the array is passed to",
+      "description": "The predicate formula that each item in the Array is passed to.",
       "type": { "type": "Formula" }
     }
   ],
   "output": {
-    "description": "The index of the first item in the array where the predicate formula returned TRUE. Returns -1 if the predicate formula did not return TRUE for any item.",
+    "description": "The index of the first item in the Array where the predicate formula returns True. Returns -1 if the predicate formula did not return True for any item.",
     "type": { "type": "Any" }
   }
 }

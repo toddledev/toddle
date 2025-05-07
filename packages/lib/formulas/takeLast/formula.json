@@ -1,11 +1,11 @@
 {
   "name": "Take last",
-  "description": "Take items from the end of an array or string.",
+  "description": "Take items from the end of an Array or String.",
   "arguments": [
     {
       "name": "Array",
       "formula": { "type": "value", "value": null },
-      "description": "Input array or string",
+      "description": "Input Array or String.",
       "type": {
         "type": "Union",
         "types": [
@@ -19,12 +19,12 @@
     {
       "name": "Count",
       "formula": { "type": "value", "value": 1 },
-      "description": "Number of items to take",
+      "description": "Number of items to take.",
       "type": { "type": "Number" }
     }
   ],
   "output": {
-    "description": "The last items from the array or string",
+    "description": "The last items from the Array or String.",
     "type": {
       "type": "Union",
       "types": [

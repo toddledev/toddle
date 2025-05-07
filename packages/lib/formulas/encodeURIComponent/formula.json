@@ -1,6 +1,6 @@
 {
   "name": "Encode URI Component",
-  "description": "Encode a URI component escaping certain characters to their UTF-8 representation",
+  "description": "Encode a URI component, escaping certain characters to their UTF-8 representation.",
   "arguments": [
     {
       "name": "URIComponent",
@@ -8,14 +8,14 @@
         "type": "value",
         "value": null
       },
-      "description": "The URI component to encode",
+      "description": "The URI component to encode.",
       "type": {
         "type": "String"
       }
     }
   ],
   "output": {
-    "description": "The encoded URI component",
+    "description": "The encoded URI component.",
     "type": {
       "type": "String"
     }

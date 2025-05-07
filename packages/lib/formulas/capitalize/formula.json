@@ -1,16 +1,16 @@
 {
   "name": "Capitalize",
-  "description": "Capitalize a string, making the first letter uppercase and the rest lowercase.",
+  "description": "Capitalize a string: make the first letter uppercase whilst keeping the rest lowercase.",
   "arguments": [
     {
       "name": "String",
       "formula": { "type": "value", "value": "string" },
-      "description": "Input string",
+      "description": "An input String.",
       "type": { "type": "String" }
     }
   ],
   "output": {
-    "description": "The capitalized string",
+    "description": "The capitalized String.",
     "type": { "type": "String" }
   }
 }
