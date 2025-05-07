@@ -1,8 +1,10 @@
 {
   "name": "Copy to clipboard",
+  "description": "Copy contents to the clipboard.",
   "arguments": [
     {
       "name": "Value",
+      "description": "The value you want to copy.",
       "type": { "type": "String" },
       "formula": {
         "type": "value",
