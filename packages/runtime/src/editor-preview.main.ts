@@ -533,6 +533,14 @@ export const createRoot = (
               dragState.initialContainer.getBoundingClientRect(),
               { x, y },
             )
+
+            // Move the element towards the cursor when out of bounds
+            const rect = dragState.element.getBoundingClientRect()
+            if (!rectHasPoint(rect, { x, y })) {
+              dragState.offset.x -= (x - (rect.left + rect.width / 2)) * 0.1
+              dragState.offset.y -= (y - (rect.top + rect.height / 2)) * 0.1
+            }
+
             if (draggingInsideContainer && !metaKey) {
               dragReorder(dragState)
             } else {
