@@ -1,6 +1,6 @@
 {
   "name": "Flatten",
-  "description": "Flattens a nested Array.",
+  "description": "Flatten a nested Array.",
   "arguments": [
     {
       "name": "Array",
