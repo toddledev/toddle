@@ -1,6 +1,6 @@
 {
   "name": "Every",
-  "description": "Returns True if the provided formula returns true for all items in an Array.",
+  "description": "Run a formula returns for all items in an Array.",
   "arguments": [
     {
       "name": "Array",

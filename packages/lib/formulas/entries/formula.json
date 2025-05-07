@@ -1,6 +1,6 @@
 {
   "name": "Entries",
-  "description": "Return an Array of entries from a given Object.",
+  "description": "Get an Array of entries from a given Object.",
   "arguments": [
     {
       "name": "Object",

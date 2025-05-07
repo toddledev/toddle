@@ -1,6 +1,6 @@
 {
   "name": "Not",
-  "description": "The Boolean opposite of the input value.",
+  "description": "Get the Boolean opposite of an input value.",
   "arguments": [
     {
       "name": "Input",
