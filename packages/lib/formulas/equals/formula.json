@@ -1,6 +1,6 @@
 {
   "name": "Equals",
-  "description": "Returns True if the input values are identical.",
+  "description": "Compute if values are identical.",
   "arguments": [
     {
       "name": "First",

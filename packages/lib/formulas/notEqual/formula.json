@@ -1,6 +1,6 @@
 {
   "name": "Not equal",
-  "description": "Returns True if the values are not identical.",
+  "description": "Compute if values are not identical.",
   "arguments": [
     {
       "name": "First",

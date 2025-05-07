@@ -1,6 +1,6 @@
 {
   "name": "Greater than",
-  "description": "Returns True if the first value is larger than the second value.",
+  "description": "Compute if a value is larger than another value.",
   "arguments": [
     {
       "name": "First",
