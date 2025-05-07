@@ -1,6 +1,6 @@
 {
   "name": "Prevent default",
   "docs-link": "https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault",
-  "description": "Prevent default browser behavior for this event",
+  "description": "Prevent default browser behavior for this event.",
   "arguments": []
 }

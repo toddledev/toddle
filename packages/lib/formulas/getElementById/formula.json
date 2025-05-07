@@ -1,18 +1,18 @@
 {
   "name": "Get element by id",
-  "description": "Return a DOM element with the given id",
+  "description": "Return a DOM element with a given id.",
   "cache": false,
   "arguments": [
     {
       "name": "Id",
       "formula": { "type": "value", "value": "element-id" },
       "type": { "type": "String" },
-      "description": "The id of the DOM element to return"
+      "description": "The id of the DOM element to return."
     }
   ],
 
   "output": {
-    "description": "The DOM element with the given id, or null if no such element exists",
+    "description": "The DOM element with the given id. If no DOM element is found, this will return Null.",
     "type": { "type": "Element" }
   }
 }

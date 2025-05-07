@@ -1,6 +1,6 @@
 {
   "name": "Decode URI Component",
-  "description": "Decode a URI component that was encoded with the Encode URI Component formula",
+  "description": "Decode a URI component that was previously encoded with the Encode URI Component formula.",
   "arguments": [
     {
       "name": "EncodedURI",
@@ -11,11 +11,11 @@
       "type": {
         "type": "String"
       },
-      "description": "The encoded URI to decode"
+      "description": "The encoded URI to decode."
     }
   ],
   "output": {
-    "description": "The decoded URI component",
+    "description": "The decoded URI component.",
     "type": {
       "type": "String"
     }

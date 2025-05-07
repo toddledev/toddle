@@ -1,22 +1,22 @@
 {
   "name": "Join",
-  "description": "Combine an array of strings in to a single string",
+  "description": "Combine an Array of Strings in to a single String.",
   "arguments": [
     {
       "name": "Array",
       "formula": { "type": "value", "value": null },
-      "description": "An array of strings",
+      "description": "An array of Strings.",
       "type": { "type": "Array" }
     },
     {
       "name": "Separator",
       "formula": { "type": "value", "value": ", " },
-      "description": "A saparator that is inserted in between each item in the retuned string",
+      "description": "A separator String that is inserted in between each item in the Array to join.",
       "type": { "type": "String" }
     }
   ],
   "output": {
-    "description": "A string combining each item in the input array separated by the separator string.",
+    "description": "A String combining each item in the input Array separated by the separator String, e.g. joining [\"a\", \"b\", \"c\"] with a \",\" separator will return \"a,b,c\".",
     "type": { "type": "String" }
   }
 }

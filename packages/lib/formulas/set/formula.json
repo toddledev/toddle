@@ -1,17 +1,17 @@
 {
   "name": "Set",
-  "description": "Set a value in an object or array based on a specified path",
+  "description": "Set a value in an Object or Array based on a specified path.",
   "arguments": [
     {
       "name": "Object",
       "formula": { "type": "value", "value": null },
-      "description": "The input object",
+      "description": "The input Object.",
       "type": { "type": "Object" }
     },
     {
       "name": "Path",
       "formula": { "type": "value", "value": "Key" },
-      "description": "The Path can be either a Number, a string or an array of strings.",
+      "description": "The Path can be either a Number, a String or an Array of Strings.",
       "type": {
         "type": "Union",
         "types": [
@@ -31,7 +31,7 @@
     }
   ],
   "output": {
-    "description": "The Input Object with the new field",
+    "description": "The input Object with the new field.",
     "type": { "type": "Object" }
   }
 }

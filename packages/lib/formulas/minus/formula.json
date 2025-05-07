@@ -1,22 +1,22 @@
 {
   "name": "Minus",
-  "description": "Subtract two numbers",
+  "description": "Subtract a Number from a Number.",
   "arguments": [
     {
       "name": "Minuend",
       "formula": { "type": "value", "value": 1 },
-      "description": "The number to subtract from",
+      "description": "The number to subtract from.",
       "type": { "type": "Number" }
     },
     {
       "name": "Substrahend",
       "formula": { "type": "value", "value": 1 },
-      "description": "The number to subtract",
+      "description": "The number to subtract.",
       "type": { "type": "Number" }
     }
   ],
   "output": {
-    "description": "The result of subtracting the Substrahend from the Minuend",
+    "description": "The result of subtracting the Substrahend from the Minuend.",
     "type": { "type": "Number" }
   }
 }

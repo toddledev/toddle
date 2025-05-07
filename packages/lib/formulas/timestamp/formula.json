@@ -1,16 +1,16 @@
 {
   "name": "Timestamp",
+  "description": "Get the timestamp from a Date, e.g. 1633462980000.",
   "arguments": [
     {
       "name": "Date",
-      "description": "The Date to get the timestamp from",
+      "description": "The date to get the timestamp from.",
       "type": { "type": "Date" },
       "formula": { "type": "value", "value": null }
     }
   ],
-  "description": "Get the timestamp from a Date - 1633462980000 for instance (the first commit to toddle)",
   "output": {
-    "description": "The timestamp from the Date input",
+    "description": "The timestamp from the date input.",
     "type": { "type": "Number" }
   }
 }

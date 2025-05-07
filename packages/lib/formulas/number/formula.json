@@ -1,5 +1,6 @@
 {
   "name": "Number",
+  "description": "Convert a value of any type to a Number.",
   "arguments": [
     {
       "name": "Input",
@@ -8,9 +9,8 @@
       "formula": { "type": "value", "value": "1" }
     }
   ],
-  "description": "Convert a value of any type to a Number.",
   "output": {
-    "description": "The input value converted to a Number",
+    "description": "The input value converted to a Number.",
     "type": { "type": "Number" }
   }
 }

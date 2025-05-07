@@ -1,16 +1,16 @@
 {
   "name": "From entries",
-  "description": "Create a record from an array of entries.\n this formula is the reverse of Entries",
+  "description": "Create a record from an Array of entries.\n This formula is the reverse of Entries.",
   "arguments": [
     {
       "name": "Array",
       "formula": { "type": "value", "value": null },
-      "description": "The array of entries",
+      "description": "The array of entries.",
       "type": { "type": "Array" }
     }
   ],
   "output": {
-    "description": "An Object with all the entries from the input array.",
+    "description": "An Object containing all entries from the input Array.",
     "type": { "type": "Object" }
   }
 }

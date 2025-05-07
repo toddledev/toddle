@@ -1,6 +1,6 @@
 {
   "name": "Interval",
-  "description": "Run an action every \"delay\" milliseconds",
+  "description": "Run an action every \"delay\" milliseconds.",
   "arguments": [
     {
       "name": "Interval in milliseconds",

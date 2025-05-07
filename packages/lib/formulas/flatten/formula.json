@@ -1,16 +1,16 @@
 {
   "name": "Flatten",
-  "description": "Flattens a nested array",
+  "description": "Flatten a nested Array.",
   "arguments": [
     {
       "name": "Array",
-      "description": "An array containing one or more arrays",
+      "description": "An Array containing one or more Arrays.",
       "type": { "type": "Array" },
       "formula": { "type": "array", "arguments": [] }
     }
   ],
   "output": {
-    "description": "The flattened array where all items in the original array are concatenated",
+    "description": "A flattened Array where all items in the original array are concatenated.",
     "type": { "type": "Array" }
   }
 }

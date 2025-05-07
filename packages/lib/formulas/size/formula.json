@@ -1,11 +1,11 @@
 {
   "name": "Size",
-  "description": "Get the size of a collection",
+  "description": "Get the size of an Array, Object or String.",
   "arguments": [
     {
       "name": "Collection",
       "formula": { "type": "value", "value": [1, 2, 3] },
-      "description": "The array, object or string to get the size of",
+      "description": "The collection to get the size of.",
       "type": {
         "type": "Union",
         "types": [
@@ -17,7 +17,7 @@
     }
   ],
   "output": {
-    "description": "The size of the collection",
+    "description": "The size of the collection.",
     "type": {
       "type": "Number"
     }

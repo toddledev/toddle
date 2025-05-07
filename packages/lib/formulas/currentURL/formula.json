@@ -1,10 +1,10 @@
 {
   "name": "Current URL",
-  "description": "Returns the current URL of the browser. Use the \"Parse URL\" formula for working with the URL",
+  "description": "Return the current URL of the browser. Use the \"Parse URL\" formula for working with the URL.",
   "arguments": [],
   "cache": false,
   "output": {
-    "description": "The browser's current URL as a string",
+    "description": "The browser's current URL.",
     "type": { "type": "String" }
   }
 }

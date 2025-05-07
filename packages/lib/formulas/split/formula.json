@@ -1,22 +1,22 @@
 {
   "name": "Split",
-  "description": "Split a string into an array of smaller strings each time the Delimiter occurs. The Delimiter will not be part of the output",
+  "description": "Split a String into an Array of smaller strings each time a delimiter occurs. The delimiter will not be part of the output",
   "arguments": [
     {
       "name": "Input",
       "formula": { "type": "value", "value": "" },
-      "description": "The string to split",
+      "description": "The String to split.",
       "type": { "type": "String" }
     },
     {
       "name": "Delimiter",
       "formula": { "type": "value", "value": "" },
-      "description": "The string to split by",
+      "description": "The string to split by.",
       "type": { "type": "String" }
     }
   ],
   "output": {
-    "description": "An array of strings",
+    "description": "An array of Strings.",
     "type": { "type": "Array", "ofType": { "type": "String" } }
   }
 }

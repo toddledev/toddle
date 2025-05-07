@@ -1,11 +1,11 @@
 {
   "name": "Reduce",
-  "description": "Reduce an array of items to a single value by applying each item to a reducer formula",
+  "description": "Reduce a group of items to a single value by applying each item to a reducer formula.",
   "arguments": [
     {
       "name": "Array",
       "formula": { "type": "value", "value": null },
-      "description": "The array or Object of items to be reduced",
+      "description": "The Array or Object of items to be reduced.",
       "type": {
         "type": "Union",
         "types": [
@@ -20,18 +20,18 @@
       "name": "Formula",
       "isFunction": true,
       "formula": { "type": "value", "value": null },
-      "description": "The reducer formula.\n Each item in the array is applied to the formula along with the Accumulator. The result of this formula will be a new Accumulator used for the next item",
+      "description": "The reducer formula. Each item in the Array is applied to the formula along with the accumulator. The result of this formula will be a new accumulator used for the next item.",
       "type": { "type": "Formula" }
     },
     {
       "name": "Accumulator",
       "formula": { "type": "value", "value": null },
-      "description": "The initial value of the accumulator. This value is passed to the reducer formula along with the first item in the array and the result is used as the accumulator for the next item",
+      "description": "The initial value of the accumulator. This value is passed to the reducer formula along with the first item in the Array, and the result is used as the accumulator for the next item.",
       "type": { "type": "Any" }
     }
   ],
   "output": {
-    "description": "The value returned from applying the last item to the Reducer fx",
+    "description": "The value returned from applying the last item to the reducer formula.",
     "type": { "type": "Any" }
   }
 }

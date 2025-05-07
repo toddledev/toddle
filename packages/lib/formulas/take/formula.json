@@ -1,11 +1,11 @@
 {
   "name": "Take",
-  "description": "Take items from the start of an array or string.",
+  "description": "Take items from the start of an Array or String.",
   "arguments": [
     {
       "name": "Array",
       "formula": { "type": "value", "value": null },
-      "description": "Input array or string",
+      "description": "Input Array or String.",
       "type": {
         "type": "Union",
         "types": [
@@ -20,11 +20,11 @@
       "name": "Count",
       "formula": { "type": "value", "value": 1 },
       "type": { "type": "Number" },
-      "description": "Number of items to take"
+      "description": "Number of items to take."
     }
   ],
   "output": {
-    "description": "The first items from the array or string",
+    "description": "The first items from the Array or String.",
     "type": {
       "type": "Union",
       "types": [

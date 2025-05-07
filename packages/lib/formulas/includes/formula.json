@@ -1,11 +1,11 @@
 {
   "name": "Includes",
-  "description": "Test if an array or string includes a specific item",
+  "description": "Test if an Array or String includes a specific item or value.",
   "arguments": [
     {
       "name": "Array",
       "formula": { "type": "value", "value": "" },
-      "description": "The array to search",
+      "description": "The Array to search.",
       "type": {
         "type": "Union",
         "types": [{ "type": "String" }, { "type": "Array" }]
@@ -14,14 +14,14 @@
     {
       "name": "Item",
       "formula": { "type": "value", "value": "" },
-      "description": "The items to search for",
+      "description": "The item or value to search for.",
       "type": {
         "type": "Any"
       }
     }
   ],
   "output": {
-    "description": "True if the item exists in the array. Otherwise False",
+    "description": "Returns True if the item or value exists in the Array or string. Returns False if no match is found.",
     "type": {
       "type": "Boolean"
     }

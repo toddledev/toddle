@@ -1,16 +1,16 @@
 {
   "name": "Boolean",
+  "description": "Convert a value of any type to a Boolean.",
   "arguments": [
     {
       "name": "Input",
-      "description": "Value of any type",
+      "description": "Value of any type.",
       "type": { "type": "Any" },
       "formula": { "type": "value", "value": "1" }
     }
   ],
-  "description": "Convert a value of any type to a Boolean.\nFalse and Null will return False, all other values will return True",
   "output": {
-    "description": "The input value converted to a Boolean",
+    "description": "The input value converted to a Boolean. False and Null will return False, all other values will return True.",
     "type": { "type": "Boolean" }
   }
 }

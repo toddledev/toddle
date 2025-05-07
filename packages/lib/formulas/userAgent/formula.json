@@ -1,6 +1,6 @@
 {
   "name": "User Agent",
-  "description": "Returns the user agent for the browser or from the User-Agent header on the server",
+  "description": "Get the user agent for the browser or from the User-Agent header on the server",
   "arguments": [],
   "output": {
     "description": "The user agent string.",

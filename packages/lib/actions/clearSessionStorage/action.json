@@ -1,5 +1,5 @@
 {
   "name": "Clear Session Storage",
-  "description": "Deletes all values in Session Storage",
+  "description": "Deletes all values in session storage.",
   "arguments": []
 }

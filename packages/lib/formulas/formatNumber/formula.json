@@ -3,26 +3,26 @@
   "arguments": [
     {
       "name": "Input",
-      "description": "Number to format",
+      "description": "Number to format.",
       "type": { "type": "Number" },
       "formula": { "type": "Number", "value": 100 }
     },
     {
       "name": "Locale(s)",
-      "description": "Optional locale to use for formatting the Number - \"en\" or \"fr\" for instance. Multiple locales can be provided (as an Array of Strings) to provide a fallback locale. It defaults to the runtime's locale.",
+      "description": "Optional locale to use for formatting the Number, e.g. \"en\" or \"fr\". Multiple locales can be provided (as an Array of Strings) to provide a fallback locale. The default value is the runtime's locale.",
       "type": { "type": "String | Array" },
       "formula": { "type": "value", "value": null }
     },
     {
       "name": "Options",
-      "description": "Optional object for configuring formatting. See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#locale_options for all options",
+      "description": "Optional Object for configuring the formatting of the output. See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#locale_options for all options.",
       "type": { "type": "Object" },
       "formula": { "type": "value", "value": null }
     }
   ],
-  "description": "Format a date using the Intl.NumberFormat API. See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat for more information.",
+  "description": "Format a Number using the Intl.NumberFormat API. See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat for more information.",
   "output": {
-    "description": "The Number input formatted as a string",
+    "description": "The Number input formatted as a String.",
     "type": { "type": "String" }
   }
 }
