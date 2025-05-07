@@ -1,6 +1,6 @@
 {
   "name": "Save to Session Storage",
-  "description": "Saves the provided key/value to session storage by JSON encoding the value.",
+  "description": "Save a provided key/value to session storage by JSON encoding the value.",
   "arguments": [
     {
       "name": "Key",
