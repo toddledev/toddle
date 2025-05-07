@@ -5,7 +5,7 @@
     {
       "name": "Input",
       "formula": { "type": "value", "value": 1 },
-      "description": "The inpu value.",
+      "description": "The input value.",
       "type": { "type": "Any" }
     }
   ],
