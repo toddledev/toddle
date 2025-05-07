@@ -1,6 +1,6 @@
 {
   "name": "Filter",
-  "description": "Returns a new Array containing only the elements for which the provided formula evaluates to True.",
+  "description": "Return a new Array containing only the elements for which the provided formula evaluates to True.",
   "arguments": [
     {
       "name": "Array",
