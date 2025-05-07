@@ -1,6 +1,6 @@
 {
   "name": "Reduce",
-  "description": "Reduce an group of items to a single value by applying each item to a reducer formula.",
+  "description": "Reduce a group of items to a single value by applying each item to a reducer formula.",
   "arguments": [
     {
       "name": "Array",
