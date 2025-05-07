@@ -1,6 +1,6 @@
 {
   "name": "Delete",
-  "description": "Returns a copy of the input Object or Array without the specified key.",
+  "description": "Return a copy of the input Object or Array without the specified key.",
   "arguments": [
     {
       "name": "Object",
