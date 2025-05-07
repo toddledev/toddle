@@ -1,6 +1,6 @@
 {
   "name": "Default to",
-  "description": "Returns the first value that is not False or Null.",
+  "description": "Return the first value that is not False or Null.",
   "arguments": [
     {
       "name": "0",
