@@ -4,6 +4,7 @@
   "arguments": [
     {
       "name": "Interval in milliseconds",
+      "description": "The interval \"delay\".",
       "type": { "type": "Number" },
       "formula": { "type": "value", "value": 1000 }
     }

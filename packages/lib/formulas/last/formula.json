@@ -1,6 +1,6 @@
 {
   "name": "Last",
-  "description": "Get the last item in an array",
+  "description": "Get the last item in an Array.",
   "arguments": [
     {
       "name": "Array",

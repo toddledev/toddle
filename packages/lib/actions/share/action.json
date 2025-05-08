@@ -3,17 +3,20 @@
   "description": "Share data with title, text, and/or URL using the Navigator.share API.",
   "arguments": [
     {
-      "name": "URL to share",
+      "name": "URL",
+      "description": "The URL to share.",
       "type": { "type": "String" },
       "formula": { "type": "value", "value": null }
     },
     {
-      "name": "Title to share",
+      "name": "Title",
+      "description": "The title to share.",
       "type": { "type": "String" },
       "formula": { "type": "value", "value": null }
     },
     {
-      "name": "Text to share",
+      "name": "Text",
+      "description": "The text to share.",
       "type": { "type": "String" },
       "formula": { "type": "value", "value": null }
     }

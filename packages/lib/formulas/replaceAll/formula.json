@@ -4,25 +4,25 @@
   "arguments": [
     {
       "name": "Input",
-      "description": "The input string to search in.",
-      "type": "String",
+      "description": "The input String to search in.",
+      "type": { "type": "String" },
       "required": true
     },
     {
       "name": "Search",
       "description": "The substring to search for.",
-      "type": "String",
+      "type": { "type": "String" },
       "required": true
     },
     {
       "name": "Replace with",
       "description": "The replacement value.",
-      "type": "String",
+      "type": { "type": "String" },
       "required": true
     }
   ],
   "output": {
-    "type": "String",
+    "type": { "type": "String" },
     "name": "Output",
     "description": "The resulting String."
   }

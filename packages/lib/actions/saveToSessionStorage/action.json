@@ -5,6 +5,7 @@
     {
       "name": "Key",
       "description": "The key to be used in session storage.",
+      "type": { "type": "String" },
       "formula": {
         "type": "value",
         "value": ""

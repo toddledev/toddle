@@ -5,6 +5,7 @@
     {
       "name": "Access token",
       "description": "Access tokens are the most common way to authenticate with a server.",
+      "type": { "type": "String" },
       "formula": {
         "type": "value",
         "value": ""

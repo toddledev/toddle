@@ -21,7 +21,7 @@
     }
   ],
   "output": {
-    "description": "If the item or substring exists in the Array, the last index of that item is returned. If the item is not found, -1 is returned",
+    "description": "If the item or substring exists in the Array, the last index of that item is returned. If the item is not found, -1 is returned.",
     "type": {
       "type": "Number"
     }

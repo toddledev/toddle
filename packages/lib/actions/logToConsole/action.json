@@ -4,6 +4,7 @@
   "arguments": [
     {
       "name": "Label",
+      "description": "A label for the message.",
       "formula": {
         "type": "value",
         "value": ""
@@ -11,6 +12,8 @@
     },
     {
       "name": "Data",
+      "type": { "type": "Any" },
+      "description": "The data you want to log to the console.",
       "formula": {
         "type": "value",
         "value": "<Data>"

@@ -3,17 +3,20 @@
   "description": "Return a Boolean indicating whether the provided data can be shared (with the \"Share\" action).",
   "arguments": [
     {
-      "name": "URL to share",
+      "name": "URL",
+      "description": "The URL you want to check.",
       "type": { "type": "String" },
       "formula": { "type": "value", "value": null }
     },
     {
-      "name": "Title to share",
+      "name": "Title",
+      "description": "The title you want to check.",
       "type": { "type": "String" },
       "formula": { "type": "value", "value": null }
     },
     {
-      "name": "Text to share",
+      "name": "Text",
+      "description": "The text you want to check.",
       "type": { "type": "String" },
       "formula": { "type": "value", "value": null }
     }

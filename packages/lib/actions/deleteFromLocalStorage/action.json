@@ -1,10 +1,11 @@
 {
   "name": "Delete from Local Storage",
-  "description": "Deletes the value from local storage (if found) based on the provided key.",
+  "description": "Delete a value from local storage (if found) based on the provided key.",
   "arguments": [
     {
       "name": "Key",
-      "description": "The key to use when deleting in local storage.",
+      "description": "The key in local storage to delete.",
+      "type": { "type": "String" },
       "formula": {
         "type": "value",
         "value": ""
