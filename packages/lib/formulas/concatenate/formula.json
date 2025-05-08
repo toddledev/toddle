@@ -12,6 +12,17 @@
           { "type": "Array", "ofType": { "type": "Any" } }
         ]
       }
+    },
+     {
+      "name": "1",
+      "formula": { "type": "value", "value": "" },
+      "type": {
+        "type": "Union",
+        "types": [
+          { "type": "String" },
+          { "type": "Array", "ofType": { "type": "Any" } }
+        ]
+      }
     }
   ],
   "variableArguments": true,

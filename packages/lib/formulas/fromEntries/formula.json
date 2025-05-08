@@ -1,6 +1,6 @@
 {
   "name": "From entries",
-  "description": "Create a record from an Array of entries.\n This formula is the reverse of Entries.",
+  "description": "Create a record from an Array of entries. This formula is the reverse of Entries.",
   "arguments": [
     {
       "name": "Array",
