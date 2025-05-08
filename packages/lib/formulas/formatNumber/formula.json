@@ -15,12 +15,12 @@
     },
     {
       "name": "Options",
-      "description": "Optional Object for configuring the formatting of the output.",
+      "description": "Optional Object for configuring the formatting of the output. See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#locale_options for all options.",
       "type": { "type": "Object" },
       "formula": { "type": "value", "value": null }
     }
   ],
-  "description": "Format a Number using the Intl.NumberFormat API.",
+  "description": "Format a Number using the Intl.NumberFormat API. See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat for more information.",
   "output": {
     "description": "The Number input formatted as a String.",
     "type": { "type": "String" }
