@@ -797,7 +797,7 @@ export function createAPI(
         )
       }
     } else {
-      if (applyFormula(api.autoFetch, getFormulaContext(api)) === true) {
+      if (applyFormula(api.autoFetch, getFormulaContext(api))) {
         // Execute will set the initial status of the api in the dataSignal
         await execute(api, url, requestSettings)
       } else {
