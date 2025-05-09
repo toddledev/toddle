@@ -31,6 +31,7 @@ import {
   sortObjectEntries,
 } from '@nordcraft/core/dist/utils/collections'
 import { PROXY_URL_HEADER, validateUrl } from '@nordcraft/core/dist/utils/url'
+import { isDefined } from '@nordcraft/core/dist/utils/util'
 import { handleAction } from '../events/handleAction'
 import type { Signal } from '../signal/signal'
 import type { ComponentContext, ContextApi } from '../types'
@@ -748,71 +749,72 @@ export function createAPI(
     }
   })
   payloadSignal.subscribe(async (_) => {
-    if (api.autoFetch && applyFormula(api.autoFetch, getFormulaContext(api))) {
-      // Ensure we only use caching if the page is currently loading
-      if ((window?.__toddle?.isPageLoaded ?? false) === false) {
-        const { url, requestSettings } = constructRequest(api)
-        const cacheKey = requestHash(url, requestSettings)
-        const cacheMatch = ctx.toddle.pageState.Apis?.[cacheKey] as ApiStatus
-        if (cacheMatch) {
-          if (cacheMatch.error) {
-            apiError(
-              api,
-              {
-                body: cacheMatch.error,
-                status: cacheMatch.response?.status,
-                headers: cacheMatch.response?.headers ?? undefined,
-              },
-              {
-                requestStart:
-                  cacheMatch.response?.performance?.requestStart ?? null,
-                responseStart:
-                  cacheMatch.response?.performance?.responseStart ?? null,
-                responseEnd:
-                  cacheMatch.response?.performance?.responseEnd ?? null,
-              },
-            )
-          } else {
-            apiSuccess(
-              api,
-              {
-                body: cacheMatch.data,
-                status: cacheMatch.response?.status,
-                headers: cacheMatch.response?.headers ?? undefined,
-              },
-              {
-                requestStart:
-                  cacheMatch.response?.performance?.requestStart ?? null,
-                responseStart:
-                  cacheMatch.response?.performance?.responseStart ?? null,
-                responseEnd:
-                  cacheMatch.response?.performance?.responseEnd ?? null,
-              },
-            )
-          }
-        } else {
-          // Execute will set the initial status of the api in the dataSignal
-          await execute(api, url, requestSettings)
-        }
+    const { url, requestSettings } = constructRequest(api)
+    // Ensure we only use caching if the page is currently loading
+    const cacheMatch =
+      // We lookup the API from cache as long as autofetch is defined (and not statically falsy)
+      // since the autofetch formula could've evaluated to true during SSR
+      isDefined(api.autoFetch) &&
+      (api.autoFetch.type !== 'value' || api.autoFetch.value === true) &&
+      (window?.__toddle?.isPageLoaded ?? false) === false
+        ? (ctx.toddle.pageState.Apis?.[
+            requestHash(url, requestSettings)
+          ] as ApiStatus)
+        : undefined
+
+    if (cacheMatch) {
+      if (cacheMatch.error) {
+        apiError(
+          api,
+          {
+            body: cacheMatch.error,
+            status: cacheMatch.response?.status,
+            headers: cacheMatch.response?.headers ?? undefined,
+          },
+          {
+            requestStart:
+              cacheMatch.response?.performance?.requestStart ?? null,
+            responseStart:
+              cacheMatch.response?.performance?.responseStart ?? null,
+            responseEnd: cacheMatch.response?.performance?.responseEnd ?? null,
+          },
+        )
       } else {
-        // Execute will set the initial status of the api in the dataSignal
-        const { url, requestSettings } = constructRequest(api)
-        await execute(api, url, requestSettings)
+        apiSuccess(
+          api,
+          {
+            body: cacheMatch.data,
+            status: cacheMatch.response?.status,
+            headers: cacheMatch.response?.headers ?? undefined,
+          },
+          {
+            requestStart:
+              cacheMatch.response?.performance?.requestStart ?? null,
+            responseStart:
+              cacheMatch.response?.performance?.responseStart ?? null,
+            responseEnd: cacheMatch.response?.performance?.responseEnd ?? null,
+          },
+        )
       }
     } else {
-      ctx.dataSignal.update((data) => {
-        return {
-          ...data,
-          Apis: {
-            ...(data.Apis ?? {}),
-            [api.name]: {
-              isLoading: false,
-              data: null,
-              error: null,
+      if (applyFormula(api.autoFetch, getFormulaContext(api))) {
+        // Execute will set the initial status of the api in the dataSignal
+        await execute(api, url, requestSettings)
+      } else {
+        ctx.dataSignal.update((data) => {
+          return {
+            ...data,
+            Apis: {
+              ...(data.Apis ?? {}),
+              [api.name]: {
+                isLoading: false,
+                data: null,
+                error: null,
+              },
             },
-          },
-        }
-      })
+          }
+        })
+      }
     }
   })
 
