@@ -20,7 +20,7 @@
       "formula": { "type": "value", "value": null }
     }
   ],
-  "description": "Format a date using the Intl.DateTimeFormat API. See [DateTimeFormat docs on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat).",
+  "description": "Format a date using the Intl.DateTimeFormat API. See the [DateTimeFormat docs on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat).",
   "output": {
     "description": "The Date input formatted as a String.",
     "type": { "type": "String" }
